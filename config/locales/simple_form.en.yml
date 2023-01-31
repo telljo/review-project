@@ -1,0 +1,16 @@
+# config/locales/simple_form.en.yml
+
+en:
+  simple_form:
+    placeholders:
+      review:
+        name: Name of your review
+    labels:
+      review:
+        name: Name
+
+  helpers:
+    submit:
+      review:
+        create: Create review
+        update: Update review

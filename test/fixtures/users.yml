@@ -1,0 +1,3 @@
+accountant:
+  email: jtell1997@gmail.com
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password') %>

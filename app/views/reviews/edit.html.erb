@@ -1,0 +1,13 @@
+<%# app/views/reviews/new.html.erb %>
+
+<main class="container">
+  <%= link_to sanitize("&larr; Back to reviews"), reviews_path %>
+
+  <div class="header">
+    <h1>Edit review</h1>
+  </div>
+
+<%= turbo_frame_tag @review do %>
+  <%= render "form", review: @review %>
+<% end %>
+</main>

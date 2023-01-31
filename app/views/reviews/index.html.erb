@@ -1,0 +1,21 @@
+<%# app/views/reviews/index.html.erb %>
+
+<%= turbo_stream_from current_user, "reviews" %>
+
+
+<main class="container">
+  <div class="header">
+    <h1>Reviews</h1>
+    <%= link_to "New review",
+        new_review_path,
+        data: { turbo_frame: dom_id(Review.new) },
+        class: "btn btn--primary" %>
+  </div>
+
+  <%= turbo_frame_tag Review.new %>
+
+  <%= turbo_frame_tag "reviews" do %>
+    <%= render "reviews/empty_state" %>
+    <%= render @reviews %>
+  <% end %>
+</main>

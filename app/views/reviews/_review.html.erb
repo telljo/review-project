@@ -1,0 +1,20 @@
+<%= turbo_frame_tag review do %>
+  <div class="review">
+    <%= link_to review.name,
+        review_path(review),
+        data: { turbo_frame: "_top" } %>
+
+    <div class="trix-content mb-10">
+      <p><%= review.content %></p>
+    </div>
+    <div class="review__actions">
+      <%= button_to "Delete",
+                    review_path(review),
+                    method: :delete,
+                    class: "btn btn--light" %>
+      <%= link_to "Edit",
+                  edit_review_path(review),
+                  class: "btn btn--light" %>
+    </div>
+  </div>
+<% end %>

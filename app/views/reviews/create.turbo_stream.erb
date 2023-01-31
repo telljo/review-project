@@ -1,0 +1,4 @@
+<%= turbo_stream.prepend "reviews", @review %>
+<%= turbo_stream.update Review.new, "" %>
+<%= render_turbo_stream_flash_messages %>
+
