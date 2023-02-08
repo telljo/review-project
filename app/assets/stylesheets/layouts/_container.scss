@@ -2,6 +2,7 @@
   width: 100%;
   padding-right: var(--space-xs);
   padding-left: var(--space-xs);
+  padding-bottom: var(--space-xs);
   margin-left: auto;
   margin-right: auto;
 
@@ -9,5 +10,40 @@
     padding-right: var(--space-m);
     padding-left: var(--space-m);
     max-width: 60rem;
+    &__review {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      gap: var(--space-xl);
+      &__image {
+        width: 25%;
+        filter: drop-shadow(0 0.4em 0.8rem rgba(0, 0, 0, 0.2));
+        border-radius: 0 6% 6% 0/1%;
+        overflow: hidden;
+        margin-top: var(--space-m);
+      }
+      &__content {
+        width: 50%;
+      }
+    }
+  }
+  @include media(tabletAndDown) {
+    &__review {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      &__image {
+        width: 35%;
+        margin: auto;
+        filter: drop-shadow(0 0.4em 0.8rem rgba(0, 0, 0, 0.2));
+        border-radius: 0 6% 6% 0/4%;
+        overflow: hidden;
+      }
+      &__content {
+        padding-right: var(--space-m);
+        padding-left: var(--space-m);
+        padding-bottom: var(--space-m);
+      }
+    }
   }
 }

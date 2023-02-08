@@ -18,6 +18,10 @@
     transition: filter 250ms, color 200ms;
   }
 
+  &--large {
+    padding: var(--space-xs) var(--space-xxxl);
+  }
+
   &--primary {
     color: var(--color-white);
     background-image: linear-gradient(to right, var(--color-primary), var(--color-primary-rotate));
@@ -61,6 +65,19 @@
     color: var(--color-white);
     border-color: var(--color-dark);
     background-color: var(--color-dark);
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:active {
+      color: var(--color-white);
+    }
+  }
+
+  &--green {
+    color: var(--color-white);
+    border-color: var(--color-secondary-rotate);
+    background-color: var(--color-secondary-rotate);
 
     &:hover,
     &:focus,

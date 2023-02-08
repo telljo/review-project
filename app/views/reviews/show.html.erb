@@ -1,14 +1,20 @@
 <%# app/views/reviews/show.html.erb %>
 
 <main class="container">
-  <%= link_to sanitize("&larr; Back to reviews"), reviews_path %>
-  <div class="header">
-    <h1>
-      <%= @review.name %>
-    </h1>
-
-    <div class="trix-content">
-      <p><%= @review.content %></p>
+  <div class="container__review">
+    <div class="container__review__image">
+      <%= image_tag url_for(@review.image) %>
+    </div>
+    <div class="container__review__content">
+      <div class="header">
+        <h1>
+          <%= @review.name %>
+        </h1>
+      </div>
+      <div class="trix-content">
+        <p><%= @review.content %></p>
+      </div>
     </div>
   </div>
+  <%= link_to sanitize("&larr; Back to reviews"), reviews_path %>
 </main>

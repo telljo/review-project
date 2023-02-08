@@ -1,21 +1,27 @@
 <%# app/views/reviews/_form.html.erb %>
 
 <%= simple_form_for review, html: { class: "review form" } do |f| %>
-  <% if review.errors.any? %>
-    <div class="error-message">
-      <%= review.errors.full_messages.to_sentence.capitalize %>
-    </div>
-  <% end %>
+  <div class="form" data-turbo>
+    <% if review.errors.any? %>
+      <div class="error-message">
+        <%= review.errors.full_messages.to_sentence.capitalize %>
+      </div>
+    <% end %>
 
-  <fieldset class="input">
-    <%= f.input :name, input_html: { autofocus: true } %>
+    <fieldset class="input">
+      <%= f.input :name, input_html: { autofocus: true } %>
 
-    <%= f.label :content %>
-    <%= f.rich_text_area :content %>
-  </fieldset>
+      <%= f.label :content %>
+      <%= f.rich_text_area :content %>
+      <div>
+        <%= f.label :image %><br>
+        <div class="text-black"><%= f.file_field :image %></div>
+      </div>
+    </fieldset>
 
-  <fieldset>
-    <%= link_to "Cancel", reviews_path, class: "btn btn--light" %>
-    <%= f.submit class: "btn btn--secondary" %>
-  </fieldset>
+    <fieldset>
+      <%= link_to "Cancel", reviews_path, class: "btn btn--light" %>
+      <%= f.submit class: "btn btn--secondary" %>
+    </fieldset>
+  </div>
 <% end %>

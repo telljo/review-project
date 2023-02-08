@@ -1,10 +1,15 @@
 <main class="container">
-  <h1>Review something</h1>
-  <p>A blazing fast place to create reviews built with Hotwire</p>
+
+<div class="header">
+  <div class="header__home-page">
+    <h1>Review something</h1>
+    <p>A blazing fast place to create reviews built with Rails 7 and Hotwire</p>
+  </div>
+</div>
 
   <% if user_signed_in? %>
-    <%= link_to "View review", reviews_url, class: "btn btn--dark" %>
+    <%= link_to "View reviews", reviews_url, class: "btn btn--large btn--dark" %>
   <% else %>
-    <%= link_to "Sign in", new_user_session_path, class: "btn btn--dark" %>
+    <%= link_to "Sign in", new_user_session_path, class: "btn btn--large btn--green" %>
   <% end %>
 </main>

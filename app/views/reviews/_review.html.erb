@@ -1,5 +1,5 @@
 <%= turbo_frame_tag review do %>
-  <div class="review">
+  <div class="review" data-turbo>
     <%= link_to review.name,
         review_path(review),
         data: { turbo_frame: "_top" } %>
