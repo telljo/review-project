@@ -16,7 +16,6 @@ class ReviewsController < ApplicationController
 
   def create
     @review = current_user.reviews.build(review_params)
-    ap @review
     if @review.save
       respond_to do |format|
         format.html { redirect_to reviews_path, notice: 'Review was successfully created.' }

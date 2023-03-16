@@ -3,6 +3,7 @@
 class Review < ApplicationRecord
   validates :name, presence: true
   belongs_to :user
+  belongs_to :book
   has_rich_text :content
   has_one_attached :image
 

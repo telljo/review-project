@@ -1,0 +1,19 @@
+<%= form_with(url: books_path, method: :get, data: {controller: "search", turbo_frame: "books", turbo_action: "advance"}) do |form| %>
+  <div class="review form" data-turbo>
+    <%= form.label :title, "Search by book title:" %>
+    <div>
+      <%= form.text_field :title, data: {action: "input->search#search"} %>
+      <%= form.submit 'Search', name: nil %>
+    </div>
+
+    <% if @books.present? %>
+      <div data-controller="books">
+        <%= form.select :book, @books.map{ |book| ["#{book.title} - #{book.author}", book.isbn] }, {}, data: { action: "change->books#change"} %>
+        <%= submit_tag 'Submit' %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= turbo_stream_from current_user, "books" %>
+
+<% end %>
