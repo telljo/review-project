@@ -1,0 +1,6 @@
+<%= turbo_frame_tag "books" do %>
+  <% if books.present? %>
+    <%= book_results = books.map { |book| [book.title, book.isbn] } %>
+    <%= options_for_select(book_results) %>
+  <% end %>
+<% end %>

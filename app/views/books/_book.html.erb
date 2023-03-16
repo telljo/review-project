@@ -1,0 +1,9 @@
+<%= turbo_frame_tag "book" do %>
+  <div class="review" data-turbo>
+    <% if book.present? %>
+      <p><%= book.title %></p>
+      <p><%= book.author %></p>
+      <img src="<%= book.image_link %>" width="220">
+    <% end %>
+  </div>
+<% end %>

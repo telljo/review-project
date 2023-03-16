@@ -1,0 +1,12 @@
+<%# app/views/reviews/index.html.erb %>
+
+<main class="container">
+  <div class="header">
+    <h1>Books</h1>
+  </div>
+  <%= render "search" %>
+
+  <%= turbo_frame_tag "books" do %>
+    <%= render "books/empty_state" %>
+  <% end %>
+</main>

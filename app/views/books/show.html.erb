@@ -1,0 +1,20 @@
+<%# app/views/reviews/show.html.erb %>
+
+<main class="container">
+  <div class="container__review">
+    <div class="container__review__image">
+      <%# <%= image_tag url_for(@book.image) %>
+    </div>
+    <div class="container__review__content">
+      <div class="header">
+        <h1>
+          <%="Title:  #{@book.title}" %>
+        </h1>
+        <h1>
+          <%="Author:  #{@book.author}" %>
+        </h1>
+      </div>
+    </div>
+  </div>
+  <%= link_to sanitize("&larr; Back to books"), books_path %>
+</main>
