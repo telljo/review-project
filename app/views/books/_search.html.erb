@@ -6,14 +6,18 @@
       <%= form.submit 'Search', name: nil %>
     </div>
 
-    <% if @books.present? %>
-      <div data-controller="books">
-        <%= form.select :book, @books.map{ |book| ["#{book.title} - #{book.author}", book.isbn] }, {}, data: { action: "change->books#change"} %>
-        <%= submit_tag 'Submit' %>
+      <% if @books.present? %>
+        <div data-controller="books">
+        <%= form.fields_for :books do |builder| %>
+          <%= render(:partial => 'books', locals: {form: builder, books: @books.map { |book| ["#{book.title} - #{book.author}", book.isbn] }}) %>
+      <% end %>
+      <%# <%= link_to_add_association 'Book Select', form, :books %>
+        <%# <%= form.select :book, @books.map{ |book| ["#{book.title} - #{book.author}", book.isbn] }, {}, data: { action: "change->books#change"} %>
+        <%# <%= render(:partial => 'books', locals: {form: form, books: @books.map { |book| ["#{book.title} - #{book.author}", book.isbn] }}) %>
       </div>
     <% end %>
+
+
   </div>
-
   <%= turbo_stream_from current_user, "books" %>
-
 <% end %>

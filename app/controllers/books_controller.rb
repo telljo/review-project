@@ -8,7 +8,6 @@ class BooksController < ApplicationController
       google_books.each do |gbook|
         @books.append(Book.new(title: gbook.title, author: gbook.authors, isbn: gbook.isbn))
       end
-      ap @books
     else
       @books = Book.first(10)
     end

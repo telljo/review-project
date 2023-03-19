@@ -1,6 +1,7 @@
 <%= turbo_frame_tag "books" do %>
   <% if books.present? %>
-    <%= book_results = books.map { |book| [book.title, book.isbn] } %>
-    <%= options_for_select(book_results) %>
+    <%# <%= options_for_select(books) %>
+    <%= form.select :book, books, {}, data: { action: "change->books#change"} %>
+    <%= submit_tag 'Submit' %>
   <% end %>
 <% end %>
