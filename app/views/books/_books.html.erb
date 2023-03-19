@@ -1,7 +1,5 @@
 <%= turbo_frame_tag "books" do %>
   <% if books.present? %>
-    <%# <%= options_for_select(books) %>
     <%= form.select :book, books, {}, data: { action: "change->books#change"} %>
-    <%= submit_tag 'Submit' %>
   <% end %>
 <% end %>
