@@ -1,5 +1,6 @@
 <%= turbo_frame_tag "books" do %>
   <% if books.present? %>
-    <%= form.select :book, books, {}, data: { action: "change->books#change"} %>
+  <%# <%= select_tag "books", options_from_collection_for_select(books, "id", "title", 1), :multiple=>true, data: { action: "change->books#change"} %>
+    <%= form.select :book, books, {}, html: { class: "form-select" }, :multiple=> true, data: { action: "change->books#change"} %>
   <% end %>
 <% end %>

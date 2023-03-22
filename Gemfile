@@ -9,12 +9,14 @@ gem 'devise', '~> 4.8.1'
 
 gem 'googlebooks'
 
+gem 'rubocop', require: false
+
 gem 'requestjs-rails'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.1'
 
-gem "action-cable-redis-backport"
+gem 'action-cable-redis-backport'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -88,4 +90,4 @@ group :test do
   gem 'webdrivers'
 end
 
-gem "dockerfile-rails", ">= 1.0", :group => :development
+gem 'dockerfile-rails', '>= 1.0', group: :development

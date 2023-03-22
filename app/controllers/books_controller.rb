@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 # Controller for Books
 class BooksController < ApplicationController
-
   def index
     @books = []
     if params[:title].present?
-      google_books = GoogleBooks.search(params[:title], {:count => 10})
+      google_books = GoogleBooks.search(params[:title], { count: 10 })
       google_books.each do |gbook|
         @books.append(Book.new(title: gbook.title, author: gbook.authors, isbn: gbook.isbn))
       end
@@ -13,8 +14,7 @@ class BooksController < ApplicationController
     end
   end
 
-  def show
-  end
+  def show; end
 
   def select
     gbook = GoogleBooks.search(params[:isbn]).first
@@ -25,9 +25,7 @@ class BooksController < ApplicationController
       isbn: gbook.isbn
     )
 
-    if gbook.image_link(:zoom => 5, :curl => true).present?
-      @book.image_link = gbook.image_link(:zoom => 5, :curl => true)
-    end
+    @book.image_link = gbook.image_link(zoom: 5, curl: true) if gbook.image_link(zoom: 5, curl: true).present?
 
     respond_to do |format|
       format.turbo_stream { flash.now[:notice] = "#{@book.title} selected" }

@@ -7,6 +7,10 @@
 
   <%= render "search" %>
 
+  <%= turbo_frame_tag "selected-books" do %>
+
+  <% end %>
+
   <%= turbo_frame_tag "books" do %>
     <%= render "books/empty_state" %>
   <% end %>
