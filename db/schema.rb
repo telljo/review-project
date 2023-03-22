@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -57,6 +55,7 @@ ActiveRecord::Schema.define(version: 20_230_305_083_224) do
   create_table 'books', force: :cascade do |t|
     t.string 'title', null: false
     t.string 'author', null: false
+    t.text 'description'
     t.string 'image_link'
     t.bigint 'isbn', null: false
     t.datetime 'created_at', precision: 6, null: false

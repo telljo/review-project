@@ -2,7 +2,6 @@
   <div class="search" data-turbo>
     <div>
       <%= form.text_field :title, placeholder: "Search", class: "search__bar", data: {action: "input->search#search"} %>
-      <%= form.submit 'Search', name: nil %>
       <% if @books.present? %>
         <div data-controller="books">
         <%= form.fields_for :books do |builder| %>
