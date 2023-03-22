@@ -1,0 +1,18 @@
+.search {
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: left;
+  gap: var(--space-s);
+  margin-bottom: var(--space-m);
+  padding: var(--space-xs);
+  &__bar {
+    background-color: var(--color-white);
+    border-radius: 40px;
+    width: 80%;
+    height: 40px;
+    padding-left: 10px;
+  }
+}

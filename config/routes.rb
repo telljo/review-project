@@ -15,5 +15,4 @@ Rails.application.routes.draw do
       get :select
     end
   end
-
 end
