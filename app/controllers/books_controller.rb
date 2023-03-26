@@ -20,9 +20,10 @@ class BooksController < ApplicationController
     gbook = GoogleBooks.search(params[:isbn]).first
 
     @book = Book.new(
+      isbn: gbook.isbn,
       title: gbook.title,
       author: gbook.authors,
-      isbn: gbook.isbn
+      description: gbook.description
     )
 
     @book.image_link = gbook.image_link(zoom: 5, curl: true) if gbook.image_link(zoom: 5, curl: true).present?
