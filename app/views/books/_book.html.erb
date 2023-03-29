@@ -2,18 +2,23 @@
   <div class="review" data-turbo>
     <% if book.present? %>
       <div class="container__review">
-      <div class="container__review__image">
-        <img src="<%= book.image_link %>" width="220">
-      </div>
-      <div class="container__review__content">
-        <div class="header">
-          <h1>
-            <%= book.title %>
-            <%= book.author %>
-          </h1>
+        <div class="container__review__image">
+          <img src="<%= book.image_link %>" width="220">
         </div>
-        <div class="trix-content">
-          <p><%= book.description %></p>
+        <div class="container__review__content">
+          <div class="header">
+            <h1>
+              <%= book.title %>
+              <%= book.author %>
+            </h1>
+          </div>
+          <div class="trix-content">
+            <p><%= book.description %></p>
+          </div>
+        </div>
+
+        <div data-controller="book">
+          <button class="btn btn--primary" data-action="click->book#create" data-isbn="<%= book.isbn %>">Add to collection</button>
         </div>
       </div>
     <% end %>

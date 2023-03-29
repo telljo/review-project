@@ -10,13 +10,14 @@ class BooksController < ApplicationController
         @books.append(Book.new(title: gbook.title, author: gbook.authors, isbn: gbook.isbn))
       end
     else
-      @books = Book.first(10)
+      @books = current_user.books.ordered
     end
   end
 
   def show; end
 
   def select
+    ap 'here we are'
     gbook = GoogleBooks.search(params[:isbn]).first
 
     @book = Book.new(
@@ -38,11 +39,26 @@ class BooksController < ApplicationController
   end
 
   def create
-    @book = Book.build(book_params)
+    if Book.find_by(isbn: create_book_params[:isbn]).present?
+      @book = Book.find_by(isbn: create_book_params[:isbn])
+    else
+      g_book = GoogleBooks.search(params[:isbn]).first
+      ap g_book
+
+      @book = Book.create(
+        isbn: g_book.isbn,
+        title: g_book.title,
+        author: g_book.authors,
+        description: g_book.description,
+        image_link: g_book.image_link(zoom: 5)
+      )
+    end
+
+    UserBook.create!(book_id: @book.id, user_id: current_user.id)
+
     if @book.save
       respond_to do |format|
-        format.html { redirect_to books_path, notice: 'Book was successfully created.' }
-        format.turbo_stream { flash.now[:notice] = 'Book was successfully created.' }
+        format.turbo_stream { flash.now[:notice] = "#{@book.title} was added to your collection." }
       end
     else
       render :new, status: :unprocessable_entity
@@ -55,5 +71,9 @@ class BooksController < ApplicationController
 
   def book_params
     params.require(:book).permit(:title)
+  end
+
+  def create_book_params
+    params.permit(:isbn)
   end
 end

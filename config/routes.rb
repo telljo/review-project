@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :books do
     collection do
       get :select
+      get :search
     end
   end
 end

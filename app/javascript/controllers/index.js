@@ -4,11 +4,14 @@
 
 import { application } from "./application"
 
+import BookController from "./book_controller"
+application.register("book", BookController)
+
+import BooksController from "./books_controller"
+application.register("books", BooksController)
+
 import RemovalsController from "./removals_controller"
 application.register("removals", RemovalsController)
 
 import SearchController from "./search_controller"
 application.register("search", SearchController)
-
-import BooksController from "./books_controller"
-application.register("books", BooksController)

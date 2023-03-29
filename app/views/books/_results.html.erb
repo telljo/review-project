@@ -1,0 +1,5 @@
+<div class="search__results">
+  <% if @results.present? %>
+    <%= form.select :result, @results, {}, html: { class: "form-select" }, :multiple=> true, data: { action: "change->books#change"} %>
+  <% end %>
+</div>
