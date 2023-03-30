@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :reviews
+  resources :google_books
   resources :books do
     collection do
       get :select

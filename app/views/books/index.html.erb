@@ -1,14 +1,14 @@
-<%# app/views/reviews/index.html.erb %>
-
+<%# app/views/books/index.html.erb %>
 <main class="container">
+  <main class="container">
+    <div class="header">
+      <h1>My Books</h1>
+    </div>
 
-  <%= render "search" %>
+    <%= turbo_frame_tag "books" do %>
+      <%= render "books/empty_state" %>
+      <%= render @books %>
+    <% end %>
 
-  <%= turbo_frame_tag "selected-books" do %>
-
-  <% end %>
-
-  <%= turbo_frame_tag "books" do %>
-    <%= render "books/empty_state" %>
-  <% end %>
+  </main>
 </main>

@@ -3,21 +3,12 @@
 # Controller for Books
 class BooksController < ApplicationController
   def index
-    @books = []
-    if params[:title].present?
-      google_books = GoogleBooks.search(params[:title], { count: 10 })
-      google_books.each do |gbook|
-        @books.append(Book.new(title: gbook.title, author: gbook.authors, isbn: gbook.isbn))
-      end
-    else
-      @books = current_user.books.ordered
-    end
+    @books = current_user.books.ordered
   end
 
   def show; end
 
   def select
-    ap 'here we are'
     gbook = GoogleBooks.search(params[:isbn]).first
 
     @book = Book.new(
