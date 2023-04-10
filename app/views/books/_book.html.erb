@@ -16,10 +16,11 @@
             <p><%= book.description %></p>
           </div>
         </div>
-
-        <div data-controller="book">
-          <button class="btn btn--primary" data-action="click->book#create" data-isbn="<%= book.isbn %>">Add to collection</button>
-        </div>
+        <% unless current_user.books.find_by_isbn(book.isbn) %>
+          <div data-controller="book">
+            <button class="btn btn--primary" data-action="click->book#create" data-isbn="<%= book.isbn %>">Add to collection</button>
+          </div>
+        <% end %>
       </div>
     <% end %>
   </div>

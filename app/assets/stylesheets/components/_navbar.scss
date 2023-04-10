@@ -1,11 +1,17 @@
 .navbar {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   box-shadow: var(--shadow-large);
   padding: var(--space-xs) var(--space-m);
   margin-bottom: var(--space-xxl);
   background-color: (var(--color-white));
 
+  &__collections {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
   &__brand {
     font-weight: bold;
     font-size: var(--font-size-xl);
@@ -25,5 +31,9 @@
   }
   &__right {
     margin-left: auto;
+  }
+
+  &__center {
+    margin: auto;
   }
 }

@@ -10,7 +10,7 @@
   <%= render "google_books/search" %>
 
   <% if user_signed_in? %>
-    <%= link_to "View reviews", reviews_url, class: "btn btn--large btn--dark" %>
+    <%= link_to "Search for books", google_books_url, class: "btn btn--large btn--dark" %>
   <% else %>
     <%= link_to "Sign in", new_user_session_path, class: "btn btn--large btn--green" %>
   <% end %>

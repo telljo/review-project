@@ -1,14 +1,20 @@
 <%= form_with(url: google_books_path, method: :get, data: {controller: "search", turbo_frame: "google_books", turbo_action: "advance"}) do |form| %>
   <div class="search" data-turbo>
     <div>
-      <%= form.text_field :title, placeholder: "Search", class: "search__bar", data: {action: "input->search#search"} %>
-      <% if @google_books.present? %>
-        <div data-controller="books">
+      <%= form.text_field :title,
+            placeholder: "Search",
+            class: "search__bar",
+            data: {
+              action:
+                "input->search#search
+                 click->search#showSelectBox"
+                 }
+      %>
+      <div data-controller="books">
         <%= form.fields_for :google_books do |builder| %>
           <%= render(:partial => 'google_books', locals: {form: builder, google_books: @google_books.map { |book| ["#{book.title} - #{book.author}", book.isbn] }}) %>
         <% end %>
       </div>
-    <% end %>
     </div>
   </div>
 <% end %>

@@ -19,7 +19,12 @@
   }
 
   &--large {
+    border-radius: 0px;
     padding: var(--space-xs) var(--space-xxxl);
+  }
+
+  &--medium {
+    padding: var(--space-xxs) var(--space-xxl);
   }
 
   &--primary {
