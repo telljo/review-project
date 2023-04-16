@@ -1,14 +1,14 @@
 <%# app/views/books/index.html.erb %>
+
+<%= turbo_stream_from current_user, "books" %>
+
 <main class="container">
-  <main class="container">
-    <div class="header">
-      <h1>My Books</h1>
-    </div>
+  <div class="header">
+    <h1>My Books</h1>
+  </div>
 
-    <%= turbo_frame_tag "books" do %>
-      <%= render "books/empty_state" %>
-      <%= render @books %>
-    <% end %>
-
-  </main>
+  <%= turbo_frame_tag "books" do %>
+    <%= render "books/empty_state" %>
+    <%= render @books %>
+  <% end %>
 </main>

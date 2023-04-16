@@ -7,8 +7,6 @@
   </div>
 </div>
 
-  <%= render "google_books/search" %>
-
   <% if user_signed_in? %>
     <%= link_to "Search for books", google_books_url, class: "btn btn--large btn--dark" %>
   <% else %>

@@ -6,12 +6,14 @@ export default class extends Controller {
 
   search() {
     clearTimeout(this.timeout)
+    this.showSelectBox()
     this.timeout = setTimeout(() => {
       this.element.requestSubmit()
     }, 200)
   }
 
   connect() {
+    this.showSelectBox()
     document.addEventListener("click", this.hideSelectBox)
     document.addEventListener("keydown", this.handleKeyDown.bind(this))
   }
@@ -28,7 +30,12 @@ export default class extends Controller {
   }
 
   showSelectBox = () => {
-    this.selectBoxTarget.style.display = "block"
+    const searchField = this.element.querySelector(".search__bar")
+    if(searchField.value.length === 0) {
+      this.selectBoxTarget.style.display = "none"
+    }else {
+      this.selectBoxTarget.style.display = "block"
+    }
   }
 
   handleKeyDown(event) {

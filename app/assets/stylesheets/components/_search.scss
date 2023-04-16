@@ -6,7 +6,7 @@
   align-items: left;
   gap: var(--space-s);
   margin-bottom: var(--space-m);
-  padding: var(--space-xl);
+  position: relative;
   &__bar {
     background-color: var(--color-white);
     border-radius: 40px;
@@ -15,11 +15,13 @@
     padding-left: 10px;
   }
   &__results {
-    width: 100%;
     background-color: var(--color-white);
     border: 1px solid black;
     border-radius: 12px;
     padding: var(--space-xs);
+    position: absolute;
+    width: 100%;
+    z-index: 1;
     select {
       border: none;
       outline: none;

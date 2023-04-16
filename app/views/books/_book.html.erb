@@ -1,27 +1,30 @@
 <%= turbo_frame_tag "book" do %>
   <div class="review" data-turbo>
-    <% if book.present? %>
-      <div class="container__review">
-        <div class="container__review__image">
-          <img src="<%= book.image_link %>" width="220">
-        </div>
-        <div class="container__review__content">
-          <div class="header">
-            <h1>
-              <%= book.title %>
-              <%= book.author %>
-            </h1>
-          </div>
-          <div class="trix-content">
-            <p><%= book.description %></p>
-          </div>
-        </div>
-        <% unless current_user.books.find_by_isbn(book.isbn) %>
-          <div data-controller="book">
-            <button class="btn btn--primary" data-action="click->book#create" data-isbn="<%= book.isbn %>">Add to collection</button>
-          </div>
-        <% end %>
+    <div class="container__review">
+      <div class="container__review__image">
+        <img src="<%= book.image_link %>" width="220">
       </div>
-    <% end %>
+      <div class="container__review__content">
+        <div class="header">
+          <h1>
+            <%= book.title %>
+            <%= book.author %>
+          </h1>
+        </div>
+        <div class="trix-content">
+          <p><%= book.description %></p>
+        </div>
+      </div>
+      <% if current_user.books.find_by_isbn(book.isbn) %>
+            <%= button_to "Remove from collection",
+                  book_path(book),
+                  method: :delete,
+                  class: "btn btn--light" %>
+      <% else %>
+        <div div data-controller="book">
+          <button class="btn btn--primary" data-action="click->book#create" data-isbn="<%= book.isbn %>">Add to collection</button>
+        </div>
+      <% end %>
+    </div>
   </div>
 <% end %>
