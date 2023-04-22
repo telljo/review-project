@@ -1,4 +1,6 @@
-<%= turbo_stream.update "selected-books", @book %>
-<%= turbo_stream.update Book.new, "" %>
+<%= turbo_stream.replace "book" do %>
+  <%= render "book", book: @book %>
+<% end %>
+
 <%= render_turbo_stream_flash_messages %>
 

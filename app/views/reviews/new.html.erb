@@ -1,13 +1,26 @@
 <%# app/views/reviews/new.html.erb %>
 
 <main class="container">
-  <%= link_to sanitize("&larr; Back to reviews"), reviews_path %>
+  <%= link_to sanitize("&larr; Back to books"), books_path %>
 
   <div class="header">
     <h1>New review</h1>
   </div>
 
   <%= turbo_frame_tag @review do %>
+    <div class="container__review review form">
+      <div class="container__review__image">
+        <img src="<%= @book.image_link %>" width="220">
+      </div>
+      <div class="container__review__content">
+        <div class="review_titles">
+          <h1>
+            <%= @book.title %>
+          </h1>
+          <h4>
+            <%= @book.author %>
+          </h4>
+        </div>
     <%= render "form", review: @review %>
   <% end %>
 </main>

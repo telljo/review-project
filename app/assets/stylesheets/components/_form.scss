@@ -7,6 +7,13 @@
     border: none;
   }
 
+  &__buttons {
+    padding-top: var(--space-xs) ;
+    display: flex;
+    gap: var(--space-m);
+    flex-direction: row;
+  }
+
   &__input {
     width: 100%;
     display: flex;

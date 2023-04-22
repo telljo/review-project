@@ -11,10 +11,13 @@ class ReviewsController < ApplicationController
   def show; end
 
   def new
+    @book = Book.find(params[:book_id])
     @review = Review.new
   end
 
   def create
+    @book = Book.find(params[:book_id])
+    ap @book
     @review = current_user.reviews.build(review_params)
     if @review.save
       respond_to do |format|

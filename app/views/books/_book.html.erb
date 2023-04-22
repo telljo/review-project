@@ -1,30 +1,39 @@
-<%= turbo_frame_tag "book" do %>
+<%= turbo_frame_tag book do %>
   <div class="review" data-turbo>
-    <div class="container__review">
+    <div class="container__review form">
       <div class="container__review__image">
         <img src="<%= book.image_link %>" width="220">
       </div>
       <div class="container__review__content">
-        <div class="header">
+        <div class="review_titles">
           <h1>
             <%= book.title %>
-            <%= book.author %>
           </h1>
+          <h4>
+            <%= book.author %>
+          </h4>
         </div>
         <div class="trix-content">
           <p><%= book.description %></p>
         </div>
-      </div>
-      <% if current_user.books.find_by_isbn(book.isbn) %>
-            <%= button_to "Remove from collection",
+        <div class="form__buttons">
+        <% if current_user.books.find_by_isbn(book.isbn) %>
+            <%= link_to "Write review",
+              new_review_path(book_id: book.id),
+              data: { turbo_frame: dom_id(Review.new) },
+              class: "btn btn--primary" %>
+
+          <%= button_to "Remove from collection",
                   book_path(book),
                   method: :delete,
                   class: "btn btn--light" %>
-      <% else %>
-        <div div data-controller="book">
-          <button class="btn btn--primary" data-action="click->book#create" data-isbn="<%= book.isbn %>">Add to collection</button>
+        <% else %>
+          <div div data-controller="book">
+            <button class="btn btn--primary" data-action="click->book#create" data-isbn="<%= book.isbn %>">Add to collection</button>
+          </div>
+        <% end %>
         </div>
-      <% end %>
+      </div>
     </div>
   </div>
 <% end %>
