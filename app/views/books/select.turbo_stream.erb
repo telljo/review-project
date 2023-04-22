@@ -1,4 +1,4 @@
-<%= turbo_stream.replace "book" do %>
+<%= turbo_stream.update "selected-book" do %>
   <%= render "book", book: @book %>
 <% end %>
 
