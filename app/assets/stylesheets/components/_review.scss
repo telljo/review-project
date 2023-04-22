@@ -1,9 +1,7 @@
 .review {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: left;
-  gap: var(--space-s);
+  flex-wrap: wrap;
+  gap: var(--space-xs);
 
   background-color: var(--color-white);
   border-radius: var(--border-radius);
@@ -13,6 +11,15 @@
 
   @include media(tabletAndUp) {
     padding: var(--space-xs) var(--space-m);
+  }
+
+  .review_titles {
+    flex-flow: column;
+    margin-top: var(--space-m);
+    margin-bottom: var(--space-xs);
+    h4 {
+      color: var(--color-text-muted);
+    }
   }
 
   &__actions {

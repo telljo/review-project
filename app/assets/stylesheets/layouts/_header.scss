@@ -14,6 +14,9 @@
     margin: 0 auto;
     margin-top: 0;
   }
+  &__review_header {
+    margin-bottom: 0px;
+  }
 
   @include media(tabletAndUp) {
     margin-bottom: var(--space-xl);
