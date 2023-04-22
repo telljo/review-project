@@ -21,6 +21,6 @@
             <%= @book.author %>
           </h4>
         </div>
-    <%= render "form", review: @review %>
+    <%= render partial: "form", locals: { review: @review } %>
   <% end %>
 </main>

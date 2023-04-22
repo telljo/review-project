@@ -17,8 +17,9 @@ class ReviewsController < ApplicationController
 
   def create
     @book = Book.find(params[:book_id])
-    ap @book
     @review = current_user.reviews.build(review_params)
+    @review.book = @book
+    @review.user = current_user
     if @review.save
       respond_to do |format|
         format.html { redirect_to reviews_path, notice: 'Review was successfully created.' }
@@ -58,6 +59,6 @@ class ReviewsController < ApplicationController
   end
 
   def review_params
-    params.require(:review).permit(:name, :content, :image)
+    params.require(:review).permit(:name, :content, :image, :book_id)
   end
 end

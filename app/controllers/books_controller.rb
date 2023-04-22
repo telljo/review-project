@@ -12,6 +12,7 @@ class BooksController < ApplicationController
 
   def select
     gbook = GoogleBooks.search(params[:isbn]).first
+    ap(gbook)
 
     @book = Book.new(
       isbn: gbook.isbn,
