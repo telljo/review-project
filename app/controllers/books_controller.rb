@@ -11,8 +11,9 @@ class BooksController < ApplicationController
   def show; end
 
   def select
-    gbook = GoogleBooks.search(params[:isbn]).first
-    ap(gbook)
+    isbn = params[:isbn].strip
+    query_string = "isbn:#{isbn}"
+    gbook = GoogleBooks.search(query_string).first
 
     @book = Book.new(
       isbn: gbook.isbn,
