@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 class Review < ApplicationRecord
-  validates :name, presence: true
   belongs_to :user
   belongs_to :book
   has_rich_text :content
   has_one_attached :image
 
-  validates_presence_of :name
   validates_presence_of :content
+
+  MAX_RATING = 5
+
+  validates :rating, numericality: { only_integer: true, in: 0..MAX_RATING }
 
   scope :ordered, -> { order(id: :desc) }
 

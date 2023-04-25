@@ -14,6 +14,39 @@
     flex-direction: row;
   }
 
+  &__select_rating_stars {
+    display: flex;
+    width: 10em;
+    flex-direction: row-reverse;
+    .fa-star {
+      color: #ccc;
+      width: 2em;
+      height: 2em;
+    }
+
+    .selected{
+      color:#e87400;
+    }
+
+    .fa-star:hover, .fa-star:hover ~ .fa-star {
+      color: #e87400;
+    }
+  }
+
+  &__show_rating_stars {
+    display: flex;
+    width: 10em;
+    .fa-star {
+      color: #ccc;
+      width: 2em;
+      height: 2em;
+    }
+
+    .selected{
+      color:#e87400;
+    }
+  }
+
   &__input {
     width: 100%;
     display: flex;

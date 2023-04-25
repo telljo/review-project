@@ -7,13 +7,23 @@
     </div>
   <% end %>
 
+  <fieldset>
+    <%= f.label :rating %>
+    <div data-controller="review",
+         class="form__select_rating_stars">
+      <% [5,4,3,2,1].each do |i| %>
+        <%= icon('fa-regular fas', 'star', data: {
+          action: "click->review#starClicked", value: i, "review-target": "ratingStar" })%>
+        <% end %>
+      <%= f.hidden_field :rating, class: "rating-value" %>
+    </div>
+  </fieldset>
+
   <fieldset class="input">
     <%= hidden_field_tag :book_id, @book.id %>
 
-    <%= f.input :name, input_html: { autofocus: true } %>
-
     <%= f.label :content %>
-    <%= f.rich_text_area :content %>
+    <%= f.rich_text_area :content, input_html: { autofocus: true } %>
   </fieldset>
 
   <fieldset>

@@ -1,20 +1,45 @@
 <%= turbo_frame_tag review do %>
   <div class="review" data-turbo>
-    <%= link_to review.name,
-        review_path(review),
-        data: { turbo_frame: "_top" } %>
+    <div class="container__review form">
+      <div class="container__review__image">
+        <img src="<%= review.book.image_link %>" width="220">
+      </div>
+      <div class="container__review__content">
+        <div class="review_titles">
+            <h1>
+              <%= link_to review.book.title,
+                  review_path(review),
+                  data: { turbo_frame: "_top" } %>
+            </h1>
+            <h4>
+              <%= review.book.author %>
+            </h4>
 
-    <div class="trix-content mb-10">
-      <p><%= review.content %></p>
-    </div>
-    <div class="review__actions">
-      <%= button_to "Delete",
-                    review_path(review),
-                    method: :delete,
-                    class: "btn btn--light" %>
-      <%= link_to "Edit",
-                  edit_review_path(review),
-                  class: "btn btn--light" %>
+            <div data-controller="review",
+                class="form__show_rating_stars">
+                <% [1,2,3,4,5].each do |i| %>
+                  <% if review.rating >= i%>
+                    <%= icon('fa-regular fas selected', 'star')%>
+                  <% else %>
+                    <%= icon('fa-regular fas', 'star')%>
+                  <% end%>
+                <% end %>
+              </div>
+          </div>
+
+        <div class="trix-content">
+          <p><%= review.content %></p>
+        </div>
+        <div class="form__buttons">
+          <%= button_to "Delete",
+                        review_path(review),
+                        method: :delete,
+                        class: "btn btn--light" %>
+          <%= link_to "Edit",
+                      edit_review_path(review),
+                      class: "btn btn--light" %>
+        </div>
+      </div>
     </div>
   </div>
 <% end %>
