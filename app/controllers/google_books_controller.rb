@@ -6,9 +6,7 @@ class GoogleBooksController < ApplicationController
     google_book_results = GoogleBooks.search(params[:title], { count: 10 })
 
     google_book_results.each do |gbook|
-      if gbook.isbn.present?
-        @google_books.append(Book.new(title: gbook.title, author: gbook.authors, isbn: gbook.isbn))
-      end
+      @google_books.append(Book.new(title: gbook.title, author: gbook.authors, isbn: gbook.isbn)) if gbook.isbn.present?
     end
   end
 end

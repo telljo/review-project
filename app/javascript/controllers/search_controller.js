@@ -9,7 +9,7 @@ export default class extends Controller {
     this.showSelectBox()
     this.timeout = setTimeout(() => {
       this.element.requestSubmit()
-    }, 200)
+    }, 100)
   }
 
   connect() {
@@ -31,7 +31,7 @@ export default class extends Controller {
 
   showSelectBox = () => {
     const searchField = this.element.querySelector(".search__bar")
-    if(searchField.value.length === 0) {
+    if(searchField.value.length < 3) {
       this.selectBoxTarget.style.display = "none"
     }else {
       this.selectBoxTarget.style.display = "block"

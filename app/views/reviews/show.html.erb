@@ -3,14 +3,9 @@
 <main class="container">
   <div class="container__review">
     <div class="container__review__image">
-      <%= image_tag url_for(@review.image) %>
+      <%= image_tag url_for(@review.book.image_link) %>
     </div>
     <div class="container__review__content">
-      <div class="header">
-        <h1>
-          <%= @review.name %>
-        </h1>
-      </div>
       <div class="trix-content">
         <p><%= @review.content %></p>
       </div>
