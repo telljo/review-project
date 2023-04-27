@@ -13,6 +13,13 @@
     padding: var(--space-xs) var(--space-m);
   }
 
+  &__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
   .review_titles {
     flex-flow: column;
     margin-top: var(--space-m);

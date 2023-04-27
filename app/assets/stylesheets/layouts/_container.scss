@@ -12,15 +12,20 @@
     flex-direction: column;
   }
 
+  &__created_at {
+    float: right;
+    min-width: 100px;
+  }
+
   @include media(tabletAndUp) {
     padding-right: var(--space-m);
     padding-left: var(--space-m);
     max-width: 60rem;
     &__review {
+      width: 100%;
       display: flex;
       flex-direction: row;
       &__image {
-        width: 25%;
         filter: drop-shadow(0 0.4em 0.8rem rgba(0, 0, 0, 0.2));
         border-radius: 0 6% 6% 0/1%;
         overflow: hidden;

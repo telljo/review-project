@@ -23,7 +23,6 @@ class ReviewsController < ApplicationController
     if @review.save
       respond_to do |format|
         format.html { redirect_to reviews_path, notice: 'Review was successfully created.' }
-        format.turbo_stream { flash.now[:notice] = 'Review was successfully created.' }
       end
     else
       render :new, status: :unprocessable_entity

@@ -7,20 +7,18 @@
     <h1>New review</h1>
   </div>
 
-  <%= turbo_frame_tag @review do %>
-    <div class="container__review review form">
-      <div class="container__review__image">
-        <img src="<%= @book.image_link %>" width="220">
+  <div class="container__review review form">
+    <div class="container__review__image">
+      <img src="<%= @book.image_link %>" width="220">
+    </div>
+    <div class="container__review__content">
+      <div class="review_titles">
+        <h1>
+          <%= @book.title %>
+        </h1>
+        <h4>
+          <%= @book.author %>
+        </h4>
       </div>
-      <div class="container__review__content">
-        <div class="review_titles">
-          <h1>
-            <%= @book.title %>
-          </h1>
-          <h4>
-            <%= @book.author %>
-          </h4>
-        </div>
-    <%= render partial: "form", locals: { review: @review } %>
-  <% end %>
+  <%= render partial: "form", locals: { review: @review } %>
 </main>

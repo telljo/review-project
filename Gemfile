@@ -9,7 +9,7 @@ gem 'devise', '~> 4.8.1'
 
 gem 'googlebooks'
 
-gem "font-awesome-sass", "~> 6.4.0"
+gem 'font-awesome-sass', '~> 6.4.0'
 
 gem 'rubocop', require: false
 

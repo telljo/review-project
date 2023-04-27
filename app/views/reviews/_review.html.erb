@@ -5,28 +5,33 @@
         <img src="<%= review.book.image_link %>" width="220">
       </div>
       <div class="container__review__content">
-        <div class="review_titles">
-            <h1>
-              <%= link_to review.book.title,
-                  review_path(review),
-                  data: { turbo_frame: "_top" } %>
-            </h1>
-            <h4>
-              <%= review.book.author %>
-            </h4>
-
-            <div data-controller="review",
-                class="form__show_rating_stars">
-                <% [1,2,3,4,5].each do |i| %>
-                  <% if review.rating >= i%>
-                    <%= icon('fa-regular fas selected', 'star')%>
-                  <% else %>
-                    <%= icon('fa-regular fas', 'star')%>
-                  <% end%>
-                <% end %>
-              </div>
+        <div class="review__header">
+          <div class="review_titles">
+              <h1>
+                <%= link_to review.book.title,
+                    review_path(review),
+                    data: { turbo_frame: "_top" } %>
+              </h1>
+              <h4>
+                <%= review.book.author %>
+              </h4>
           </div>
+          <div class="container__created_at">
+            <p><%= review.created_at.strftime("%B %d, %Y") %></p>
+          </div>
+        </div>
 
+
+        <div data-controller="review",
+            class="form__show_rating_stars">
+          <% [1,2,3,4,5].each do |i| %>
+            <% if review.rating >= i%>
+              <%= icon('fa-regular fas selected', 'star')%>
+            <% else %>
+              <%= icon('fa-regular fas', 'star')%>
+            <% end%>
+          <% end %>
+        </div>
         <div class="trix-content">
           <p><%= review.content %></p>
         </div>
