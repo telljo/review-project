@@ -17,4 +17,7 @@ Rails.application.routes.draw do
       get :search
     end
   end
+  get ':username', to: 'users#show', as: 'user'
+  get ':username/books', to: 'books#index', as: 'user_books'
+  get ':username/reviews', to: 'reviews#index', as: 'user_reviews'
 end
