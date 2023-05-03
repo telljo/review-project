@@ -5,6 +5,11 @@
     <%= f.error_notification %>
 
     <div class="form-inputs">
+      <%= f.label :username %>
+      <%= f.input :username,
+                  required: true,
+                  autofocus: true,
+                  input_html: { autocomplete: "username" }%>
       <%= f.label :email %>
       <%= f.input :email,
                   required: true,

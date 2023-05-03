@@ -19,4 +19,7 @@ application.register("review", ReviewController)
 import SearchController from "./search_controller"
 application.register("search", SearchController)
 
+import DropdownController from "./dropdown_controller"
+application.register("dropdown", DropdownController)
+
 

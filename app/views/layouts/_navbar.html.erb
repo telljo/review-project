@@ -5,20 +5,14 @@
 
   <% if user_signed_in? %>
     <div class="collections">
-      <%= link_to "My books",
+      <%= link_to "Books",
                 books_path,
                 class: "btn btn--primary navbar__center" %>
-      <%= link_to "My reviews",
+      <%= link_to "Reviews",
                 reviews_path,
                 class: "btn btn--primary navbar__center" %>
     </div>
-    <%# <%= button_to "Edit profile",
-                  edit_user_registration_path,
-                  class: "btn btn--blue" %>
-    <%= button_to "Sign out",
-                  destroy_user_session_path,
-                  method: :delete,
-                  class: "btn btn--dark" %>
+    <%= render "layouts/navbar_dropdown" %>
   <% else %>
   <div class="navbar__links">
     <%= link_to "Sign In",
