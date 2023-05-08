@@ -10,7 +10,6 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :username, presence: true, uniqueness: true
 
-
   def name
     email.split('@').first.capitalize
   end
