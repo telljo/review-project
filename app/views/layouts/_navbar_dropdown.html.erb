@@ -12,7 +12,8 @@
   <div id="navbar_menu" data-dropdown-target="menu" class="navbar_dropdown__menu" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
     <div>
       <a data-action="click->dropdown#toggle" class="navbar_dropdown__menu__item" href="/">Home</a>
-      <a data-action="click->dropdown#toggle" class="navbar_dropdown__menu__item" href="/bob">Profile</a>
+      <a data-action="click->dropdown#toggle" class="navbar_dropdown__menu__item"
+         href="<%= url_for(controller: '/users', action: 'show', username: current_user.username)%>">Profile</a>
       <a data-action="click->dropdown#toggle" class="navbar_dropdown__menu__item"
          href="<%= url_for(controller: '/books', action: 'index', username: current_user.username)%>">Books</a>
       <a data-action="click->dropdown#toggle" class="navbar_dropdown__menu__item"
