@@ -13,7 +13,9 @@ class BooksController < ApplicationController
              end
   end
 
-  def show; end
+  def show
+    @book = Book.find_by(id: params[:id]) || Book.find_by(slug: params[:isbn])
+  end
 
   def select
     isbn = params[:isbn].strip

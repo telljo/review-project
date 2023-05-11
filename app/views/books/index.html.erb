@@ -10,7 +10,9 @@
   <% end %>
 
   <%= turbo_frame_tag "books" do %>
-    <%= render "books/empty_state" %>
-    <%= render @books %>
+    <div class="books__grid_layout">
+      <%= render "books/empty_state" %>
+      <%= render @books %>
+    </div>
   <% end %>
 </main>
