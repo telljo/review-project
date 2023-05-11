@@ -5,9 +5,9 @@ class ReviewsController < ApplicationController
   before_action :set_review, only: %i[show edit update destroy]
 
   def index
-    user = User.find_by(username: params[:username])
-    @reviews = if user.present?
-                 user.reviews.ordered
+    @user = User.find_by(username: params[:username])
+    @reviews = if @user.present?
+                 @user.reviews.ordered
                else
                  Review.all.ordered
                end

@@ -21,8 +21,6 @@
     box-shadow: var(--shadow-small);
     right: 0;
     z-index: 10;
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
     margin-top: 2.9em;
     transform-origin: top right;
     width: 12rem;
@@ -38,8 +36,12 @@
       padding-right: 1rem;
       font-size: 0.875rem;
       line-height: 1.25rem;
-    }
+      &:hover {
+        background-color: var(--color-light);
+        transition: filter 250ms, color 200ms;
 
+      }
+    }
   }
   .toggled {
     display: block;

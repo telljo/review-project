@@ -3,10 +3,12 @@
 <%= turbo_stream_from current_user, "reviews" %>
 
 <main class="container">
-  <div class="header">
-    <h1>Reviews</h1>
-  </div>
-
+  <% if @user.present? %>
+    <%= render "layouts/profile_section" %>
+    <div class="header">
+      <h3><%="#{@user.username.upcase}'S REVIEWS"%></h3>
+    </div>
+  <% end %>
   <%= turbo_frame_tag Review.new %>
 
   <%= turbo_frame_tag "reviews" do %>

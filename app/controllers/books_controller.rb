@@ -5,9 +5,9 @@ class BooksController < ApplicationController
   before_action :set_user_book, only: %i[show destroy]
 
   def index
-    user = User.find_by(username: params[:username])
-    @books = if user.present?
-               user.books.ordered
+    @user = User.find_by(username: params[:username])
+    @books = if @user.present?
+               @user.books.ordered
              else
                Book.all.ordered
              end

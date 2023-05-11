@@ -12,4 +12,10 @@
     border: none;
     margin-top: var(--space-xs);
   }
+
+  .alert {
+    color: red;
+    margin-bottom: 10px;
+    text-align: center;
+  }
 }
