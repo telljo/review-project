@@ -1,0 +1,22 @@
+.books {
+  &__grid_layout {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  &__item {
+    grid-column: span 1 / span 1;
+  }
+
+  &__cover_image {
+    width: 220px;
+    object-fit: cover;
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 3/4;
+    border-radius: 0.5rem;
+  }
+}
