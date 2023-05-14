@@ -17,6 +17,10 @@
   &__review_header {
     margin-bottom: 0px;
   }
+  &__user_books {
+    display: flex;
+    flex-direction: column;
+  }
 
   @include media(tabletAndUp) {
     margin-bottom: var(--space-xl);

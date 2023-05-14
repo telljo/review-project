@@ -33,7 +33,9 @@
                   class: "btn btn--light" %>
         <% else %>
           <div div data-controller="book">
-            <button class="btn btn--primary" data-action="click->book#create" data-isbn="<%= @book.isbn %>">Add to collection</button>
+            <button class="btn btn--primary" data-action="click->book#addToWantToRead" data-isbn="<%= @book.isbn %>">Want to read</button>
+            <button class="btn btn--primary" data-action="click->book#addToCurrentlyReading" data-isbn="<%= @book.isbn %>">Currently reading</button>
+            <button class="btn btn--primary" data-action="click->book#addToRead" data-isbn="<%= @book.isbn %>">Read</button>
           </div>
         <% end %>
         </div>

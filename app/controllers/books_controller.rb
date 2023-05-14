@@ -7,7 +7,12 @@ class BooksController < ApplicationController
   def index
     @user = User.find_by(username: params[:username])
     @books = if @user.present?
-               @user.books.ordered
+               if params[:slug].present?
+                 user_books = @user.user_books.where(slug: params[:slug])
+                 user_books.map(&:book).uniq
+               else
+                 @user.books.ordered
+               end
              else
                Book.all.ordered
              end
@@ -56,7 +61,7 @@ class BooksController < ApplicationController
         image_link: g_book.image_link(zoom: 5)
       )
     end
-    UserBook.create!(book_id: @book.id, user_id: current_user.id)
+    UserBook.create!(book_id: @book.id, user_id: current_user.id, slug: create_book_params[:slug])
 
     if @book.save
       respond_to do |format|
@@ -91,6 +96,6 @@ class BooksController < ApplicationController
   end
 
   def create_book_params
-    params.permit(:isbn)
+    params.permit(:isbn, :slug)
   end
 end

@@ -2,12 +2,19 @@
 <%= turbo_stream_from current_user, "books" %>
 
 <main class="container">
-  <% if @user.present? %>
-    <%= render "layouts/profile_section" %>
-    <div class="header">
-      <h3><%="#{@user.username.upcase}'S BOOKS"%></h3>
-    </div>
-  <% end %>
+  <div class="books">
+    <% if @user.present? %>
+      <%= render "layouts/profile_section" %>
+      <div class="header header__user_books ">
+        <h3><%="#{@user.username.upcase}'S BOOKSHELVES"%></h3>
+        <select data-controller="book_select" data-book_select-target="select" onchange="window.location.href=this.value;">
+          <option value="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::READ)%>">Read</option>
+          <option value="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::WANT_TO_READ)%>">Wants to read</option>
+          <option value="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::READING)%>">Currently reading</option>
+        </select>
+      </div>
+    <% end %>
+  </div>
 
   <%= turbo_frame_tag "books" do %>
     <div class="books__grid_layout">

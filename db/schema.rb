@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_230_427_101_555) do
+ActiveRecord::Schema.define(version: 20_230_513_224_424) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -80,7 +80,9 @@ ActiveRecord::Schema.define(version: 20_230_427_101_555) do
     t.integer 'user_id', null: false
     t.datetime 'created_at', precision: 6, null: false
     t.datetime 'updated_at', precision: 6, null: false
+    t.string 'slug'
     t.index ['book_id'], name: 'index_user_books_on_book_id'
+    t.index ['slug'], name: 'index_user_books_on_slug'
     t.index ['user_id'], name: 'index_user_books_on_user_id'
   end
 

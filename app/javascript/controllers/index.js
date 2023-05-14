@@ -10,6 +10,9 @@ application.register("book", BookController)
 import BooksController from "./books_controller"
 application.register("books", BooksController)
 
+import BookSelectController from "./book_select_controller"
+application.register("book_select", BookSelectController)
+
 import RemovalsController from "./removals_controller"
 application.register("removals", RemovalsController)
 
