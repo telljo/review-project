@@ -2,11 +2,18 @@
 
 # Controller for the application
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!, unless: :devise_controller?
   before_action :turbo_frame_request_variant
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   private
+
+  def devise_or_another_controller?
+    devise_controller? || google_books_controller?
+  end
+
+  def google_books_controller?
+    'google_books_controller'
+  end
 
   def turbo_frame_request_variant
     request.variant = :turbo_frame if turbo_frame_request?

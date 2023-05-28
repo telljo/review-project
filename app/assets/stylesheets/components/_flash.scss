@@ -18,8 +18,11 @@
     font-size: var(--font-size-s);
     color: var(--color-white);
     padding: var(--space-xs) var(--space-m);
-    background-color: var(--color-dark);
+    background-color: var(--color-btn-bg);
     animation: appear-then-fade 4s both;
     border-radius: 999px;
+    border-style: solid;
+    border-width: var(--borderWidth-thin, 1px);
+    border-color: var(--color-border-color);
   }
 }

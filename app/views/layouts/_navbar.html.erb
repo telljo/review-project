@@ -1,23 +1,23 @@
 
 <header class="navbar">
-
-  <%= link_to "Books", google_books_url, class: "btn btn--medium btn--secondary" %>
-
+  <%= link_to root_path do %>
+    <%= image_tag('logo.svg', size: '130x50') %>
+  <% end %>
   <% if user_signed_in? %>
     <div class="collections">
       <%= link_to "Books",
                 books_path,
-                class: "btn btn--primary navbar__center" %>
+                class: "btn btn--nav navbar__center" %>
       <%= link_to "Reviews",
                 reviews_path,
-                class: "btn btn--primary navbar__center" %>
+                class: "btn btn--nav navbar__center" %>
     </div>
     <%= render "layouts/navbar_dropdown" %>
   <% else %>
   <div class="navbar__links">
     <%= link_to "Sign In",
                   new_user_session_path,
-                  class: "btn btn--dark navbar__right" %>
+                  class: "btn btn--primary navbar__right" %>
     <%= link_to "Sign Up",
               new_user_registration_path,
               class: "btn btn--primary navbar__right" %>

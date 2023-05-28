@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="search"
 export default class extends Controller {
-  static targets = ["selectBox"]
+  static targets = ["selectBox", "searchBar", "input"]
 
   search() {
     clearTimeout(this.timeout)
@@ -16,6 +16,8 @@ export default class extends Controller {
     this.showSelectBox()
     document.addEventListener("click", this.hideSelectBox)
     document.addEventListener("keydown", this.handleKeyDown.bind(this))
+    this.inputTarget.addEventListener('focus', this.addBorder);
+    this.inputTarget.addEventListener('blur', this.removeBorder);
   }
 
   disconnect() {
@@ -30,7 +32,7 @@ export default class extends Controller {
   }
 
   showSelectBox = () => {
-    const searchField = this.element.querySelector(".search__bar")
+    const searchField = this.element.querySelector(".search__bar-input")
     if(searchField.value.length < 3) {
       this.selectBoxTarget.style.display = "none"
     }else {
@@ -42,5 +44,13 @@ export default class extends Controller {
     if (event.key === "Escape") {
       this.selectBoxTarget.style.display = "none"
     }
+  }
+
+  addBorder = () => {
+    this.searchBarTarget.classList.add('has-focus');
+  }
+
+  removeBorder = () => {
+    this.searchBarTarget.classList.remove('has-focus');
   }
 }

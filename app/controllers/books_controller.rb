@@ -2,16 +2,22 @@
 
 # Controller for Books
 class BooksController < ApplicationController
-  before_action :set_user_book, only: %i[show destroy]
+  before_action :set_user_book, only: [:destroy]
+
+  before_action :authenticate_user!, only: %i[create destroy]
 
   def index
     @user = User.find_by(username: params[:username])
+    @slug = params[:slug]
     @books = if @user.present?
-               if params[:slug].present?
-                 user_books = @user.user_books.where(slug: params[:slug])
+               if @slug.present?
+                 user_books = @user.user_books.where(slug: @slug)
                  user_books.map(&:book).uniq
                else
                  @user.books.ordered
+                 @read_books = @user.user_books.where(slug: UserBook::READ).map(&:book).uniq
+                 @books_in_progress = @user.user_books.where(slug: UserBook::READING).map(&:book).uniq
+                 @to_read_books = @user.user_books.where(slug: UserBook::WANT_TO_READ).map(&:book).uniq
                end
              else
                Book.all.ordered

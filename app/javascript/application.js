@@ -9,6 +9,7 @@ import "./controllers"
 import { library, dom } from '@fortawesome/fontawesome-svg-core'
 import {
   faStar,
+  faSearch,
   faStarHalfAlt
 } from '@fortawesome/free-solid-svg-icons'
 import {
@@ -16,7 +17,7 @@ import {
 } from '@fortawesome/free-regular-svg-icons'
 
 // Add Font Awesome icons to the library
-library.add(faStar, faStarHalfAlt, farStar)
+library.add(faStar, faStarHalfAlt, farStar, faSearch)
 
 
 // Initialize Font Awesome

@@ -2,14 +2,9 @@
 
 <div class="header">
   <div class="header__home-page">
-    <h1>Review something</h1>
+    <h1>Marketing fluff</h1>
     <p>A blazing fast place to create reviews built with Rails 7 and Hotwire</p>
   </div>
 </div>
-
-  <% if user_signed_in? %>
-    <%= link_to "Search for books", google_books_url, class: "btn btn--large btn--dark" %>
-  <% else %>
-    <%= link_to "Sign in", new_user_session_path, class: "btn btn--large btn--green" %>
-  <% end %>
+<%= link_to "Search for books", google_books_url, class: "btn btn--large btn--primary" %>
 </main>
