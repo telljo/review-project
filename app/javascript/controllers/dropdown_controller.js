@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="dropdown"
 export default class extends Controller {
 
-  static targets = ["menu", "buttonText"]
+  static targets = ["menu", "checkbox"]
 
   connect() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -33,6 +33,9 @@ export default class extends Controller {
   hide(event) {
     if (!this.element.contains(event.target)) {
       this.menuTarget.classList.remove('toggled');
+      if(this.checkboxTarget){
+        this.checkboxTarget.checked = false;
+      }
     }
   }
 }

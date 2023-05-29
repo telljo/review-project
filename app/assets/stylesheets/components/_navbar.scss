@@ -35,4 +35,10 @@
   &__center {
     margin: auto;
   }
+
+  @include media(tabletAndDown) {
+    &__collections {
+      display: none;
+    }
+  }
 }

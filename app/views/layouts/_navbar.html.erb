@@ -4,14 +4,6 @@
     <%= image_tag('logo.svg', size: '130x50') %>
   <% end %>
   <% if user_signed_in? %>
-    <div class="collections">
-      <%= link_to "Books",
-                books_path,
-                class: "btn btn--nav navbar__center" %>
-      <%= link_to "Reviews",
-                reviews_path,
-                class: "btn btn--nav navbar__center" %>
-    </div>
     <%= render "layouts/navbar_dropdown" %>
   <% else %>
   <div class="navbar__links">
