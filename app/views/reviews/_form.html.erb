@@ -1,35 +1,48 @@
 <%# app/views/reviews/_form.html.erb %>
 
 <%= simple_form_for review do |f| %>
-  <% if review.errors.any? %>
-    <div class="error-message">
-      <%= review.errors.full_messages.to_sentence.capitalize %>
-    </div>
-  <% end %>
+  <div class="form">
+    <% if review.errors.any? %>
+      <div class="error-message">
+        <%= review.errors.full_messages.to_sentence.capitalize %>
+      </div>
+    <% end %>
 
-  <fieldset>
-    <%= f.label :rating %>
-    <div data-controller="review",
-         class="form__select_rating_stars">
-      <% [5,4,3,2,1].each do |i| %>
-        <%= icon('fa-regular fas', 'star', data: {
-          action: "click->review#starClicked", value: i, "review-target": "ratingStar" })%>
-        <% end %>
-      <%= f.hidden_field :rating, class: "rating-value" %>
-    </div>
-  </fieldset>
+    <fieldset>
+      <div data-controller="review",
+          class="form__select_rating_stars">
+        <% [5,4,3,2,1].each do |i| %>
+          <% if review.rating? %>
+            <% if review.rating >= i%>
+              <%= icon('fa-regular fas selected', 'star', data: {
+              action: "click->review#starClicked", value: i, "review-target": "ratingStar" })%>
+            <% else %>
+              <%= icon('fa-regular fas', 'star', data: {
+              action: "click->review#starClicked", value: i, "review-target": "ratingStar" })%>
+            <% end%>
+          <% else %>
+            <%= icon('fa-regular fas', 'star', data: {
+              action: "click->review#starClicked", value: i, "review-target": "ratingStar" })%>
+            <% end %>
+          <% end %>
+        <%= f.hidden_field :rating, class: "rating-value" %>
+      </div>
+    </fieldset>
 
-  <fieldset class="input">
-    <%= hidden_field_tag :book_id, @book.id %>
+    <fieldset class="form__input">
+      <% if @book %>
+        <%= hidden_field_tag :book_id, @book.id %>
+      <% else %>
+        <%= hidden_field_tag :book_id, review.book.id %>
+      <% end %>
+      <%= f.rich_text_area :content, input_html: { autofocus: true } %>
+    </fieldset>
 
-    <%= f.label :content %>
-    <%= f.rich_text_area :content, input_html: { autofocus: true } %>
-  </fieldset>
-
-  <fieldset>
-    <div class="form__buttons">
-      <%= f.submit class: "btn btn--secondary" %>
-      <%= link_to "Cancel", books_path, class: "btn btn--light" %>
-    </div>
-  </fieldset>
+    <fieldset>
+      <div class="form__buttons">
+        <%= f.submit class: "btn btn--secondary" %>
+        <%= link_to "Cancel", reviews_path, class: "btn btn--light" %>
+      </div>
+    </fieldset>
+  </div>
 <% end %>

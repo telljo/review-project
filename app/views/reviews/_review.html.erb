@@ -1,48 +1,51 @@
 <%= turbo_frame_tag review do %>
-  <div class="review" data-turbo>
-    <div class="container__review form">
-      <div class="container__review__image">
+  <div class="container">
+    <div class="review" data-turbo>
+      <div class="review__image">
         <img src="<%= review.book.image_link %>" width="220">
       </div>
-      <div class="container__review__content">
-        <div class="review__header">
-          <div class="review_titles">
-              <h1>
-                <%= link_to review.book.title,
-                    review_path(review),
-                    data: { turbo_frame: "_top" } %>
-              </h1>
-              <h4>
-                <%= review.book.author %>
-              </h4>
+      <div class="review__content">
+        <section class="review__section">
+          <div class="review__header">
+            <div class="review_titles">
+                <h1>
+                  <%= link_to review.book.title,
+                      review_path(review),
+                      data: { turbo_frame: "_top" } %>
+                </h1>
+                <h4>
+                  <%= review.book.author %>
+                </h4>
+            </div>
+            <div class="review__created_at">
+              <p><%= review.created_at.strftime("%B %d, %Y") %></p>
+            </div>
           </div>
-          <div class="container__created_at">
-            <p><%= review.created_at.strftime("%B %d, %Y") %></p>
+        </section>
+        <section class="review__section">
+          <div data-controller="review",
+              class="form__show_rating_stars">
+            <% [1,2,3,4,5].each do |i| %>
+              <% if review.rating >= i%>
+                <%= icon('fa-regular fas selected', 'star')%>
+              <% else %>
+                <%= icon('fa-regular fas', 'star')%>
+              <% end%>
+            <% end %>
           </div>
-        </div>
+          <div class="review__body">
+            <p><%= review.content %></p>
+          </div>
+          <div class="form__buttons">
+            <%= button_to "Delete",
+                          review_path(review),
+                          method: :delete,
+                          class: "btn btn--light" %>
 
-
-        <div data-controller="review",
-            class="form__show_rating_stars">
-          <% [1,2,3,4,5].each do |i| %>
-            <% if review.rating >= i%>
-              <%= icon('fa-regular fas selected', 'star')%>
-            <% else %>
-              <%= icon('fa-regular fas', 'star')%>
-            <% end%>
-          <% end %>
-        </div>
-        <div class="trix-content">
-          <p><%= review.content %></p>
-        </div>
-        <div class="form__buttons">
-          <%= button_to "Delete",
-                        review_path(review),
-                        method: :delete,
-                        class: "btn btn--light" %>
-          <%= link_to "Edit",
-                      edit_review_path(review),
-                      class: "btn btn--light" %>
+            <%= link_to "Edit review",
+              edit_review_path(review),
+              class: "btn btn--primary" %>
+          </div>
         </div>
       </div>
     </div>

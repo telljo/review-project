@@ -1,14 +1,14 @@
 <%# app/views/reviews/new.html.erb %>
 
-<main class="container">
+<div class="container">
   <%= link_to sanitize("&larr; Back to books"), books_path %>
 
   <div class="header">
     <h1>New review</h1>
   </div>
 
-  <div class="container__review review form">
-    <div class="container__review__image">
+  <div class="review">
+    <div class="review__image">
       <img src="<%= @book.image_link %>" width="220">
     </div>
     <div class="container__review__content">
@@ -20,5 +20,7 @@
           <%= @book.author %>
         </h4>
       </div>
-  <%= render partial: "form", locals: { review: @review } %>
-</main>
+      <%= render partial: "form", locals: { review: @review } %>
+    </div>
+  </div>
+</div>

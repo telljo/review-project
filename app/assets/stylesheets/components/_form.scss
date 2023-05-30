@@ -51,6 +51,12 @@
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    color: white;
+
+    .trix-button-group {
+      color: black;
+      background: white;
+    }
   }
 
   &__group {

@@ -1,22 +1,24 @@
-<header class="profile_section">
+<div class="container">
+  <header class="profile_section">
 
-  <section>
-    <a href="/<%= @user.username %>">
-        <img class="profile_section__picture" alt="test" src="https://secure.gravatar.com/avatar/fec2090522919d5564929abb8fea0714.png?default=mp&amp;rating=pg&amp;size=128" width="128" height="128">
-    </a>
-  </section>
-  <section>
-    <%= link_to @user.username, user_url, class:"profile_section__username" %>
-  </section>
+    <section>
+      <a href="/<%= @user.username %>">
+          <img class="profile_section__picture" alt="test" src="https://secure.gravatar.com/avatar/fec2090522919d5564929abb8fea0714.png?default=mp&amp;rating=pg&amp;size=128" width="128" height="128">
+      </a>
+    </section>
+    <section>
+      <%= link_to @user.username, user_url, class:"profile_section__username" %>
+    </section>
 
-  <div class="profile_section__summary">
-    <a href="/<%= @user.username %>/books">
-      <span class="summary__count"><%= @user.books.count %></span>
-      <span class="block text-sm mt-1">Books</span>
-    </a>
-    <a href="/<%= @user.username %>/reviews">
-      <span class="summary__count"><%= @user.reviews.count %></span>
-      <span class="block text-sm mt-1">Reviews</span>
-    </a>
-  </div>
-</header>
+    <div class="profile_section__summary">
+      <a href="/<%= @user.username %>/books">
+        <span class="summary__count"><%= @user.books.count %></span>
+        <span class="block text-sm mt-1">Books</span>
+      </a>
+      <a href="/<%= @user.username %>/reviews">
+        <span class="summary__count"><%= @user.reviews.count %></span>
+        <span class="block text-sm mt-1">Reviews</span>
+      </a>
+    </div>
+  </header>
+</div>

@@ -2,17 +2,17 @@
 
 <%= turbo_stream_from current_user, "reviews" %>
 
-<main class="container">
-  <% if @user.present? %>
-    <%= render "layouts/profile_section" %>
+<% if @user.present? %>
+  <%= render "layouts/profile_section" %>
+  <div class="container container--no_style">
     <div class="header">
       <h3><%="#{@user.username.upcase}'S REVIEWS"%></h3>
     </div>
-  <% end %>
-  <%= turbo_frame_tag Review.new %>
+  </div>
+<% end %>
+<%= turbo_frame_tag Review.new %>
 
-  <%= turbo_frame_tag "reviews" do %>
-    <%= render "reviews/empty_state" %>
-    <%= render @reviews %>
-  <% end %>
-</main>
+<%= turbo_frame_tag "reviews" do %>
+  <%= render "reviews/empty_state" %>
+  <%= render @reviews %>
+<% end %>
