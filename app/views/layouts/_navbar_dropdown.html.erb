@@ -1,4 +1,4 @@
-<div class="navbar_dropdown"
+<div class="dropdown navbar_dropdown"
      data-controller="dropdown"
      data-dropdown-active-target="#navbar_menu">
   <div role="button" tabindex="0">
@@ -7,25 +7,25 @@
       <div class="hamburger"></div>
     </label>
   </div>
-  <div id="navbar_menu" data-dropdown-target="menu" class="navbar_dropdown__menu" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+  <div id="dropdown_menu" data-dropdown-target="menu" class="dropdown__menu dropdown__menu--right" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
     <div>
-      <a data-action="click->dropdown#toggle" class="navbar_dropdown__menu__item" href="/">Home</a>
-      <a data-action="click->dropdown#toggle" class="navbar_dropdown__menu__item"
+      <a data-action="click->dropdown#toggle" class="dropdown__menu_item" href="/">Home</a>
+      <a data-action="click->dropdown#toggle" class="dropdown__menu_item"
          href="<%= url_for(controller: '/users', action: 'show', username: current_user.username)%>">Profile</a>
-      <a data-action="click->dropdown#toggle" class="navbar_dropdown__menu__item"
+      <a data-action="click->dropdown#toggle" class="dropdown__menu_item"
          href="<%= url_for(controller: '/books', action: 'index', username: current_user.username)%>">Books</a>
-      <a data-action="click->dropdown#toggle" class="navbar_dropdown__menu__item"
+      <a data-action="click->dropdown#toggle" class="dropdown__menu_item"
          href="<%= url_for(controller: '/reviews', action: 'index', username: current_user.username)%>">Reviews</a>
     </div>
-    <div class="navbar_dropdown__menu_section">
+    <div class="dropdown__menu_section">
       <%= link_to "All books", books_path, data: {action: "click->dropdown#toggle"},
-          class: "navbar_dropdown__menu__item" %>
+          class: "dropdown__menu_item" %>
       <%= link_to "All reviews", reviews_path, data: {action: "click->dropdown#toggle"},
-          class: "navbar_dropdown__menu__item" %>
+          class: "dropdown__menu_item" %>
     </div>
-    <div class="navbar_dropdown__menu_section">
-      <a data-action="click->dropdown#toggle" class="navbar_dropdown__menu__item" href="/users/edit">Settings</a>
-      <a data-action="click->dropdown#toggle" data-turbo-method="delete" class="navbar_dropdown__menu__item" href="/users/sign_out">Sign Out</a>
+    <div class="dropdown__menu_section">
+      <a data-action="click->dropdown#toggle" class="dropdown__menu_item" href="/users/edit">Settings</a>
+      <a data-action="click->dropdown#toggle" data-turbo-method="delete" class="dropdown__menu_item" href="/users/sign_out">Sign Out</a>
     </div>
   </div>
 </div>

@@ -3,12 +3,15 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="dropdown"
 export default class extends Controller {
 
-  static targets = ["menu", "checkbox"]
+  static targets = ["menu", "checkbox", "buttonText"]
 
   connect() {
     const urlParams = new URLSearchParams(window.location.search);
     const slug = urlParams.get('slug');
     switch(slug) {
+      case !slug:
+        this.buttonTextTarget.textContent = "All";
+        break;
       case 'read':
         this.buttonTextTarget.textContent = "Read";
         break;

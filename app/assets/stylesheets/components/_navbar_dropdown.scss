@@ -20,52 +20,6 @@
     white-space: nowrap;
   }
 
-  &__menu {
-    right: 0;
-    position: absolute;
-    visibility: hidden;
-    transform-origin: top right;
-    transform: scale(0.6) translateY(-20%);
-    opacity: 0;
-    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-    transition-duration: 500ms;
-    transition-property: opacity, transform;
-
-    background-color: var(--color-nav);
-    box-shadow: var(--shadow-small);
-    z-index: 10;
-    margin-top: 2.7em;
-    width: 12rem;
-    border-radius: var(--borderRadius-medium, 6px);
-    border-style: solid;
-    border-width: var(--borderWidth-thin, 1px);
-    border-color: var(--color-border-color);
-
-    &__item {
-      display: block;
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
-      font-size: 0.875rem;
-      line-height: 1.25rem;
-      &:hover {
-        background-color: var(--color-light);
-        transition: filter 250ms, color 200ms;
-
-      }
-    }
-  }
-  &__menu_section {
-    border-top: solid 2px var(--color-border-color);
-  }
-
-  .toggled {
-    visibility: visible;
-    transform: scale(1) translateY(5px);
-    opacity: 1;
-  }
-
   $s: 2.5px;
 
   body {

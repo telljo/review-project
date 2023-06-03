@@ -1,84 +1,109 @@
 <%# app/views/books/index.html.erb %>
 <%= turbo_stream_from current_user, "books" %>
-
-
-  <div class="books">
-    <% if @user.present? %>
-      <section class="container">
-        <%= render "layouts/profile_section" %>
-        <div class="header header__user_books ">
-          <div class="books" data-controller="dropdown" data-dropdown-active-target="#books_menu">
-            <div class="books__dropdown">
-              <button id="dropdown_sort" data-action="click->dropdown#toggle click@window->dropdown#hide" role="button" type="button" class="books__dropdown__button">
-                <span data-dropdown-target="buttonText">Select bookshelf</span>
+  <% if @user.present? %>
+    <%= render "layouts/profile_section" %>
+    <div class="container container--no_style">
+      <div class="review_titles">
+          <h1>
+            <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username)%>">Books</a>
+          </h1>
+          <div data-controller="dropdown" data-dropdown-active-target="#books_menu">
+            <div class="dropdown">
+              <button id="dropdown_sort" data-action="click->dropdown#toggle click@window->dropdown#hide" role="button" type="button" class="dropdown__button">
+                <span data-dropdown-target="buttonText">All bookshelves</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" class="ml-2 -mr-0.5 h-4 w-4">
                   <path fill-rule="evenodd" clip-rule="evenodd" d="M5.23017 7.20938C5.52875 6.92228 6.00353 6.93159 6.29063 7.23017L10 11.1679L13.7094 7.23017C13.9965 6.93159 14.4713 6.92228 14.7698 7.20938C15.0684 7.49647 15.0777 7.97125 14.7906 8.26983L10.5406 12.7698C10.3992 12.9169 10.204 13 10 13C9.79599 13 9.60078 12.9169 9.45938 12.7698L5.20938 8.26983C4.92228 7.97125 4.93159 7.49647 5.23017 7.20938Z" fill="currentColor"></path>
                 </svg>
               </button>
-              <div id="books__dropdown__menu" data-dropdown-target="menu" class="books__dropdown__menu" id="options" role="listbox">
+              <div id="dropdown__menu" data-dropdown-target="menu" class="dropdown__menu" id="options" role="listbox">
                 <div>
-                  <a data-action="click->dropdown#toggle" class="books__dropdown__menu__item"
+                  <a data-action="click->dropdown#toggle" class="dropdown__menu_item"
+                    href="<%= url_for(controller: '/books', action: 'index')%>">All</a>
+                  <a data-action="click->dropdown#toggle" class="dropdown__menu_item"
                     href="<%= url_for(controller: '/books', action: 'index', slug: UserBook::READ)%>">Read</a>
-                  <a data-action="click->dropdown#toggle" class="books__dropdown__menu__item"
+                  <a data-action="click->dropdown#toggle" class="dropdown__menu_item"
                     href="<%= url_for(controller: '/books', action: 'index', slug: UserBook::READING)%>">Currently reading</a>
-                  <a data-action="click->dropdown#toggle" class="books__dropdown__menu__item"
+                  <a data-action="click->dropdown#toggle" class="dropdown__menu_item"
                     href="<%= url_for(controller: '/books', action: 'index', slug: UserBook::WANT_TO_READ)%>">Want to read</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    <% end %>
-  </div>
-<section class="container">
-  <%= turbo_frame_tag "books" do %>
-    <% if @slug.present? %>
-      <div class="books__grid_layout">
-        <%= render "books/empty_state" %>
-        <%= render @books %>
       </div>
-    <% else %>
-      <% if @user.present? %>
-        <% if @books_in_progress.present? %>
-          <div class="review_titles">
-              <h1>
-                <a href="<%= url_for(controller: '/books', action: 'index', slug: UserBook::READING)%>">Currently reading</a>
-              </h1>
-          </div>
+    </div>
+  <% end %>
+  <%= turbo_frame_tag "books" do %>
+  <% if @slug.present? %>
+    <section class="container">
+      <div class="review_titles">
+        <h1>
+          <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: @slug)%>"><%= UserBook::SLUGS_READABLE[@slug] %></a>
+        </h1>
+      </div>
+      <div class="books__outer_grid_layout">
+        <% if @books.present? %>
           <div class="books__grid_layout">
-            <%= render "books/empty_state" %>
-            <%= render @books_in_progress %>
+            <%= render @books %>
           </div>
-        <% end %>
-        <% if @books_in_progress.present? %>
-          <div class="review_titles">
-            <h1>
-              <a href="<%= url_for(controller: '/books', action: 'index', slug: UserBook::Read)%>">Read</a>
-            </h1>
-          </div>
-          <div class="books__grid_layout">
-            <%= render "books/empty_state" %>
-            <%= render @read_books %>
-          </div>
-        <% end %>
-        <% if @to_read_books.present? %>
-          <div class="review_titles">
-              <h1>
-                <a href="<%= url_for(controller: '/books', action: 'index', slug: UserBook::WANT_TO_READ)%>">Want to read</a>
-              </h1>
-          </div>
-          <div class="books__grid_layout">
-            <%= render "books/empty_state" %>
-            <%= render @to_read_books %>
-          </div>
-        <% end %>
-      <% else %>
-        <div class="books__grid_layout">
+        <% end%>
+        <%= render "books/empty_state" %>
+      </div>
+    </section>
+  <% else %>
+    <% if @user.present? %>
+      <section class="container">
+        <div class="review_titles">
+          <h1>
+            <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::READ)%>">Read</a>
+          </h1>
+        </div>
+        <div class="books__outer_grid_layout">
+          <% if @read_books.present? %>
+            <div class="books__grid_layout">
+              <%= render @read_books %>
+            </div>
+          <% end%>
           <%= render "books/empty_state" %>
+        </div>
+      </section>
+      <section class="container">
+        <div class="review_titles">
+            <h1>
+              <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::READING)%>">Currently reading</a>
+            </h1>
+        </div>
+        <div class="books__outer_grid_layout">
+          <% if @books_in_progress.present? %>
+            <div class="books__grid_layout">
+              <%= render @books_in_progress %>
+            </div>
+          <% end%>
+          <%= render "books/empty_state" %>
+        </div>
+      </section>
+      <section class="container">
+        <div class="review_titles">
+            <h1>
+              <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::WANT_TO_READ)%>">Want to read</a>
+            </h1>
+        </div>
+        <div class="books__outer_grid_layout">
+          <% if @to_read_books.present? %>
+            <div class="books__grid_layout">
+              <%= render @to_read_books %>
+            </div>
+          <% end%>
+          <%= render "books/empty_state" %>
+        </div>
+      </section>
+    <% else %>
+      <section class="container">
+        <div class="books__grid_layout">
           <%= render @books %>
         </div>
-      <% end %>
+        <%= render "books/empty_state" %>
+      </section>
     <% end %>
   <% end %>
-</section>
+<% end %>

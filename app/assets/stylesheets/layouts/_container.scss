@@ -15,8 +15,8 @@
   &--no_style {
     background-color: var(--color-background);
     border: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
+    padding: 0;
+    margin-bottom: 2em;
   }
 
   .buttons {
@@ -29,6 +29,10 @@
     padding-right: var(--space-m);
     padding-left: var(--space-m);
     max-width: 60rem;
+
+    &--no_style {
+      padding: 0;
+    }
   }
   @include media(tabletAndDown) {
     margin-left: 1em;

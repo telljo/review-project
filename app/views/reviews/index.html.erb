@@ -5,8 +5,10 @@
 <% if @user.present? %>
   <%= render "layouts/profile_section" %>
   <div class="container container--no_style">
-    <div class="header">
-      <h3><%="#{@user.username.upcase}'S REVIEWS"%></h3>
+   <div class="review_titles">
+      <h1>
+        <a href="<%= url_for(controller: '/reviews', action: 'index', username: current_user.username)%>">Reviews</a>
+      </h1>
     </div>
   </div>
 <% end %>
