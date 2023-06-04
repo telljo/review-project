@@ -4,9 +4,6 @@
 
 import { application } from "./application"
 
-import BookController from "./book_controller"
-application.register("book", BookController)
-
 import BooksController from "./books_controller"
 application.register("books", BooksController)
 
