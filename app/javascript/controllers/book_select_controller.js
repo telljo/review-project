@@ -8,7 +8,6 @@ export default class extends Controller {
     const urlParams = new URLSearchParams(window.location.search)
     const slug = urlParams.get("slug")
 
-    console.log(slug)
     if (slug) {
       const option = this.selectTarget.querySelector(`option[value*=${slug}]`)
       if (option) {

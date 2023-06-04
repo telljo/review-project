@@ -34,7 +34,7 @@ class BooksController < ApplicationController
     gbook = GoogleBooks.search(query_string).first
 
     @book = Book.new(
-      isbn: gbook.isbn,
+      isbn:,
       title: gbook.title,
       author: gbook.authors,
       description: gbook.description
@@ -52,22 +52,23 @@ class BooksController < ApplicationController
   end
 
   def create
-    return if current_user.books.find_by_isbn(create_book_params[:isbn])
+    isbn = create_book_params[:isbn].strip
+    query_string = "isbn:#{isbn}"
 
     if Book.find_by(isbn: create_book_params[:isbn]).present?
       @book = Book.find_by(isbn: create_book_params[:isbn])
     else
-      g_book = GoogleBooks.search(params[:isbn]).first
+      gbook = GoogleBooks.search(query_string).first
 
       @book = Book.create(
-        isbn: g_book.isbn,
-        title: g_book.title,
-        author: g_book.authors,
-        description: g_book.description,
-        image_link: g_book.image_link(zoom: 5)
+        isbn:,
+        title: gbook.title,
+        author: gbook.authors,
+        description: gbook.description,
+        image_link: gbook.image_link(zoom: 5)
       )
     end
-    UserBook.create!(book_id: @book.id, user_id: current_user.id, slug: create_book_params[:slug])
+    UserBook.create!(book_id: @book.id, user_id: current_user.id, slug: create_book_params[:slug].strip)
 
     if @book.save
       respond_to do |format|
@@ -97,11 +98,7 @@ class BooksController < ApplicationController
     @user_book = current_user.user_books.find_by_book_id(params[:id])
   end
 
-  def book_params
-    params.require(:book).permit(:title)
-  end
-
   def create_book_params
-    params.permit(:isbn, :slug)
+    params.require(:book).permit(:isbn, :slug)
   end
 end
