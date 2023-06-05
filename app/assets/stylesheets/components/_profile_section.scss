@@ -18,7 +18,6 @@
   &__summary {
     display: flex;
     flex-direction: column;
-    margin-top: 1rem;
     --space-y-reverse: 1;
     text-align: center;
     text-transform: uppercase;
@@ -39,11 +38,14 @@
       line-height: 2rem;
       font-weight: 600;
     }
+  }
 
+  @include media(tabletAndDown) {
+    margin-top: 0;
+    justify-content: flex-end;
 
-    @media (min-width: 768px) {
-      margin-top: 0;
-      justify-content: flex-end;
+    &__username {
+      line-height: 1.8em;
     }
   }
 }

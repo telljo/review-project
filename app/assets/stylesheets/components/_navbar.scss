@@ -1,5 +1,6 @@
 .navbar {
   display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   box-shadow: var(--shadow-large);
@@ -37,6 +38,7 @@
   }
 
   @include media(tabletAndDown) {
+    width: 100%;
     &__collections {
       display: none;
     }

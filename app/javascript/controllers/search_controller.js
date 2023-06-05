@@ -6,9 +6,9 @@ export default class extends Controller {
 
   search() {
     clearTimeout(this.timeout)
-    this.showSelectBox()
     this.timeout = setTimeout(() => {
       this.element.requestSubmit()
+      this.showSelectBox()
     }, 100)
   }
 
@@ -18,6 +18,7 @@ export default class extends Controller {
     document.addEventListener("keydown", this.handleKeyDown.bind(this))
     this.inputTarget.addEventListener('focus', this.addBorder);
     this.inputTarget.addEventListener('blur', this.removeBorder);
+    $('.select2').select2();
   }
 
   disconnect() {

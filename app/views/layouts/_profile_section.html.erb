@@ -2,9 +2,7 @@
   <header class="profile_section">
 
     <section>
-      <a href="/<%= @user.username %>">
-          <img class="profile_section__picture" alt="test" src="https://secure.gravatar.com/avatar/fec2090522919d5564929abb8fea0714.png?default=mp&amp;rating=pg&amp;size=128" width="128" height="128">
-      </a>
+      <a href="/<%= @user.username %>"></a>
     </section>
     <section>
       <%= link_to @user.username, user_url, class:"profile_section__username" %>

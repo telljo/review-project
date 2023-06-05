@@ -46,19 +46,6 @@
       color:#e87400;
     }
   }
-
-  &__input {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    color: white;
-
-    .trix-button-group {
-      color: black;
-      background: white;
-    }
-  }
-
   &__group {
     flex: 1;
   }
@@ -66,7 +53,6 @@
   &__input {
     display: block;
     width: 100%;
-    max-width: 100%;
     padding: var(--space-xxs) var(--space-xs);
     border: var(--border);
     border-radius: var(--border-radius);
@@ -79,6 +65,44 @@
 
     &--invalid {
       border-color: var(--color-primary);
+    }
+
+    .trix-button-group {
+      color: black;
+      background: white;
+    }
+  }
+
+  @include media(tabletAndDown) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    &__input {
+      padding: 0;
+    }
+
+    .trix-content {
+      width: 17.5em;
+      height: 9em;
+    }
+
+    #trix-toolbar-1 {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      overflow-x: auto;
+      width: 17.5em;
+    }
+
+    .trix-button-row {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      overflow-x: auto;
+    }
+
+    ::-webkit-scrollbar {
+        display: none;
     }
   }
 }
