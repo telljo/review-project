@@ -3,6 +3,7 @@
   border: var(--border);
   border-style: dashed;
   text-align: center;
+  width: 100%;
   margin-top: 1em;
 
   &__text {
@@ -16,7 +17,8 @@
     display: none;
 
     &:only-child {
-      display: revert;
+      display: grid;
+      grid-column: 1/-1;
     }
   }
 }

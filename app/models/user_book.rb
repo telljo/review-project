@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class UserBook < ApplicationRecord
+  acts_as_list
   belongs_to :user
   belongs_to :book
 
@@ -13,7 +14,7 @@ class UserBook < ApplicationRecord
     READ => 'Read',
     READING => 'Currently reading',
     WANT_TO_READ => 'Want to read'
-  }
+  }.freeze
 
   validates :slug, inclusion: { in: USER_BOOK_STATUSES.map(&:to_s), message: "%<value>s must be one of #{USER_BOOK_STATUSES.map(&:to_s)}" }
 end

@@ -2,7 +2,7 @@
 
 # Controller for Books
 class BooksController < ApplicationController
-  before_action :set_user_book, only: [:destroy]
+  before_action :set_user_book, only: %i[move destroy]
 
   before_action :authenticate_user!, only: %i[create destroy]
 
@@ -12,12 +12,12 @@ class BooksController < ApplicationController
     @books = if @user.present?
                if @slug.present?
                  user_books = @user.user_books.where(slug: @slug)
-                 user_books.map(&:book).uniq
+                 user_books.map(&:book).uniq.ordered
                else
                  @user.books.ordered
-                 @read_books = @user.user_books.where(slug: UserBook::READ).map(&:book).uniq
-                 @books_in_progress = @user.user_books.where(slug: UserBook::READING).map(&:book).uniq
-                 @to_read_books = @user.user_books.where(slug: UserBook::WANT_TO_READ).map(&:book).uniq
+                 @read_books = @user.books.where(user_books: { slug: UserBook::READ }).ordered.distinct
+                 @books_in_progress = @user.books.where(user_books: { slug: UserBook::READING }).ordered.distinct
+                 @to_read_books = @user.books.where(user_books: { slug: UserBook::WANT_TO_READ }).ordered.distinct
                end
              else
                Book.all.ordered
@@ -26,6 +26,11 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find_by(id: params[:id]) || Book.find_by(slug: params[:isbn])
+  end
+
+  def move
+    @user_book.update!(slug: params[:slug])
+    head :ok
   end
 
   def select
@@ -95,6 +100,7 @@ class BooksController < ApplicationController
   private
 
   def set_user_book
+    @book = Book.find(params[:id])
     @user_book = current_user.user_books.find_by_book_id(params[:id])
   end
 
