@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "google_books" do %>
   <% if google_books.present? %>
-    <%= form.select :google_book, google_books, {}, html: { class: "form-select select2" }, multiple: true, data: { action: "change->books#change" } %>
+    <%= form.select :google_book, google_books, {}, html: { class: "form-select" }, multiple: true, data: { action: "change->books#change" } %>
   <% end %>
 <% end %>

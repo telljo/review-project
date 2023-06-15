@@ -4,19 +4,22 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
     margin-top: 1em;
+    min-width: 58em;
     @media (min-width: 768px) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
     }
+
+    li {
+      padding: 0.5em;
+    }
   }
-
-  &__outer_grid_layout {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-
-  }
-
   &__item {
     grid-column: span 1 / span 1;
+    &:hover {
+      border: 1px solid #1c62b9;
+      box-shadow: 0 0 0 1px var(--color-glint);
+      border-radius: var(--borderRadius-medium, 6px);
+  }
   }
 
   &__cover_image {

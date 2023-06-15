@@ -95,3 +95,5 @@ group :test do
 end
 
 gem 'dockerfile-rails', '>= 1.0', group: :development
+
+gem 'acts_as_list', '~> 1.1'

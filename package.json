@@ -12,6 +12,7 @@
     "@rails/request.js": "^0.0.8",
     "esbuild": "^0.15.11",
     "sass": "^1.55.0",
+    "sortablejs": "^1.15.0",
     "trix": "^2.0.4"
   },
   "scripts": {

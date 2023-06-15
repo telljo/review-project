@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   resources :reviews
   resources :google_books
   resources :books do
+    member do
+      patch :move
+    end
     collection do
       get :select
       get :search
