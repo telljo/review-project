@@ -11,8 +11,7 @@ class BooksController < ApplicationController
     @slug = params[:slug]
     @books = if @user.present?
                if @slug.present?
-                 user_books = @user.user_books.where(slug: @slug)
-                 user_books.map(&:book).uniq.ordered
+                 @user.books.where(user_books: { slug: @slug }).ordered.distinct
                else
                  @user.books.ordered
                  @read_books = @user.books.where(user_books: { slug: UserBook::READ }).ordered.distinct

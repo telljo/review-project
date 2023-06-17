@@ -1,7 +1,9 @@
 <div class="empty-state empty-state--only-child">
    <p class="empty-state__text">
-    You don't have any books yet! Drag books from your other shelves or add a book.
+    You don't have any books yet.
   </p>
 
-  <%= link_to "Search for books", google_books_url, class: "btn btn--large btn--primary" %>
+  <div class="empty-slate__buttons">
+    <%= link_to "Search for books", google_books_url, class: "btn btn--large btn--primary" %>
+  </div>
 </div>

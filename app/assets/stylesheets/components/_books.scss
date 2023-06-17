@@ -4,10 +4,6 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
     margin-top: 1em;
-    min-width: 58em;
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
 
     li {
       padding: 0.5em;
@@ -65,10 +61,19 @@
     --ring-color: #000000;
     --ring-opacity: 0.05;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
 
-    @media (min-width: 640px) {
+  @include media(tabletAndUp) {
+    &__grid_layout {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      min-width: 55em;
+    }
+  }
+
+  @include media(tabletAndDown) {
+    &__type_select {
       font-size: 0.875rem;
-    line-height: 1.25rem;
+      line-height: 1.25rem;
     }
   }
 }

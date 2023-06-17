@@ -1,3 +1,5 @@
 <div class="books__item" data-id="<%= book.id %>">
-  <%= image_tag book.image_link, class: "books__cover_image" %>
+  <%= link_to book_path(book) do %>
+    <%= image_tag book.image_link, class: "books__cover_image" %>
+  <% end %>
 </div>

@@ -1,7 +1,13 @@
 <%# app/views/reviews/show.html.erb %>
 <section class="container">
   <% if @book.id.present? %>
-    <%= link_to sanitize("&larr; Back to books"), books_path %>
+    <% if current_user.present? %>
+      <%= link_to sanitize("&larr; Back to books"),
+        url_for(controller: '/books', action: 'index', username: current_user.username),
+        class: 'dropdown__menu_item' %>
+    <% else %>
+      <%= link_to sanitize("&larr; Back to books"), books_path %>
+    <% end %>
   <% end %>
   <div class="book" data-turbo>
     <div class="book__image">
