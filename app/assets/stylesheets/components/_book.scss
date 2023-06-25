@@ -86,4 +86,19 @@
     align-self: flex-start;
     gap: var(--space-xs);
   }
+
+  &__rating {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+  }
+
+  &__rating_average {
+    display: flex;
+    flex-direction: row;
+    p {
+      padding-top: 0.4em;
+      padding-right: 0.3em;
+    }
+  }
 }

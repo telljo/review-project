@@ -19,6 +19,9 @@
             </div>
             <div class="review__created_at">
               <p><%= review.created_at.strftime("%B %d, %Y") %></p>
+              <%= link_to current_user.username,
+                  url_for(controller: '/reviews', action: 'index', username: current_user.username),
+                  data: { turbo_frame: "_top"} %>
             </div>
           </div>
         </section>

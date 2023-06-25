@@ -23,6 +23,21 @@
             <%= @book.author %>
           </h4>
         </div>
+        <div class="book__rating">
+          <div class="book__rating_average">
+            <p><strong><%= @book.average_review_score %></strong></p>
+            <div class="form__show_rating_stars">
+              <% [1,2,3,4,5].each do |i| %>
+                <% if @book.average_review_score >= i%>
+                  <%= icon('fa-regular fas selected', 'star')%>
+                <% else %>
+                  <%= icon('fa-regular fas', 'star')%>
+                <% end%>
+              <% end %>
+            </div>
+          </div>
+          <p><%= @book.reviews.count %> reviews</p>
+        </div>
       </div>
       <div class="book__body">
         <div class="trix-content">

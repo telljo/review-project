@@ -3,6 +3,13 @@
 class GoogleBooksController < ApplicationController
   def index
     @google_books = []
+
+    # Books that have an average review of 4 or higher
+    @popular_books = Book.joins('LEFT OUTER JOIN reviews ON reviews.book_id = books.id')
+                         .group('books.id')
+                         .having('AVG(reviews.rating) >= ?', 4)
+                         .where('reviews.id IS NOT NULL')
+
     google_book_results = GoogleBooks.search(params[:title], { count: 10 })
 
     google_book_results.each do |gbook|
