@@ -10,7 +10,13 @@ class GoogleBooksController < ApplicationController
                          .having('AVG(reviews.rating) >= ?', 4)
                          .where('reviews.id IS NOT NULL')
 
-    google_book_results = GoogleBooks.search(params[:title], { count: 10 })
+    existing_book = Book.where('LOWER(title) LIKE ?', "%#{params[:title]}%").first
+    if existing_book.present?
+      @existing_book = existing_book
+      @google_books.append(@existing_book)
+    end
+
+    google_book_results = GoogleBooks.search(params[:title], { count: 10 - @google_books.length })
 
     google_book_results.each do |gbook|
       @google_books.append(Book.new(title: gbook.title, author: gbook.authors, isbn: gbook.isbn)) if gbook.isbn.present?

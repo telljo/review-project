@@ -25,10 +25,12 @@
         </div>
         <div class="book__rating">
           <div class="book__rating_average">
-            <p><strong><%= @book.average_review_score %></strong></p>
+            <% if @book.average_review_score %>
+              <p><strong><%= @book.average_review_score %></strong></p>
+            <% end %>
             <div class="form__show_rating_stars">
               <% [1,2,3,4,5].each do |i| %>
-                <% if @book.average_review_score >= i%>
+                <% if @book.average_review_score && @book.average_review_score >= i%>
                   <%= icon('fa-regular fas selected', 'star')%>
                 <% else %>
                   <%= icon('fa-regular fas', 'star')%>

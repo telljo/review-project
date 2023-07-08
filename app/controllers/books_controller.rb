@@ -33,18 +33,22 @@ class BooksController < ApplicationController
   end
 
   def select
-    isbn = params[:isbn].strip
-    query_string = "isbn:#{isbn}"
-    gbook = GoogleBooks.search(query_string).first
+    id = params[:id]
+    if id.present?
+      @book = Book.find_by(id:)
+    else
+      isbn = params[:isbn].strip
+      query_string = "isbn:#{isbn}"
+      gbook = GoogleBooks.search(query_string).first
 
-    @book = Book.new(
-      isbn:,
-      title: gbook.title,
-      author: gbook.authors,
-      description: gbook.description
-    )
-
-    @book.image_link = gbook.image_link(zoom: 5, curl: true) if gbook.image_link(zoom: 5, curl: true).present?
+      @book = Book.new(
+        isbn:,
+        title: gbook.title,
+        author: gbook.authors,
+        description: gbook.description
+      )
+      @book.image_link = gbook.image_link(zoom: 5, curl: true) if gbook.image_link(zoom: 5, curl: true).present?
+    end
 
     respond_to do |format|
       format.turbo_stream { flash.now[:notice] = "#{@book.title} selected" }

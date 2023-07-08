@@ -16,7 +16,7 @@
       </div>
       <div class="search__results" data-search-target = "selectBox" data-controller="books">
         <%= form.fields_for :google_books do |builder| %>
-          <%= render(:partial => 'google_books', locals: {form: builder, google_books: @google_books.map { |book| ["#{book.title} - #{book.author}", book.isbn] }}) %>
+          <%= render(:partial => 'google_books', locals: {form: builder, google_books: @google_books.map { |book| ["#{book.title} - #{book.author}", {isbn: book.isbn, id: book.id}] }}) %>
         <% end %>
       </div>
     </div>
