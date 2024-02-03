@@ -101,4 +101,9 @@
       padding-right: 0.3em;
     }
   }
+
+  .book__header {
+    display: flex;
+    flex-direction: column;
+  }
 }

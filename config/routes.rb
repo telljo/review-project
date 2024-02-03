@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root to: 'pages#home'
+  root to: 'google_books#index'
 
   devise_scope :user do
     # Redirests signing out users back to sign-in

@@ -9,6 +9,8 @@
     display: flex;
     gap: var(--space-s);
     flex-direction: column;
+    padding: var(--space-s);
+    text-align: center;
   }
   &__review-page {
     margin: 0 auto;

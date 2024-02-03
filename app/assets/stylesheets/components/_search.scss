@@ -59,7 +59,9 @@
     }
   }
   @include media(tabletAndDown) {
-    margin-left: 1em;
-    margin-right: 1em;
+    margin: auto;
+    margin-top: 0;
+    margin-bottom: var(--space-s);
+    width: 90%;
   }
 }

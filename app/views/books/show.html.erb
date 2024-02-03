@@ -1,5 +1,5 @@
 <%# app/views/reviews/show.html.erb %>
-<section class="container">
+<section class="container container--space-below">
   <% if @book.id.present? %>
     <% if current_user.present? %>
       <%= link_to sanitize("&larr; Back to books"),
