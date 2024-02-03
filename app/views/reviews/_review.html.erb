@@ -2,7 +2,11 @@
   <div class="container">
     <div class="review" data-turbo>
       <div class="review__image">
-        <img src="<%= review.book.image_link %>" width="220">
+        <% if review.book.image_link %>
+          <%= image_tag review.book.image_link, class: "books__cover_image" %>
+        <% else %>
+          <%= image_tag "no_cover.gif", class: "books__cover_image" %>
+        <% end %>
       </div>
       <div class="review__content">
         <section class="review__section">

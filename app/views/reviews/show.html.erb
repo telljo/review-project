@@ -3,7 +3,11 @@
 <main class="container">
   <div class="container__review">
     <div class="container__review__image">
-      <%= image_tag url_for(@review.book.image_link) %>
+       <% if @review.book.image_link %>
+        <%= image_tag @review.book.image_link, class: "books__cover_image" %>
+      <% else %>
+        <%= image_tag "no_cover.gif", class: "books__cover_image" %>
+      <% end %>
     </div>
     <div class="container__review__content">
       <div class="trix-content">

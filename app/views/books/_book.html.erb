@@ -1,5 +1,9 @@
 <div class="books__item" data-id="<%= book.id %>">
   <%= link_to book_path(book), data: {turbo_frame: "_top"} do %>
-    <%= image_tag book.image_link, class: "books__cover_image" %>
+    <% if book.image_link %>
+      <%= image_tag book.image_link, class: "books__cover_image" %>
+    <% else %>
+      <%= image_tag "no_cover.gif", class: "books__cover_image" %>
+    <% end %>
   <% end %>
 </div>

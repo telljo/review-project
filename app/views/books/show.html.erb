@@ -11,7 +11,11 @@
   <% end %>
   <div class="book" data-turbo>
     <div class="book__image">
-      <img src="<%= @book.image_link %>" width="220">
+      <% if @book.image_link %>
+        <%= image_tag @book.image_link, class: "books__cover_image" %>
+      <% else %>
+        <%= image_tag "no_cover.gif", class: "books__cover_image" %>
+      <% end %>
     </div>
     <div class="book__content">
       <div class="book__header">
