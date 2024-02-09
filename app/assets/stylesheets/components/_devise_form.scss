@@ -23,4 +23,19 @@
     margin-bottom: 1em;
     color: black;
   }
+
+  &__checkbox {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    justify-content: left;
+    input {
+      margin: 0.4em;
+      width: 1em;
+    }
+  }
+
+  @include media(tabletAndDown) {
+    width: 100%;
+  }
 }
