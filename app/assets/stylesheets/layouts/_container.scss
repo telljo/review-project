@@ -23,6 +23,10 @@
     margin-bottom: 15em;
   }
 
+  &--wide {
+    width: 100%;
+  }
+
   .buttons {
     display: flex;
     gap: var(--space-m);

@@ -1,31 +1,44 @@
 .search {
-  display: flex;
-  max-width: 60rem;
-  margin: 0 auto;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: left;
-  gap: var(--space-s);
-  margin-bottom: var(--space-m);
-  position: relative;
-  border-radius: var(--borderRadius-medium, 6px);
+  width: 100%;
   border-style: solid;
+  border-radius: var(--borderRadius-medium, 6px);
   border-width: var(--borderWidth-thin, 1px);
   border-color: var(--color-border-color);
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active{
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: #ffffff;
+      transition: background-color 5000s ease-in-out 0s;
+      box-shadow: inset 0 0 20px 20px #23232329;
+  }
+
   .has-focus {
     border: 1px solid #1c62b9;
     box-shadow: 0 0 0 1px var(--color-glint);
     border-radius: var(--borderRadius-medium, 6px);
   }
+
+  &__form {
+    width: 100%;
+  }
+
+  &__icon {
+    width: 2em;
+    padding-left: 0.5em;
+    align-self: center;
+  }
+
   &__bar {
+    width: 100%;
     display: flex;
     flex-direction: row;
+    justify-items: flex-start;
     background-color: var(--color-nav);
   }
-  &__icon {
-    margin: auto;
-    padding-left: 0.4em;
-  }
+
   &__bar-input {
     background-color: var(--color-nav);
     color: hsla(0, 100%, 100%, 0.88);
@@ -37,31 +50,9 @@
       outline-width: 0;
     }
   }
-  &__results {
-    background-color: var(--color-white);
-    border: 1px solid black;
-    border-radius: 12px;
-    padding: var(--space-xs);
-    position: absolute;
-    width: 100%;
-    z-index: 1;
-    select {
-      border: none;
-      outline: none;
-      line-height: 32px;
-      width: 100%;
-      option {
-        padding: 5px;
-        &:hover {
-          background:#eee;
-        }
-      }
-    }
-  }
   @include media(tabletAndDown) {
     margin: auto;
     margin-top: 0;
     margin-bottom: var(--space-s);
-    width: 90%;
   }
 }

@@ -1,0 +1,18 @@
+<%= turbo_frame_tag "books-list" do %>
+  <table class="table">
+    <% if @search_results %>
+      <% @search_results.each do |book| %>
+        <tbody>
+          <tr class=table__row>
+             <%= render template: "books/show", locals: { book: book }, key: book.isbn %>
+          </tr>
+          <tbody>
+          <% end %>
+        </table>
+        <div>
+          <strong>
+            Showing <%= @search_results.length %> <%= "book".pluralize(@search_results.length) %>
+          </strong>
+        </div>
+      <% end %>
+    <% end %>
