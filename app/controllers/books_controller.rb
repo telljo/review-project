@@ -24,7 +24,7 @@ class BooksController < ApplicationController
   end
 
   def show
-    @book = Book.find_by(id: params[:id]) || Book.find_by(slug: params[:isbn])
+    render :show, locals: { book: Book.find_by(id: params[:id]) || Book.find_by(slug: params[:isbn]) }
   end
 
   def move

@@ -1,6 +1,0 @@
-<%= turbo_stream.update "selected-book" do %>
-  <%= render template: "books/show", locals: { book: @book }, key: @book.isbn %>
-<% end %>
-
-<%= render_turbo_stream_flash_messages %>
-

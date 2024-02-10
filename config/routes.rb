@@ -10,13 +10,16 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :reviews
-  resources :google_books
+  resources :google_books do
+    collection do
+      get :search
+    end
+  end
   resources :books do
     member do
       patch :move
     end
     collection do
-      get :select
       get :search
     end
   end
