@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   resources :books do
     member do
       patch :move
+      patch :select
     end
     collection do
       get :search

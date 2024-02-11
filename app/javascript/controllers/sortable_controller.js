@@ -10,6 +10,8 @@ export default class extends Controller {
 
     this.sortable = Sortable.create(sourceList, {
       animation: 150,
+      delay: 100,
+      delayOnTouchOnly: true,
       sort: false,
       group: {
         name:  "shared",

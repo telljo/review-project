@@ -5,8 +5,12 @@
     <div class="container container--no_style">
       <div class="review_titles">
         <h1>
-          <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username)%>">Books</a>
+          Books
         </h1>
+      </div>
+    </div>
+    <div class="container container--no_style">
+      <div class="review_titles">
         <div data-controller="dropdown" data-dropdown-active-target="#books_menu">
           <div class="dropdown">
             <button id="dropdown_sort" data-action="click->dropdown#toggle click@window->dropdown#hide" role="button" type="button" class="dropdown__button">
@@ -33,15 +37,8 @@
     </div>
   </div>
 <% end %>
-<div class="container container--no_style">
-  <div class="review_titles">
-    <h1>
-      Books
-    </h1>
-  </div>
-</div>
 <% if @slug.present? %>
-  <section class="container">
+  <section class="container container--wide">
     <div class="review_titles">
       <h1>
         <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: @slug)%>"><%= UserBook::SLUGS_READABLE[@slug] %></a>
@@ -58,7 +55,7 @@
   </section>
 <% else %>
   <% if @user.present? %>
-    <section class="container">
+    <section class="container container--wide">
       <div class="review_titles">
         <h1>
           <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::READ)%>">Read</a>
@@ -77,7 +74,7 @@
         <%= render "books/empty_state" %>
       </div>
     </section>
-    <section class="container">
+    <section class="container container--wide">
       <div class="review_titles">
           <h1>
             <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::READING)%>">Currently reading</a>
@@ -96,7 +93,7 @@
         <%= render "books/empty_state" %>
       </div>
     </section>
-    <section class="container">
+    <section class="container container--wide">
       <div class="review_titles">
           <h1>
             <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::WANT_TO_READ)%>">Want to read</a>
@@ -112,7 +109,7 @@
       </div>
     </section>
   <% else %>
-    <section class="container">
+    <section class="container container--wide">
       <div class="books__grid_layout">
         <%= render @books %>
       </div>
