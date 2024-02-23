@@ -1,5 +1,5 @@
 <%# app/views/reviews/show.html.erb %>
-<div class="book" data-turbo>
+<div class="book">
   <div class="book__image">
     <% if book.image_link %>
       <%= image_tag book.image_link, class: "books__cover_image" %>
@@ -40,43 +40,5 @@
         <p><%= book.description %></p>
       </div>
     </div>
-    <% if current_user %>
-      <div class="form__buttons">
-        <% if current_user.books.find_by_isbn(book.isbn) %>
-            <%= link_to "Write review",
-              new_review_path(book_id: book.id),
-              data: { turbo_frame: dom_id(Review.new) },
-              class: "btn btn--primary" %>
-
-          <%= button_to "Remove from collection",
-                  book_path(book),
-                  method: :delete,
-                  class: "btn btn--light" %>
-        <% else %>
-          <div class="dropdown" data-controller="dropdown" data-dropdown-active-target="#books_menu">
-            <button id="dropdown_sort" data-action="click->dropdown#toggle click@window->dropdown#hide" role="button" type="button" class="dropdown__button">
-              <span data-dropdown-target="buttonText">Add to bookshelf</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" class="ml-2 -mr-0.5 h-4 w-4">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.23017 7.20938C5.52875 6.92228 6.00353 6.93159 6.29063 7.23017L10 11.1679L13.7094 7.23017C13.9965 6.93159 14.4713 6.92228 14.7698 7.20938C15.0684 7.49647 15.0777 7.97125 14.7906 8.26983L10.5406 12.7698C10.3992 12.9169 10.204 13 10 13C9.79599 13 9.60078 12.9169 9.45938 12.7698L5.20938 8.26983C4.92228 7.97125 4.93159 7.49647 5.23017 7.20938Z" fill="currentColor"></path>
-              </svg>
-            </button>
-            <div id="dropdown__menu" data-dropdown-target="menu" class="dropdown__menu" id="options" role="listbox">
-              <%= button_to "Read",
-              books_path(book: { isbn: book.isbn, slug: "read" }),
-              method: :post,
-              class: "dropdown__menu_item dropdown__button dropdown__button--in-list" %>
-              <%= button_to "Currently reading",
-                books_path(book: { isbn: book.isbn, slug: "reading" }),
-                method: :post,
-                class: "dropdown__menu_item dropdown__button dropdown__button--in-list" %>
-              <%= button_to "Want to read",
-                books_path(book: { isbn: book.isbn, slug: "want_to_read" }),
-                method: :post,
-                class: "dropdown__menu_item dropdown__button dropdown__button--in-list" %>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
   </div>
 </div>

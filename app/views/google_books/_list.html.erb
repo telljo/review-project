@@ -1,18 +1,31 @@
-<%= turbo_frame_tag "books-list" do %>
-  <table class="table">
-    <% if @search_results %>
-      <% @search_results.each do |book| %>
-        <tbody>
-          <tr class=table__row>
-             <%= render template: "books/show", locals: { book: book }, key: book.isbn %>
-          </tr>
-          <tbody>
+<%= turbo_frame_tag "book-list" do %>
+  <% if @search_results %>
+    <% @search_results.each do |book| %>
+      <%= render template: "books/show", locals: { book: book }, key: book.isbn %>
+      <% if current_user %>
+        <div class="form__buttons form__buttons--right">
+          <% if current_user.books.find_by_isbn(book.isbn) && book.id %>
+            <%= link_to "Write review",
+                      new_review_path(book_id: book.id),
+                      data: { turbo_frame: dom_id(Review.new) },
+                      class: "btn btn--primary" %>
+            <%= button_to "Remove from collection",
+                          book_path(book),
+                          method: :delete,
+                          class: "btn btn--light" %>
+          <% else %>
+            <%= render(:partial => 'books/add_to_collection',  locals: {
+                    book: book
+                    })
+                  %>
           <% end %>
-        </table>
-        <div>
-          <strong>
-            Showing <%= @search_results.length %> <%= "book".pluralize(@search_results.length) %>
-          </strong>
         </div>
       <% end %>
     <% end %>
+  <% end %>
+  <div>
+    <strong>
+      Showing <%= @search_results.length %> <%= "book".pluralize(@search_results.length) %>
+    </strong>
+  </div>
+<% end %>

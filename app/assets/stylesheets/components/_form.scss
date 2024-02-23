@@ -12,6 +12,9 @@
     display: flex;
     gap: var(--space-m);
     flex-direction: row;
+    &--right {
+      justify-content: flex-end;
+    }
   }
 
   &__select_rating_stars {
@@ -79,6 +82,15 @@
     gap: var(--space-s);
     &__input {
       padding: 0;
+    }
+
+    &__buttons {
+      flex-direction: column;
+      gap: var(--space-s);
+      align-items: center;
+      &--right {
+        justify-content: center;
+      }
     }
 
     .trix-content {

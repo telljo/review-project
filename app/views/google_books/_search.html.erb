@@ -4,7 +4,7 @@
     <%= simple_form_for :google_books,
       url: search_google_books_path,
       method: :get,
-      data: { controller: "search", turbo_frame: "books-list", turbo_action: "advance"},
+      data: { controller: "search", turbo_frame: "book-list", turbo_action: "advance"},
       html: { class: "search__form" } do |form| %>
       <%= form.text_field :title,
             placeholder: "Search",
