@@ -1,43 +1,45 @@
 <%# app/views/reviews/show.html.erb %>
-<div class="book">
-  <div class="book__image">
-    <% if book.image_link %>
-      <%= image_tag book.image_link, class: "books__cover_image" %>
-    <% else %>
-      <%= image_tag "no_cover.gif", class: "books__cover_image" %>
-    <% end %>
-  </div>
-  <div class="book__content">
-    <div class="book__header">
-      <div class="book_titles">
-        <h1>
-          <%= book.title %>
-        </h1>
-        <h4>
-          <%= book.author %>
-        </h4>
-      </div>
-      <div class="book__rating">
-        <div class="book__rating_average">
-          <% if book.average_review_score %>
-            <p><strong><%= book.average_review_score %></strong></p>
-          <% end %>
-          <div class="form__show_rating_stars">
-            <% [1,2,3,4,5].each do |i| %>
-              <% if book.average_review_score && book.average_review_score >= i%>
-                <%= icon('fa-regular fas selected', 'star')%>
-              <% else %>
-                <%= icon('fa-regular fas', 'star')%>
-              <% end%>
-            <% end %>
-          </div>
-        </div>
-        <p><%= book.reviews.count %> reviews</p>
-      </div>
+<div class="container">
+  <div class="book">
+    <div class="book__image">
+      <% if book.image_link %>
+        <%= image_tag book.image_link, class: "books__cover_image" %>
+      <% else %>
+        <%= image_tag "no_cover.gif", class: "books__cover_image" %>
+      <% end %>
     </div>
-    <div class="book__body">
-      <div class="trix-content">
-        <p><%= book.description %></p>
+    <div class="book__content">
+      <div class="book__header">
+        <div class="book_titles">
+          <h1>
+            <%= book.title %>
+          </h1>
+          <h4>
+            <%= book.author %>
+          </h4>
+        </div>
+        <div class="book__rating">
+          <div class="book__rating_average">
+            <% if book.average_review_score %>
+              <p><strong><%= book.average_review_score %></strong></p>
+            <% end %>
+            <div class="form__show_rating_stars">
+              <% [1,2,3,4,5].each do |i| %>
+                <% if book.average_review_score && book.average_review_score >= i%>
+                  <%= icon('fa-regular fas selected', 'star')%>
+                <% else %>
+                  <%= icon('fa-regular fas', 'star')%>
+                <% end%>
+              <% end %>
+            </div>
+          </div>
+          <p><%= book.reviews.count %> reviews</p>
+        </div>
+      </div>
+      <div class="book__body">
+        <div class="trix-content">
+          <p><%= book.description %></p>
+        </div>
       </div>
     </div>
   </div>

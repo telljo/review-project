@@ -9,6 +9,7 @@
       <%= form.text_field :title,
             placeholder: "Search",
             class: "search__bar-input",
+            value: params[:title],
             input_html: { autofocus: true },
             data: {
               search_target: "searchInput",
