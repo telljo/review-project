@@ -9,10 +9,14 @@ export default class extends Controller {
     const sourceList = document.getElementById(sourceId);
 
     this.sortable = Sortable.create(sourceList, {
+      forceFallback: true,
+      fallbackOnBody: true,
       animation: 150,
-      delay: 100,
+      delay: 400,
       delayOnTouchOnly: true,
       sort: false,
+      supportPointer: false,
+      scrollSpeed: 20,
       group: {
         name:  "shared",
       },
