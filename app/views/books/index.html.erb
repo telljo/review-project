@@ -55,7 +55,7 @@
     <section class="container container--wide">
     <div class="review_titles">
       <h1>
-        <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::READ)%>">Read</a>
+        <a href="<%= url_for(controller: '/books', action: 'index', username: @user.username, slug: UserBook::READ)%>">Read</a>
       </h1>
     </div>
     <div class="books__outer_grid_layout">
@@ -74,7 +74,7 @@
   <section class="container container--wide">
     <div class="review_titles">
         <h1>
-          <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::READING)%>">Currently reading</a>
+          <a href="<%= url_for(controller: '/books', action: 'index', username: @user.username, slug: UserBook::READING)%>">Currently reading</a>
         </h1>
     </div>
     <div class="books__outer_grid_layout">
@@ -93,7 +93,7 @@
   <section class="container container--wide">
     <div class="review_titles">
         <h1>
-          <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::WANT_TO_READ)%>">Want to read</a>
+          <a href="<%= url_for(controller: '/books', action: 'index', username: @user.username, slug: UserBook::WANT_TO_READ)%>">Want to read</a>
         </h1>
     </div>
     <div class="books__outer_grid_layout">
@@ -114,7 +114,7 @@
   <div class="container container--wide container--no_style">
     <div class="review_titles">
       <h1>
-        Books
+        All Books
       </h1>
     </div>
   </div>
