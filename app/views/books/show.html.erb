@@ -33,7 +33,9 @@
               <% end %>
             </div>
           </div>
-          <p><%= book.reviews.count %> reviews</p>
+          <% if book.reviews.count.positive? %>
+            <%= link_to "#{book.reviews.count} reviews", "/books/#{book.id}/reviews", class: "underline", data: { turbo_frame: "_top"} %>
+          <% end %>
         </div>
       </div>
       <div class="book__body">

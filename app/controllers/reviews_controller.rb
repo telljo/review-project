@@ -8,8 +8,12 @@ class ReviewsController < ApplicationController
 
   def index
     @user = User.find_by(username: params[:username])
+    @book = Book.find(params[:book_id]) if params[:book_id].present?
+
     @reviews = if @user.present?
-                 @user.reviews.ordered
+                 @book.present? ? @user.reviews.ordered.where(book_id: @book.id) : @user.reviews.ordered
+               elsif params[:book_id].present?
+                 @book.reviews.ordered
                else
                  Review.all.ordered
                end
@@ -36,8 +40,6 @@ class ReviewsController < ApplicationController
     end
   end
 
-  def edit; end
-
   def update
     if @review.update(review_params)
       respond_to do |format|
@@ -61,7 +63,7 @@ class ReviewsController < ApplicationController
   private
 
   def set_review
-    @review = current_user.reviews.find(params[:id])
+    @review = Review.find(params[:id])
   end
 
   def review_params

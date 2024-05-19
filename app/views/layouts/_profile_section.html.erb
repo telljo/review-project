@@ -1,11 +1,10 @@
 <div class="container">
   <header class="profile_section">
-
     <section>
       <a href="/<%= @user.username %>"></a>
     </section>
     <section>
-      <%= link_to @user.username, user_url, class:"profile_section__username" %>
+      <%= link_to @user.username, user_url(username: @user.username), class:"profile_section__username" %>
     </section>
 
     <div class="profile_section__summary">

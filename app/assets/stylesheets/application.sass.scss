@@ -5,6 +5,7 @@
 @import "config/variables";
 @import "config/reset";
 @import "config/animations";
+@import "config/typography";
 
 // Components
 @import "components/btn";
@@ -30,4 +31,5 @@
 @import "layouts/dropdown";
 @import "layouts/container";
 @import "layouts/header";
+@import "layouts/application";
 @import 'actiontext.css';

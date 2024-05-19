@@ -13,10 +13,10 @@ class BooksController < ApplicationController
                if @slug.present?
                  @user.books.where(user_books: { slug: @slug }).ordered.distinct
                else
-                 @user.books.ordered
                  @read_books = @user.books.where(user_books: { slug: UserBook::READ }).ordered.distinct
                  @books_in_progress = @user.books.where(user_books: { slug: UserBook::READING }).ordered.distinct
                  @to_read_books = @user.books.where(user_books: { slug: UserBook::WANT_TO_READ }).ordered.distinct
+                 @user.books.ordered
                end
              else
                Book.all.ordered

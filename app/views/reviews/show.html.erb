@@ -1,19 +1,64 @@
 <%# app/views/reviews/show.html.erb %>
 
-<main class="container">
-  <div class="container__review">
-    <div class="container__review__image">
-       <% if @review.book.image_link %>
+<div class="container container--wide">
+  <div class="review" data-turbo>
+    <div class="review__image">
+      <% if @review.book.image_link %>
         <%= image_tag @review.book.image_link, class: "books__cover_image" %>
       <% else %>
         <%= image_tag "no_cover.gif", class: "books__cover_image" %>
       <% end %>
     </div>
-    <div class="container__review__content">
-      <div class="trix-content">
-        <p><%= @review.content %></p>
+    <div class="review__content">
+      <section class="review__section">
+        <div class="review__header">
+          <div class="review_titles">
+              <h1>
+                <%= link_to @review.book.title,
+                    review_path(@review),
+                    data: { turbo_frame: "_top" } %>
+              </h1>
+              <h4>
+                <%= @review.book.author %>
+              </h4>
+          </div>
+          <div class="review__created_at">
+            <p><%= @review.created_at.strftime("%B %d, %Y") %></p>
+            <%= link_to @review.user.username,
+                url_for(controller: '/reviews', action: 'index', username: @review.user.username),
+                class: "underline",
+                data: { turbo_frame: "_top"} %>
+          </div>
+        </div>
+      </section>
+      <section class="review__section">
+        <div data-controller="review",
+            class="form__show_rating_stars">
+          <% [1,2,3,4,5].each do |i| %>
+            <% if @review.rating >= i%>
+              <%= icon('fa-regular fas selected', 'star')%>
+            <% else %>
+              <%= icon('fa-regular fas', 'star')%>
+            <% end%>
+          <% end %>
+        </div>
+        <div class="review__body">
+          <p><%= @review.content %></p>
+        </div>
+        <% if current_user == @review.user %>
+          <div class="form__buttons">
+            <%= button_to "Delete",
+                          review_path(@review),
+                          method: :delete,
+                          class: "btn btn--light" %>
+
+            <%= link_to "Edit review",
+              edit_review_path(@review),
+              class: "btn btn--primary" %>
+          </div>
+        <% end %>
+        </div>
       </div>
     </div>
   </div>
-  <%= link_to sanitize("&larr; Back to reviews"), reviews_path %>
-</main>
+

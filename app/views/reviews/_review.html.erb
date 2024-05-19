@@ -23,8 +23,9 @@
             </div>
             <div class="review__created_at">
               <p><%= review.created_at.strftime("%B %d, %Y") %></p>
-              <%= link_to current_user.username,
-                  url_for(controller: '/reviews', action: 'index', username: current_user.username),
+              <%= link_to review.user.username,
+                  url_for(controller: '/reviews', action: 'index', username: review.user.username),
+                  class: "underline",
                   data: { turbo_frame: "_top"} %>
             </div>
           </div>
@@ -43,15 +44,18 @@
           <div class="review__body">
             <p><%= review.content %></p>
           </div>
-          <div class="form__buttons">
-            <%= button_to "Delete",
-                          review_path(review),
-                          method: :delete,
-                          class: "btn btn--light" %>
+          <% if current_user == review.user %>
+            <div class="form__buttons">
+              <%= button_to "Delete",
+                            review_path(review),
+                            method: :delete,
+                            class: "btn btn--light" %>
 
-            <%= link_to "Edit review",
-              edit_review_path(review),
-              class: "btn btn--primary" %>
+              <%= link_to "Edit review",
+                edit_review_path(review),
+                class: "btn btn--primary" %>
+            </div>
+          <% end %>
           </div>
         </div>
       </div>

@@ -1,13 +1,12 @@
 <%# app/views/books/index.html.erb %>
-<%= turbo_stream_from current_user, "books" %>
-  <% if @user.present? %>
-    <%= render "layouts/profile_section" %>
-    <div class="container container--no_style">
-      <div class="review_titles">
-        <h1>
-          Books
-        </h1>
-      </div>
+<% if @user.present? %>
+  <%= render "layouts/profile_section" %>
+  <div class="container container--no_style">
+    <div class="review_titles">
+      <h1>
+        Books
+      </h1>
+    </div>
     </div>
     <div class="container container--no_style">
       <div class="review_titles">
@@ -36,92 +35,93 @@
       </div>
     </div>
   </div>
-<% end %>
-<% if @slug.present? %>
-  <section class="container container--wide">
-    <div class="review_titles">
-      <h1>
-        <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: @slug)%>"><%= UserBook::SLUGS_READABLE[@slug] %></a>
-      </h1>
-    </div>
-    <div class="books__outer_grid_layout">
-      <% if @books.present? %>
-        <div class="books__grid_layout">
-          <%= render @books %>
-        </div>
-      <% end%>
-      <%= render "books/empty_state" %>
-    </div>
-  </section>
-<% else %>
-  <% if @user.present? %>
+  <% if @slug.present? %>
     <section class="container container--wide">
       <div class="review_titles">
         <h1>
-          <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::READ)%>">Read</a>
+          <a href="<%= url_for(controller: '/books', action: 'index', username: @user.username, slug: @slug)%>"><%= UserBook::SLUGS_READABLE[@slug] %></a>
         </h1>
       </div>
       <div class="books__outer_grid_layout">
-        <% if @read_books.present? %>
-          <div class="books__grid_layout"
-                id="readList"
-                data-controller="sortable"
-                data-sortable-url="/books/:id/move"
-                data-sortable-source-id="readList">
-            <%= render @read_books %>
+        <% if @books.present? %>
+          <div class="books__grid_layout">
+            <%= render @books %>
           </div>
         <% end%>
         <%= render "books/empty_state" %>
       </div>
     </section>
+  <% else %>
     <section class="container container--wide">
-      <div class="review_titles">
-          <h1>
-            <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::READING)%>">Currently reading</a>
-          </h1>
-      </div>
-      <div class="books__outer_grid_layout">
-        <% if @books_in_progress.present? %>
-          <div class="books__grid_layout"
-                id="currentlyReadingList"
-                data-controller="sortable"
-                data-sortable-url="/books/:id/move"
-                data-sortable-source-id="currentlyReadingList">
-            <%= render @books_in_progress %>
-          </div>
-        <% end%>
-        <%= render "books/empty_state" %>
-      </div>
-    </section>
-    <section class="container container--wide">
-      <div class="review_titles">
-          <h1>
-            <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::WANT_TO_READ)%>">Want to read</a>
-          </h1>
-      </div>
+    <div class="review_titles">
+      <h1>
+        <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::READ)%>">Read</a>
+      </h1>
+    </div>
+    <div class="books__outer_grid_layout">
+      <% if @read_books.present? %>
+        <div class="books__grid_layout"
+              id="readList"
+              data-controller="sortable"
+              data-sortable-url="/books/:id/move"
+              data-sortable-source-id="readList">
+          <%= render @read_books %>
+        </div>
+      <% end %>
+      <%= render "books/empty_state" %>
+    </div>
+  </section>
+  <section class="container container--wide">
+    <div class="review_titles">
+        <h1>
+          <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::READING)%>">Currently reading</a>
+        </h1>
+    </div>
+    <div class="books__outer_grid_layout">
+      <% if @books_in_progress.present? %>
+        <div class="books__grid_layout"
+              id="currentlyReadingList"
+              data-controller="sortable"
+              data-sortable-url="/books/:id/move"
+              data-sortable-source-id="currentlyReadingList">
+          <%= render @books_in_progress %>
+        </div>
+      <% end %>
+      <%= render "books/empty_state" %>
+    </div>
+  </section>
+  <section class="container container--wide">
+    <div class="review_titles">
+        <h1>
+          <a href="<%= url_for(controller: '/books', action: 'index', username: current_user.username, slug: UserBook::WANT_TO_READ)%>">Want to read</a>
+        </h1>
+    </div>
+    <div class="books__outer_grid_layout">
+      <% if @to_read_books.present? %>
         <div class="books__grid_layout"
               id="toReadList"
               data-controller="sortable"
               data-sortable-url="/books/:id/move"
               data-sortable-source-id="toReadList">
-        <%= render @to_read_books %>
-        <%= render "books/empty_state" %>
-      </div>
-    </section>
-  <% else %>
-    <div class="container container--wide container--no_style">
-      <div class="review_titles">
-        <h1>
-          Books
-        </h1>
-      </div>
-    </div>
-
-    <section class="container container--wide">
-      <div class="books__grid_layout">
-        <%= render @books %>
-      </div>
+          <%= render @to_read_books %>
+        </div>
+      <% end %>
       <%= render "books/empty_state" %>
-    </section>
+    </div>
+  </section>
   <% end %>
+<% else %>
+  <div class="container container--wide container--no_style">
+    <div class="review_titles">
+      <h1>
+        Books
+      </h1>
+    </div>
+  </div>
+  <section class="container container--wide">
+    <div class="books__grid_layout">
+      <%= render @books %>
+    </div>
+    <%= render "books/empty_state" %>
+  </section>
 <% end %>
