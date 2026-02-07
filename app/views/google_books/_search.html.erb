@@ -1,11 +1,26 @@
-<div class="search">
+<div class="search" data-controller="search">
   <div class="search__bar">
-    <span class="search__icon"><i class="fas fa-search"></i></span>
+    <span
+      class="search__icon"
+      data-search-target="search"
+    >
+      <i class="fas fa-search"></i>
+    </span>
+
+    <span
+      class="search__icon visually-hidden"
+      aria-hidden="true"
+      data-search-target="spinner"
+    >
+      <i class="fas fa-spinner fa-spin"></i>
+    </span>
+
     <%= simple_form_for :google_books,
       url: search_google_books_path,
       method: :get,
-      data: { controller: "search", turbo_frame: "book-list", turbo_action: "advance"},
-      html: { class: "search__form" } do |form| %>
+      data: { turbo_frame: "book-list", turbo_action: "advance" },
+      html: { class: "search__form", data: { search_target: "form" } } do |form| %>
+
       <%= form.text_field :title,
         placeholder: "Search",
         class: "search__bar-input",
