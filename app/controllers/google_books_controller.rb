@@ -10,25 +10,28 @@ class GoogleBooksController < ApplicationController
   end
 
   def search
+    @query = params.dig(:google_books, :title).to_s
     @search_results = []
 
-    existing_book = Book.where('LOWER(title) LIKE ?', "%#{params[:google_books][:title]}%").first
-    @search_results.append(existing_book) if existing_book.present?
+    if @query.present?
+      existing_book = Book.where('LOWER(title) LIKE ?', "%#{@query.downcase}%").first
+      @search_results << existing_book if existing_book.present?
 
-    google_book_results = GoogleBooks.search(params[:google_books][:title], { count: 10 - @search_results.length })
+      google_book_results = GoogleBooks.search(@query, count: 10 - @search_results.length)
+      google_book_results.each do |gbook|
+        next unless gbook.isbn.present?
 
-    google_book_results.each do |gbook|
-      next unless gbook.isbn.present?
+        new_book = Book.new(
+          title: gbook.title,
+          author: gbook.authors,
+          description: gbook.description,
+          isbn: gbook.isbn
+        )
+        img = gbook.image_link(zoom: 5, curl: true)
+        new_book.image_link = img if img.present?
 
-      new_book = Book.new(
-        title: gbook.title,
-        author: gbook.authors,
-        description: gbook.description,
-        isbn: gbook.isbn
-      )
-      new_book.image_link = gbook.image_link(zoom: 5, curl: true) if gbook.image_link(zoom: 5, curl: true).present?
-
-      @search_results.append(new_book)
+        @search_results << new_book
+      end
     end
   end
 end

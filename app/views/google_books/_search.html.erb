@@ -7,14 +7,13 @@
       data: { controller: "search", turbo_frame: "book-list", turbo_action: "advance"},
       html: { class: "search__form" } do |form| %>
       <%= form.text_field :title,
-            placeholder: "Search",
-            class: "search__bar-input",
-            value: params[:title],
-            input_html: { autofocus: true },
-            data: {
-              search_target: "searchInput",
-              action: "input->search#search"
-            }
+        placeholder: "Search",
+        class: "search__bar-input",
+        value: @query,
+        data: {
+          search_target: "searchInput",
+          action: "input->search#search"
+        }
       %>
     <% end %>
   </div>

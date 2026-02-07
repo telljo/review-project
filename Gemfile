@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.2'
+ruby '3.4.4'
 
 gem 'devise', '~> 4.8.1'
 
@@ -22,6 +22,14 @@ gem 'action-cable-redis-backport'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
+
+gem "prism", "~> 1.5"
+
+gem "base64"
+gem "mutex_m"
+gem "drb"
+gem "bigdecimal"
+gem "csv"
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
