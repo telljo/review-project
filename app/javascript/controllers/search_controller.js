@@ -22,7 +22,6 @@ export default class extends Controller {
   search() {
     const q = this.searchInputTarget.value?.trim()
 
-    // If you want: don’t show spinner / don’t submit for empty query
     if (!q) {
       this.hideLoading()
       return
@@ -30,12 +29,10 @@ export default class extends Controller {
 
     this.showLoading()
 
-    // Debounce so you don’t fire a request on every keystroke
     clearTimeout(this._t)
     this._t = setTimeout(() => {
-      // Submit GET form via requestSubmit (works well with Turbo)
       this.formTarget.requestSubmit()
-    }, 200)
+    }, 1000)
   }
 
   showLoading() {
