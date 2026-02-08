@@ -1,10 +1,10 @@
 <%# app/views/reviews/index.html.erb %>
 
-<%= turbo_stream_from current_user, "reviews" %>
-
 <% if @user.present? %>
   <%= render "layouts/profile_section" %>
 <% end %>
+
+<%= turbo_stream_from current_user, "reviews" %>
 
 <div class="container container--no_style">
   <div class="review_titles">
@@ -12,10 +12,13 @@
       Reviews
     </h1>
   </div>
-</div>
-<%= turbo_frame_tag Review.new %>
+  <%= turbo_frame_tag Review.new %>
 
-<%= turbo_frame_tag "reviews" do %>
-  <%= render "reviews/empty_state" %>
-  <%= render @reviews %>
-<% end %>
+  <%= turbo_frame_tag "reviews" do %>
+    <%= render "reviews/empty_state",
+      title: "There are no reviews yet",
+      subtitle: "Be the first to add a review for a book you've read."
+    %>
+    <%= render @reviews %>
+  <% end %>
+</div>

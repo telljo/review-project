@@ -1,9 +1,32 @@
 <div class="books__item" data-id="<%= book.id %>">
-  <%= link_to book_path(book), data: {turbo_frame: "_top"} do %>
-    <% if book.image_link %>
-      <%= image_tag book.image_link, class: "books__cover_image" %>
-    <% else %>
-      <%= image_tag "no_cover.gif", class: "books__cover_image" %>
+  <%= link_to book_path(book), class: "books__card", data: { turbo_frame: "_top" } do %>
+    <div class="books__meta">
+      <div class="books__title" title="<%= book.title %>"><%= book.title %></div>
+
+      <% author_text =
+           if book.respond_to?(:authors) && book.authors.present?
+             Array(book.authors).join(", ")
+           else
+             book.try(:author)
+           end
+      %>
+
+      <% if author_text.present? %>
+        <div class="books__author" title="<%= author_text %>"><%= author_text %></div>
+      <% end %>
+    </div>
+
+    <div class="books__cover_wrap">
+      <%= image_tag(book.image_link.presence || "no_cover.gif",
+        class: "books__cover_image",
+        loading: "lazy",
+        alt: (book.title.presence || "Book cover")) %>
+    </div>
+
+    <% if book.respond_to?(:updated_at) && book.updated_at.present? %>
+        <div class="books__updated">
+          Updated <%= time_ago_in_words(book.updated_at) %> ago
+        </div>
     <% end %>
   <% end %>
 </div>

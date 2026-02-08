@@ -68,7 +68,10 @@
           <%= render @read_books %>
         </div>
       <% end %>
-      <%= render "books/empty_state" %>
+      <%= render "books/empty_state",
+        title: "You haven't read any books yet",
+        subtitle: "Once you add books to your collection and mark them as read, they will appear here."
+      %>
     </div>
   </section>
   <section class="container container--wide">
@@ -87,7 +90,10 @@
           <%= render @books_in_progress %>
         </div>
       <% end %>
-      <%= render "books/empty_state" %>
+      <%= render "books/empty_state",
+        title: "You aren't reading any books currently",
+        subtitle: "Once you add books to your collection and mark them as currently reading, they will appear here."
+      %>
     </div>
   </section>
   <section class="container container--wide">
@@ -106,7 +112,10 @@
           <%= render @to_read_books %>
         </div>
       <% end %>
-      <%= render "books/empty_state" %>
+      <%= render "books/empty_state",
+        title: "You haven't added any books to your want to read list yet",
+        subtitle: "Once you add books to your collection and mark them as want to read, they will appear here."
+      %>
     </div>
   </section>
   <% end %>

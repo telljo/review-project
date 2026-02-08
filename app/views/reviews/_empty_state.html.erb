@@ -1,10 +1,16 @@
+<% title_text   = local_assigns.fetch(:title, "You don’t have any reviews yet") %>
+<% subtext_text = local_assigns.fetch(:subtitle, "Start by searching for a book you’ve read, then add your first review.") %>
+
 <div class="empty-state empty-state--only-child">
-   <p class="empty-state__text">
-    You don't have any reviews yet!
+  <div class="empty-state__icon" aria-hidden="true">
+    <i class="fas fa-book-open"></i>
+  </div>
+
+  <p class="empty-state__text">
+    <%= title_text %>
   </p>
 
-  <%= link_to "Add review",
-      books_path,
-      class: "btn btn--primary",
-      data: { turbo_frame: dom_id(Review.new) } %>
+  <p class="empty-state__subtext">
+    <%= subtext_text %>
+  </p>
 </div>

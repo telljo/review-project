@@ -1,20 +1,61 @@
 .empty-state {
-  padding: var(--space-m);
-  border: var(--border);
-  border-style: dashed;
-  text-align: center;
   width: 100%;
   margin-top: 1em;
 
-  &__text {
-    font-size: var(--font-size-l);
-    color: var(--color-text-header);
-    margin-bottom: var(--space-l);
-    font-weight: bold;
+  display: grid;
+  place-items: center;
+  text-align: center;
+
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border-radius: var(--borderRadius-large, 12px);
+
+  // softer card styling
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+
+  // a little depth without being heavy
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+
+  &__icon {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 999px;
+
+    display: grid;
+    place-items: center;
+
+    background: rgba(28, 98, 185, 0.12);
+    border: 1px solid rgba(28, 98, 185, 0.25);
+    margin-bottom: 0.75rem;
+
+    i {
+      font-size: 1.25rem;
+      color: #1c62b9;
+    }
   }
 
-  &__buttons {
-    max-width: 10em;
+  &__text {
+    font-size: 1.05rem;
+    color: var(--color-text-header);
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  &__subtext {
+    margin: 0.5rem 0 0;
+    max-width: 42ch;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: rgba(226, 232, 240, 0.75);
+  }
+
+  &__actions {
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
   }
 
   &--only-child {
@@ -22,7 +63,7 @@
 
     &:only-child {
       display: grid;
-      grid-column: 1/-1;
+      grid-column: 1 / -1;
     }
   }
 }

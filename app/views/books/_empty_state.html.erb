@@ -1,9 +1,24 @@
+<% title_text   = local_assigns.fetch(:title, "You don't have any books yet") %>
+<% subtext_text = local_assigns.fetch(:subtitle, "Start by searching for a book you’ve read, want to read, or are currently reading.") %>
+
 <div class="empty-state empty-state--only-child">
-   <p class="empty-state__text">
-    You don't have any books yet.
+  <div class="empty-state__icon" aria-hidden="true">
+    <i class="fas fa-book-open"></i>
+  </div>
+
+  <p class="empty-state__text">
+    <%= title_text %>
   </p>
 
-  <div class="empty-slate__buttons">
-    <%= link_to "Search for books", google_books_url, class: "btn btn--large btn--primary" %>
+  <% if subtext_text.present? %>
+    <p class="empty-state__subtext">
+      <%= subtext_text %>
+    </p>
+  <% end %>
+
+  <div class="empty-state__actions">
+    <%= link_to "Search for books",
+        google_books_url,
+        class: "btn btn--large btn--primary" %>
   </div>
 </div>
