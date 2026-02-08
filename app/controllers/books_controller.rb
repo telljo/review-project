@@ -39,7 +39,7 @@ class BooksController < ApplicationController
     else
       isbn = params[:isbn].strip
       query_string = "isbn:#{isbn}"
-      gbook = GoogleBooks.search(query_string).first
+      gbook = GoogleBooksSearch.call(query_string, count: 1).first
 
       @book = Book.new(
         isbn:,
@@ -66,7 +66,7 @@ class BooksController < ApplicationController
     if Book.find_by(isbn: create_book_params[:isbn]).present?
       @book = Book.find_by(isbn: create_book_params[:isbn])
     else
-      gbook = GoogleBooks.search(query_string).first
+      gbook = GoogleBooksSearch.call(query_string, count: 1).first
 
       @book = Book.create(
         isbn:,

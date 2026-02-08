@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-API_KEY = ENV["GOOGLE_BOOKS_API_KEY"]
+API_KEY ||= ENV["GOOGLE_BOOKS_API_KEY"]
 
 class GoogleBooksSearch
   TTL = 7.days
