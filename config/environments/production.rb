@@ -15,6 +15,7 @@ Rails.application.configure do
   config.eager_load = true
 
   config.hosts << 'old-mountain-8141.fly.dev'
+  config.hosts << 'bookshelf.joshtell.dev'
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
