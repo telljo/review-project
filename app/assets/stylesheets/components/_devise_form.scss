@@ -1,3 +1,5 @@
+@use "../mixins/media" as *;
+
 .devise-form {
   display: flex;
   width: 500px;

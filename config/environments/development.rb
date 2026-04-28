@@ -8,7 +8,7 @@ Rails.application.configure do
   # In the development environment your application's code is reloaded any time
   # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
-  config.cache_classes = false
+  config.enable_reloading = true
 
   config.hosts << 'old-mountain-8141.fly.dev'
 
@@ -62,6 +62,15 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+  # Append runtime information to SQL queries in logs.
+  config.active_record.query_log_tags_enabled = true
+
+  # Highlight where jobs were enqueued from in logs.
+  config.active_job.verbose_enqueue_logs = true
+
+  # Highlight code that triggered redirects in logs.
+  config.action_dispatch.verbose_redirect_logs = true
+
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
@@ -69,8 +78,11 @@ Rails.application.configure do
   # config.i18n.raise_on_missing_translations = true
 
   # Annotate rendered view with file names.
-  # config.action_view.annotate_rendered_view_with_filenames = true
+  config.action_view.annotate_rendered_view_with_filenames = true
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  # Raise when a callback references an action that does not exist.
+  config.action_controller.raise_on_missing_callback_actions = true
 end

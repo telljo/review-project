@@ -1,35 +1,36 @@
+@use "sass:meta";
+
 // Mixins
-@import "mixins/media";
+@use "mixins/media" as *;
 
 // Configuration
-@import "config/variables";
-@import "config/reset";
-@import "config/animations";
-@import "config/typography";
+@use "config/variables";
+@use "config/reset";
+@use "config/animations";
+@use "config/typography";
 
 // Components
-@import "components/btn";
-@import "components/devise_form";
-@import "components/error_message";
-@import "components/form";
-@import "components/visually_hidden";
-@import "components/review";
-@import "components/turbo_progress_bar";
-@import "components/navbar";
-@import "components/profile_section";
-@import "components/navbar_dropdown";
-@import "components/flash";
-@import "components/empty_state";
-@import "components/search";
-@import "components/books";
-@import "components/book";
-
-@import "trix/dist/trix";
-@import "./actiontext.css";
+@use "components/btn";
+@use "components/devise_form";
+@use "components/error_message";
+@use "components/form";
+@use "components/visually_hidden";
+@use "components/review";
+@use "components/turbo_progress_bar";
+@use "components/navbar";
+@use "components/profile_section";
+@use "components/navbar_dropdown";
+@use "components/flash";
+@use "components/empty_state";
+@use "components/search";
+@use "components/books";
+@use "components/book";
 
 // Layouts
-@import "layouts/dropdown";
-@import "layouts/container";
-@import "layouts/header";
-@import "layouts/application";
-@import 'actiontext.css';
+@use "layouts/dropdown";
+@use "layouts/container";
+@use "layouts/header";
+@use "layouts/application";
+
+@include meta.load-css("trix/dist/trix");
+@include meta.load-css("./actiontext.css");

@@ -1,3 +1,5 @@
+@use "../mixins/media" as *;
+
 .container {
   padding: var(--space-m);
 

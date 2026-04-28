@@ -1,3 +1,5 @@
+@use "../mixins/media" as *;
+
 .books {
   &__grid_layout {
     display: grid;

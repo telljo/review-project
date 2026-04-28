@@ -1,9 +1,53 @@
 #!/usr/bin/env bash
 
-if ! foreman version &> /dev/null
-then
-  echo "Installing foreman..."
-  gem install foreman
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+export BUNDLE_USER_HOME="${BUNDLE_USER_HOME:-$PWD/tmp/bundle}"
+export YARN_CACHE_FOLDER="${YARN_CACHE_FOLDER:-$PWD/tmp/yarn-cache}"
+mkdir -p "$BUNDLE_USER_HOME" "$YARN_CACHE_FOLDER" tmp/pids
+
+if [[ -f tmp/pids/server.pid ]]; then
+  rm -f tmp/pids/server.pid
 fi
 
-foreman start -f Procfile.dev "$@"
+bundle check > /dev/null || bundle install
+
+port_in_use() {
+  local port="$1"
+  lsof -nP -iTCP:"$port" -sTCP:LISTEN > /dev/null 2>&1
+}
+
+choose_app_port() {
+  local candidates=(3000 3001 3002 3003 3004 3100 4000)
+
+  for candidate in "${candidates[@]}"; do
+    if ! port_in_use "$candidate"; then
+      echo "$candidate"
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+export APP_PORT="${APP_PORT:-}"
+if [[ -z "$APP_PORT" ]]; then
+  if ! APP_PORT="$(choose_app_port)"; then
+    echo "No free app port found. Tried: 3000, 3001, 3002, 3003, 3004, 3100, 4000." >&2
+    echo "Start with APP_PORT=<port> ./bin/dev to choose one explicitly." >&2
+    exit 1
+  fi
+fi
+
+export PORT="$APP_PORT"
+echo "Starting app on http://localhost:$APP_PORT"
+
+procfile="Procfile.dev"
+if port_in_use 6379; then
+  procfile="Procfile.dev.no-redis"
+  echo "Port 6379 is already in use; reusing the existing Redis server."
+fi
+
+exec bundle exec foreman start -f "$procfile" "$@"

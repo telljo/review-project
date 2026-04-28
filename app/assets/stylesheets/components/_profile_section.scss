@@ -1,3 +1,5 @@
+@use "../mixins/media" as *;
+
 .profile_section {
   display: flex;
   gap: var(--space-m);
