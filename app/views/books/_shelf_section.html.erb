@@ -1,0 +1,30 @@
+<% sortable_options = local_assigns[:sortable] %>
+<section class="books__section">
+  <% if title.present? %>
+    <div class="review_titles">
+      <h1>
+        <% if path.present? %>
+          <%= link_to title, path %>
+        <% else %>
+          <%= title %>
+        <% end %>
+      </h1>
+    </div>
+  <% end %>
+
+  <div class="books__outer_grid_layout">
+    <% if books.present? %>
+      <div class="books__grid_layout"
+        <% if sortable_options.present? %>
+          id="<%= sortable_options[:id] %>"
+          data-controller="<%= sortable_options.dig(:data, :controller) %>"
+          data-sortable-url="<%= sortable_options.dig(:data, :sortable_url) %>"
+          data-sortable-source-id="<%= sortable_options.dig(:data, :sortable_source_id) %>"
+        <% end %>>
+        <%= render books %>
+      </div>
+    <% else %>
+      <%= render "books/empty_state", title: empty_title, subtitle: empty_subtitle %>
+    <% end %>
+  </div>
+</section>

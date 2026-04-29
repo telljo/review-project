@@ -7,20 +7,25 @@
   justify-content: space-between;
   margin-top: var(--space-m);
   margin-bottom: var(--space-l);
+
   &__home-page {
     display: flex;
     gap: var(--space-s);
     flex-direction: column;
     padding: var(--space-s);
     text-align: center;
+    width: 100%;
   }
+
   &__review-page {
     margin: 0 auto;
     margin-top: 0;
   }
+
   &__review_header {
     margin-bottom: 0px;
   }
+
   &__user_books {
     display: flex;
     width: 12em;

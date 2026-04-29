@@ -1,32 +1,34 @@
 
 <div class="devise-form">
-  <h2>Log in</h2>
+  <h1>Log in</h1>
 
-  <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-    <%= f.error_notification %>
-    <div class="form-inputs">
-      <%= f.label :email %>
-      <%= f.input :email,
-                  required: false,
-                  autofocus: true,
-                  input_html: { autocomplete: "email" } %>
-      <%= f.label :password %>
-      <%= f.input :password,
-                  required: false,
-                  input_html: { autocomplete: "current-password" } %>
-    </div>
+  <div class="container">
+    <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <%= f.error_notification %>
+      <div class="form-inputs">
+        <%= f.label :email %>
+        <%= f.input :email,
+                    required: false,
+                    autofocus: true,
+                    input_html: { autocomplete: "email" } %>
+        <%= f.label :password %>
+        <%= f.input :password,
+                    required: false,
+                    input_html: { autocomplete: "current-password" } %>
+      </div>
 
-    <div class="devise-form__checkbox">
-      <%= f.label :remember_me %>
-      <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
-    </div>
+      <div class="devise-form__checkbox">
+        <%= f.label :remember_me %>
+        <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+      </div>
 
-    <fieldset>
-      <%= f.submit "Sign in", class: "btn btn--secondary" %>
-      <%= link_to "Cancel", root_path, class: "btn btn--light" %>
-    </fieldset>
-  <% end %>
+      <fieldset class="devise-form__actions">
+        <%= f.submit "Sign in", class: "btn btn--secondary" %>
+        <%= link_to "Cancel", root_path, class: "btn btn--light" %>
+      </fieldset>
+    <% end %>
 
-  <%= render "devise/shared/links" %>
+    <%= render "devise/shared/links" %>
+  </div>
 </div>
 

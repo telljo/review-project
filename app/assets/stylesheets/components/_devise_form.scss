@@ -12,7 +12,6 @@
 
   fieldset {
     border: none;
-    margin-top: var(--space-xs);
   }
 
   .alert {
@@ -21,14 +20,10 @@
     text-align: center;
   }
 
-  input {
-    margin-bottom: 1em;
-    color: black;
-  }
-
   &__checkbox {
     display: flex;
     flex-direction: row;
+    margin-top: 1em;
     gap: 0.5em;
     justify-content: left;
     input {
@@ -37,7 +32,79 @@
     }
   }
 
+  &__actions {
+    display: flex;
+    margin-top: 1em;
+    gap: var(--space-s);
+    justify-content: flex-end;
+  }
+
   @include media(tabletAndDown) {
     width: 100%;
+  }
+}
+
+.form-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+
+  input {
+    padding: var(--space-xxs) var(--space-s);
+    border-radius: var(--borderRadius-medium, 6px);
+    border-style: solid;
+    border-width: var(--borderWidth-thin, 1px);
+    border-color: var(--color-border-color);
+    font-size: var(--font-size-m);
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgb(85 158 83 / 28%);
+    }
+  }
+}
+
+.shared-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  justify-content: flex-end;
+  margin-top: var(--space-m);
+  padding-top: var(--space-s);
+  border-top: 1px solid rgb(205 217 229 / 16%);
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xxs) var(--space-s);
+    border: 1px solid var(--color-border-color);
+    border-radius: 999px;
+    background-color: rgb(55 62 71 / 55%);
+    color: var(--color-primary);
+    font-size: var(--font-size-s);
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    text-decoration: none;
+    transition: transform 200ms ease, border-color 200ms ease, background-color 200ms ease, color 200ms ease;
+
+    &:hover,
+    &:focus,
+    &:focus-visible {
+      background-color: var(--color-btn-bg);
+      border-color: var(--color-glint);
+      color: var(--color-white);
+      transform: translateY(-1px);
+    }
+  }
+
+  &__link--provider {
+    background-image: linear-gradient(135deg, rgb(85 158 83 / 28%), rgb(55 62 71 / 75%));
+  }
+
+  @include media(tabletAndDown) {
+    justify-content: flex-start;
   }
 }
