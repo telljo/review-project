@@ -50,6 +50,13 @@ When using S3-compatible storage such as Tigris, you can also set:
 Use `ACTIVE_STORAGE_SERVICE=amazon` in production unless you have intentionally
 mounted persistent local storage for uploads.
 
+## Deployment
+
+Pushes to `main` now build in GitHub Actions and automatically deploy to Fly.io
+after the build job succeeds.
+
+To enable this, add a repository secret named `FLY_API_TOKEN` in GitHub with a deploy token for the Fly app.
+
 ## Notes
 
 - Review broadcasts depend on Redis in production.
