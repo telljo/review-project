@@ -10,10 +10,17 @@
   }
 
   &__buttons {
-    padding-top: var(--space-xs) ;
+    padding-top: var(--space-xs);
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-m);
     flex-direction: row;
+    align-items: center;
+
+    .button_to {
+      display: inline-flex;
+    }
+
     &--right {
       justify-content: flex-end;
     }
@@ -89,7 +96,14 @@
     &__buttons {
       flex-direction: column;
       gap: var(--space-s);
-      align-items: center;
+      align-items: stretch;
+
+      .btn,
+      .button_to,
+      .button_to .btn {
+        width: 100%;
+      }
+
       &--right {
         justify-content: center;
       }

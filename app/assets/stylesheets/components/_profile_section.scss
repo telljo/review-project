@@ -5,6 +5,10 @@
   gap: var(--space-m);
   flex-direction: row;
 
+  &__container {
+    min-width: 20em !important;
+  }
+
   &__picture {
     object-fit: cover;
     border-radius: 9999px;

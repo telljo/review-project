@@ -1,79 +1,123 @@
 .btn {
-  display: inline-block;
-  padding: var(--space-xxs) var(--space-m);
-  border-radius: var(--border-radius);
-  background-origin: border-box; // Invisible borders with linear gradients
-  background-color: transparent;
-  border: solid 2px transparent;
-  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xxs);
+  min-height: 2.875rem;
+  padding: 0.75rem 1.2rem;
+  border-radius: 999px;
+  background-origin: border-box;
+  border: 1px solid transparent;
+  font-size: var(--font-size-s);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.01em;
   text-decoration: none;
+  white-space: nowrap;
   cursor: pointer;
   outline: none;
-  transition: filter 400ms, color 200ms;
+  box-shadow: var(--shadow-button);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease,
+    filter 180ms ease;
 
   &:hover,
   &:focus,
   &:focus-within,
   &:active {
-    transition: filter 250ms, color 200ms;
+    text-decoration: none;
   }
 
   &--large {
-    padding: var(--space-xs) var(--space-xxxl);
+    min-height: 3.25rem;
+    padding: 0.9rem 1.8rem;
+    font-size: var(--font-size-m);
   }
 
   &--medium {
-    padding: var(--space-xxs) var(--space-xxl);
+    min-height: 3rem;
+    padding: 0.8rem 1.45rem;
+  }
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-button-hover);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-small);
+  }
+
+  &:focus-visible {
+    border-color: var(--color-glint);
+    box-shadow:
+      0 0 0 3px rgb(157 195 255 / 18%),
+      var(--shadow-button-hover);
+  }
+
+  &:disabled,
+  &[disabled] {
+    opacity: 0.58;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
 
   &--primary {
     color: var(--color-white);
-    border-color: var(--color-white);
-
-    &:hover,
-    &:focus,
-    &:focus-within,
-    &:active {
-      color: var(--color-glint);
-      border-color: var(--color-glint);
-      filter: saturate(1.4) brightness(115%);
-    }
-  }
-
-  &--secondary {
-    color: var(--color-white);
-    background-image: linear-gradient(to right, var(--color-secondary), var(--color-secondary-rotate));
+    border-color: rgb(205 217 229 / 18%);
+    background: linear-gradient(135deg, rgb(53 62 73 / 98%), rgb(39 45 53 / 98%));
 
     &:hover,
     &:focus,
     &:focus-within,
     &:active {
       color: var(--color-white);
-      filter: saturate(1.2) brightness(110%);
+      border-color: rgb(157 195 255 / 45%);
+      filter: brightness(108%);
     }
   }
 
-  &--light {
-    color: var(--color-dark);
-    background-color: var(--color-btn-bg);
-    border-radius: var(--borderRadius-medium, 6px);
-    border-style: solid;
-    border-width: var(--borderWidth-thin, 1px);
-    border-color: var(--color-border-color);
+  &--secondary {
+    color: var(--color-white);
+    border-color: transparent;
+    background-image: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-rotate));
 
     &:hover,
     &:focus,
     &:focus-within,
     &:active {
-      color: var(--color-dark);
-      filter: brightness(92%);
+      color: var(--color-white);
+      filter: saturate(1.08) brightness(105%);
+    }
+  }
+
+  &--light {
+    color: var(--color-primary);
+    background: rgb(55 62 71 / 72%);
+    border-color: rgb(205 217 229 / 12%);
+    backdrop-filter: blur(8px);
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:active {
+      color: var(--color-white);
+      background: rgb(67 75 85 / 88%);
+      border-color: rgb(157 195 255 / 32%);
     }
   }
 
   &--dark {
     color: var(--color-white);
-    border-color: var(--color-dark);
-    background-color: var(--color-dark);
+    border-color: rgb(12 17 22 / 70%);
+    background-color: rgb(14 19 25 / 96%);
 
     &:hover,
     &:focus,
@@ -85,8 +129,8 @@
 
   &--green {
     color: var(--color-white);
-    border-color: var(--color-secondary-rotate);
-    background-color: var(--color-secondary-rotate);
+    border-color: transparent;
+    background-image: linear-gradient(135deg, var(--color-secondary-rotate), hsl(137, 47%, 46%));
 
     &:hover,
     &:focus,
@@ -107,4 +151,23 @@
       }
     }
   }
+
+  &--danger {
+    color: var(--color-white);
+    border-color: transparent;
+    background-image: linear-gradient(135deg, var(--color-danger), var(--color-danger-strong));
+
+    &:hover,
+    &:focus,
+    &:focus-within,
+    &:active {
+      color: var(--color-white);
+      filter: saturate(1.04) brightness(104%);
+    }
+  }
+}
+
+.button_to {
+  display: inline-flex;
+  margin: 0;
 }

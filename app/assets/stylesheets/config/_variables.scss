@@ -45,8 +45,11 @@
    // Neutral colors
    --color-nav: #2d333b;
    --color-btn-bg: #373e47;
+   --color-surface-elevated: #303844;
    --color-border-color: #444c56;
    --borderRadius-medium: 6px;
+   --color-danger: hsl(0, 72%, 60%);
+   --color-danger-strong: hsl(0, 67%, 52%);
 
    --color-background: #22272e;
    --color-container: #2d333b;
@@ -64,4 +67,6 @@
   // Shadows
   --shadow-large:  2px 4px 10px hsl(0 0% 0% / 0.1);
   --shadow-small:  1px 3px 6px hsl(0 0% 0% / 0.1);
+  --shadow-button: 0 10px 24px hsl(220 30% 10% / 0.22);
+  --shadow-button-hover: 0 14px 30px hsl(220 30% 8% / 0.3);
 }

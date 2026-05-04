@@ -34,6 +34,8 @@
 
   &__actions {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     margin-top: 1em;
     gap: var(--space-s);
     justify-content: flex-end;
@@ -55,13 +57,32 @@
     border-style: solid;
     border-width: var(--borderWidth-thin, 1px);
     border-color: var(--color-border-color);
+    background-color: rgb(55 62 71 / 85%);
+    color: var(--color-white);
     font-size: var(--font-size-m);
+    transition: border-color 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
 
     &:focus {
       outline: none;
       border-color: var(--color-primary);
       box-shadow: 0 0 0 3px rgb(85 158 83 / 28%);
+      background-color: var(--color-surface-elevated);
     }
+  }
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-s);
+  margin-top: var(--space-m);
+}
+
+.devise-form__actions,
+.form-actions {
+  .button_to {
+    display: inline-flex;
   }
 }
 
@@ -106,5 +127,18 @@
 
   @include media(tabletAndDown) {
     justify-content: flex-start;
+  }
+}
+
+@include media(tabletAndDown) {
+  .devise-form__actions,
+  .form-actions {
+    justify-content: stretch;
+
+    .btn,
+    .button_to,
+    .button_to .btn {
+      width: 100%;
+    }
   }
 }

@@ -5,6 +5,8 @@ class UserBook < ApplicationRecord
   belongs_to :user
   belongs_to :book
 
+  validates_uniqueness_of :book_id, scope: :user_id
+
   READ = 'read'
   WANT_TO_READ = 'want_to_read'
   READING = 'reading'
