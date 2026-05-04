@@ -6,6 +6,7 @@ kill_timeout = 5
 processes = []
 
 [env]
+  ACTIVE_STORAGE_SERVICE = "amazon"
 
 [experimental]
   auto_rollback = true

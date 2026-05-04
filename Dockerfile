@@ -41,7 +41,7 @@ RUN bundle _${BUNDLER_VERSION}_ install && \
     bundle exec bootsnap precompile --gemfile
 
 # Install node modules
-COPY package.json yarn.lock .
+COPY package.json yarn.lock ./
 RUN yarn install
 
 # Copy application code
@@ -75,4 +75,4 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD ["./bin/rails", "server"]
+CMD ["./bin/rails", "server", "-b", "0.0.0.0", "-p", "3000"]
