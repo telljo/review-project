@@ -4,7 +4,6 @@ class Review < ApplicationRecord
   belongs_to :user
   belongs_to :book
   has_rich_text :content
-  has_one_attached :image
 
   validates_presence_of :content
 

@@ -43,9 +43,10 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
-  # Require an explicit production storage backend so uploads do not silently
-  # end up on the container filesystem.
-  config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE').to_sym
+  # This app does not depend on persistent Active Storage uploads in production.
+  # Keep the service configurable, but default to local so Action Text can boot
+  # without requiring S3 adapter configuration.
+  config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE', 'local').to_sym
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil

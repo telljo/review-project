@@ -36,6 +36,12 @@ Set these environment variables in production:
 - `DATABASE_URL`
 - `RAILS_MASTER_KEY`
 - `REDIS_URL`
+
+This app defaults `ACTIVE_STORAGE_SERVICE` to `local` in production because it
+does not rely on persistent Active Storage uploads.
+
+If you later decide to support uploaded attachments in production, set:
+
 - `ACTIVE_STORAGE_SERVICE`
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
@@ -47,9 +53,6 @@ When using S3-compatible storage such as Tigris, you can also set:
 - `AWS_ENDPOINT`
 - `AWS_FORCE_PATH_STYLE=true`
 
-Use `ACTIVE_STORAGE_SERVICE=amazon` in production unless you have intentionally
-mounted persistent local storage for uploads.
-
 ## Deployment
 
 Pushes to `main` now build in GitHub Actions and automatically deploy to Fly.io
@@ -60,5 +63,5 @@ To enable this, add a repository secret named `FLY_API_TOKEN` in GitHub with a d
 ## Notes
 
 - Review broadcasts depend on Redis in production.
-- Uploaded review images use Active Storage.
+- Rich text file/image attachments are disabled.
 - Local Redis snapshots such as `dump.rdb` are intentionally ignored.
