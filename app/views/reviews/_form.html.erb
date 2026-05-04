@@ -35,7 +35,7 @@
       <% else %>
         <%= hidden_field_tag :book_id, review.book.id %>
       <% end %>
-      <%= f.rich_text_area :content, input_html: { autofocus: true } %>
+      <%= f.rich_text_area :content, autofocus: true %>
     </fieldset>
 
     <fieldset>

@@ -28,7 +28,7 @@ RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential curl libpq-dev libvips node-gyp pkg-config python-is-python3 redis unzip
 
 # Install JavaScript dependencies
-ARG NODE_VERSION=19.6.0
+ARG NODE_VERSION=24.13.0
 ARG YARN_VERSION=1.22.19
 RUN curl -fsSL https://fnm.vercel.app/install | bash && \
     /root/.local/share/fnm/fnm install $NODE_VERSION
@@ -50,8 +50,9 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE=DUMMY ./bin/rails assets:precompile
+# Precompile assets with dummy service URLs so production-only env checks still
+# fail at runtime if configuration is missing.
+RUN SECRET_KEY_BASE=DUMMY ACTIVE_STORAGE_SERVICE=local REDIS_URL=redis://localhost:6379/1 ./bin/rails assets:precompile
 
 
 # Final stage for app image

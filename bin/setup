@@ -2,22 +2,30 @@
 # frozen_string_literal: true
 
 require 'fileutils'
+require 'bundler'
 
 # path to your application root.
 APP_ROOT = File.expand_path('..', __dir__)
+BUNDLER_VERSION = Bundler::LockfileParser.new(Bundler.read_file(File.expand_path('../Gemfile.lock', __dir__))).bundler_version.to_s
 
 def system!(*args)
   system(*args) || abort("\n== Command #{args} failed ==")
 end
 
 FileUtils.chdir APP_ROOT do
+  ENV['BUNDLE_USER_HOME'] ||= File.join(APP_ROOT, 'tmp/bundle')
+  ENV['YARN_CACHE_FOLDER'] ||= File.join(APP_ROOT, 'tmp/yarn-cache')
+  FileUtils.mkdir_p(ENV['BUNDLE_USER_HOME'])
+  FileUtils.mkdir_p(ENV['YARN_CACHE_FOLDER'])
+
   # This script is a way to set up or update your development environment automatically.
   # This script is idempotent, so that you can run it at any time and get an expectable outcome.
   # Add necessary setup steps to this file.
 
   puts '== Installing dependencies =='
-  system! 'gem install bundler --conservative'
+  system! 'gem install bundler --conservative --version', BUNDLER_VERSION
   system('bundle check') || system!('bundle install')
+  system! 'yarn install --frozen-lockfile'
 
   # puts "\n== Copying sample files =="
   # unless File.exist?("config/database.yml")

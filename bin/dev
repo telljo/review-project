@@ -42,7 +42,9 @@ if [[ -z "$APP_PORT" ]]; then
 fi
 
 export PORT="$APP_PORT"
-echo "Starting app on http://localhost:$APP_PORT"
+export APP_HOST="${APP_HOST:-localhost}"
+export BINDING="${BINDING:-127.0.0.1}"
+echo "Starting app on http://$APP_HOST:$APP_PORT"
 
 procfile="Procfile.dev"
 if port_in_use 6379; then

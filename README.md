@@ -1,24 +1,57 @@
-# README
+# Bookshelf
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Bookshelf is a Rails app for tracking books and writing reviews, with Hotwire for
+the UI and PostgreSQL/Redis backing the app locally and in production.
 
-Things you may want to cover:
+## Requirements
 
-* Ruby version
+- Ruby 4.0.3
+- Bundler 4.0.6
+- Node.js 24.13.0
+- Yarn 1.22.19
+- PostgreSQL
+- Redis
 
-* System dependencies
+## Local setup
 
-* Configuration
+1. Copy `.env.example` to `.env` and fill in `GOOGLE_BOOKS_API_KEY`.
+2. Make sure PostgreSQL and Redis are running locally.
+3. Run `bin/setup`.
+4. Start the app with `bin/dev`.
 
-* Database creation
+`bin/dev` will choose an available app port automatically and start Rails, the JS
+watcher, the CSS watcher, and Redis when needed.
 
-* Database initialization
+## Common commands
 
-* How to run the test suite
+- `bin/setup` installs gems and JS packages, then prepares the database.
+- `bin/dev` starts the local development stack.
+- `bundle exec rails test` runs the test suite.
+- `bundle exec rubocop` runs the Ruby linter.
 
-* Services (job queues, cache servers, search engines, etc.)
+## Production configuration
 
-* Deployment instructions
+Set these environment variables in production:
 
-* ...
+- `DATABASE_URL`
+- `RAILS_MASTER_KEY`
+- `REDIS_URL`
+- `ACTIVE_STORAGE_SERVICE`
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `AWS_REGION`
+- `AWS_BUCKET`
+
+When using S3-compatible storage such as Tigris, you can also set:
+
+- `AWS_ENDPOINT`
+- `AWS_FORCE_PATH_STYLE=true`
+
+Use `ACTIVE_STORAGE_SERVICE=amazon` in production unless you have intentionally
+mounted persistent local storage for uploads.
+
+## Notes
+
+- Review broadcasts depend on Redis in production.
+- Uploaded review images use Active Storage.
+- Local Redis snapshots such as `dump.rdb` are intentionally ignored.
