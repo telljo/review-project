@@ -1,4 +1,23 @@
+@use "../mixins/media" as *;
+
 .books {
+  &__page {
+    width: 100%;
+  }
+
+  &__toolbar {
+    margin-bottom: 1.5rem;
+  }
+
+  &__sections {
+    display: grid;
+    gap: 2rem;
+  }
+
+  &__section {
+    width: 100%;
+  }
+
   &__grid_layout {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -93,6 +112,12 @@
 
     &__cover_image {
       width: 150px;
+    }
+  }
+
+  @include media(tabletAndDown) {
+    &__sections {
+      gap: 1.5rem;
     }
   }
 }

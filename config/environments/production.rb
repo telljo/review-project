@@ -6,7 +6,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
-  config.cache_classes = true
+  config.enable_reloading = false
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
@@ -28,6 +28,7 @@ Rails.application.configure do
   # Disable serving static files from the `/public` folder by default since
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV['RAILS_SERVE_STATIC_FILES'].present?
+  config.public_file_server.headers = { 'cache-control' => "public, max-age=#{1.year.to_i}" }
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
@@ -42,8 +43,9 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  # Require an explicit production storage backend so uploads do not silently
+  # end up on the container filesystem.
+  config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE').to_sym
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
@@ -55,10 +57,13 @@ Rails.application.configure do
 
   # Include generic and useful information about system operation, but avoid logging too much
   # information to avoid inadvertent exposure of personally identifiable information (PII).
-  config.log_level = :info
+  config.log_level = ENV.fetch('RAILS_LOG_LEVEL', 'info')
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
+
+  # Prevent health checks from cluttering logs.
+  config.silence_healthcheck_path = '/up'
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -95,4 +100,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Keep object inspection concise in production logs.
+  config.active_record.attributes_for_inspect = [:id]
 end

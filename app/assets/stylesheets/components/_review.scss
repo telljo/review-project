@@ -1,3 +1,5 @@
+@use "../mixins/media" as *;
+
 .review {
   display: flex;
   flex-direction: row;

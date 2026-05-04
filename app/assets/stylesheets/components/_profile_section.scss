@@ -1,7 +1,14 @@
-.profile_section {
+@use "../mixins/media" as *;
+
+.profile-section {
   display: flex;
   gap: var(--space-m);
   flex-direction: row;
+
+  &__container {
+    min-width: 20em !important;
+  }
+
   &__picture {
     object-fit: cover;
     border-radius: 9999px;
@@ -16,9 +23,9 @@
   }
 
   &__summary {
+    --space-y-reverse: 1;
     display: flex;
     flex-direction: column;
-    --space-y-reverse: 1;
     text-align: center;
     text-transform: uppercase;
     flex-direction: row;

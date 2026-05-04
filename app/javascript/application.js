@@ -2,6 +2,7 @@
 import "@hotwired/turbo-rails"
 import "trix"
 import "@rails/actiontext"
+import "./lib/actiontext_uploads"
 import "@rails/request.js"
 import "./controllers"
 
@@ -24,6 +25,4 @@ library.add(faStar, faStarHalfAlt, farStar, faSearch, faSpinner, faBookOpen)
 
 // Initialize Font Awesome
 dom.watch()
-
-
 

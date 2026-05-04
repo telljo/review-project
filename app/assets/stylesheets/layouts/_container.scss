@@ -1,19 +1,27 @@
+@use "../mixins/media" as *;
+
 .container {
   padding: var(--space-m);
 
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 2em;
-  background-color: var(--color-container);
+  min-width: 31em;
 
+  padding: clamp(1rem, 3vw, 1.5rem);
   border-radius: var(--borderRadius-medium, 6px);
-  border-style: solid;
-  border-width: var(--borderWidth-thin, 1px);
-  border-color: var(--color-border-color);
+
+  // softer card styling
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+
+  // a little depth without being heavy
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 
   &--no_style {
     background: none;
     border: none;
+    box-shadow: none;
     padding: 0;
     margin-bottom: 2em;
     width: 100%;

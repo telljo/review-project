@@ -35,13 +35,13 @@
       <% else %>
         <%= hidden_field_tag :book_id, review.book.id %>
       <% end %>
-      <%= f.rich_text_area :content, input_html: { autofocus: true } %>
+      <%= f.rich_text_area :content, autofocus: true %>
     </fieldset>
 
     <fieldset>
       <div class="form__buttons">
-        <%= f.submit class: "btn btn--secondary" %>
-        <%= link_to "Cancel", reviews_path, class: "btn btn--light" %>
+        <%= f.submit class: "btn btn--secondary btn--medium" %>
+        <%= link_to "Cancel", reviews_path, class: "btn btn--light btn--medium" %>
       </div>
     </fieldset>
   </div>

@@ -22,7 +22,7 @@
       html: { class: "search__form", data: { search_target: "form" } } do |form| %>
 
       <%= form.text_field :title,
-        placeholder: "Search",
+        placeholder: "Search for a book by title, author, or ISBN",
         class: "search__bar-input",
         value: @query,
         data: {

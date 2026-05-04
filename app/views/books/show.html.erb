@@ -50,11 +50,11 @@
             <%= link_to "Write review",
                       new_review_path(book_id: book.id),
                       data: { turbo_frame: dom_id(Review.new) },
-                      class: "btn btn--primary" %>
+                      class: "btn btn--primary btn--medium" %>
             <%= button_to "Remove from collection",
                           book_path(book),
                           method: :delete,
-                          class: "btn btn--light" %>
+                          class: "btn btn--danger btn--medium" %>
           <% else %>
             <%= render(:partial => 'books/add_to_collection',  locals: {
                     book: book
