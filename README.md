@@ -37,10 +37,11 @@ Set these environment variables in production:
 - `RAILS_MASTER_KEY`
 - `REDIS_URL`
 
-This app defaults `ACTIVE_STORAGE_SERVICE` to `local` in production because it
-does not rely on persistent Active Storage uploads.
+This app uses `local` Active Storage in production because it does not rely on
+persistent uploaded attachments.
 
-If you later decide to support uploaded attachments in production, set:
+If you later decide to support uploaded attachments in production, you will need
+to change the production Active Storage config and then set:
 
 - `ACTIVE_STORAGE_SERVICE`
 - `AWS_ACCESS_KEY_ID`

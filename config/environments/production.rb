@@ -44,9 +44,9 @@ Rails.application.configure do
   # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
 
   # This app does not depend on persistent Active Storage uploads in production.
-  # Keep the service configurable, but default to local so Action Text can boot
-  # without requiring S3 adapter configuration.
-  config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE', 'local').to_sym
+  # Use local storage unconditionally so deploys cannot be broken by stale env
+  # values pointing at unavailable S3-style services.
+  config.active_storage.service = :local
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil
