@@ -1,43 +1,52 @@
-<div class="dropdown navbar_dropdown"
-     data-controller="dropdown"
-     data-dropdown-active-target="#navbar_menu">
-  <div role="button" tabindex="0">
-    <input data-action="click->dropdown#toggle click@window->dropdown#hide" data-dropdown-target="checkbox" class="menu-trigger hidden" id="togglenav" type="checkbox"/>
-    <label class="burger-wrapper" for="togglenav">
-      <div class="hamburger"></div>
-    </label>
-  </div>
-  <div id="dropdown_menu" data-dropdown-target="menu" class="dropdown__menu dropdown__menu--right" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-    <div>
-      <a data-action="click->dropdown#toggle" class="dropdown__menu_item" href="/">Home</a>
-      <%= link_to "All books", books_path, data: {action: "click->dropdown#toggle"},
-          class: "dropdown__menu_item" %>
-      <%= link_to "All reviews", reviews_path, data: {action: "click->dropdown#toggle"},
-          class: "dropdown__menu_item" %>
+<div class="navbar_dropdown" data-controller="dropdown">
+  <button type="button"
+          class="navbar_dropdown__toggle"
+          data-action="click->dropdown#toggle click@window->dropdown#hide"
+          data-dropdown-target="button"
+          aria-controls="navbar_dropdown_menu"
+          aria-expanded="false"
+          aria-label="Toggle navigation menu">
+    <span class="navbar_dropdown__icon" aria-hidden="true"></span>
+  </button>
+
+  <div id="navbar_dropdown_menu"
+       data-dropdown-target="menu"
+       class="navbar_dropdown__menu"
+       role="menu"
+       aria-orientation="vertical"
+       tabindex="-1">
+    <div class="navbar_dropdown__section">
+      <a data-action="click->dropdown#close" class="navbar_dropdown__link" href="/">Home</a>
+      <%= link_to "All books", books_path, data: { action: "click->dropdown#close" },
+          class: "navbar_dropdown__link" %>
+      <%= link_to "All reviews", reviews_path, data: { action: "click->dropdown#close" },
+          class: "navbar_dropdown__link" %>
     </div>
     <% if user_signed_in? %>
-      <div class="dropdown__menu_section">
-        <a data-action="click->dropdown#toggle" class="dropdown__menu_item"
+      <div class="navbar_dropdown__section">
+        <a data-action="click->dropdown#close" class="navbar_dropdown__link"
           href="<%= url_for(controller: '/books', action: 'index', username: current_user.username)%>">Your Books</a>
-        <a data-action="click->dropdown#toggle" class="dropdown__menu_item"
+        <a data-action="click->dropdown#close" class="navbar_dropdown__link"
           href="<%= url_for(controller: '/reviews', action: 'index', username: current_user.username)%>">Your Reviews</a>
       </div>
     <% else %>
-      <div class="dropdown__menu_section">
+      <div class="navbar_dropdown__section">
         <%= link_to "Log In",
           new_user_session_path,
-          class:"dropdown__menu_item" %>
+          data: { action: "click->dropdown#close" },
+          class:"navbar_dropdown__link" %>
         <%= link_to "Sign Up",
           new_user_registration_path,
-          class:"dropdown__menu_item" %>
+          data: { action: "click->dropdown#close" },
+          class:"navbar_dropdown__link" %>
       </div>
     <% end %>
     <% if user_signed_in? %>
-      <div class="dropdown__menu_section">
-        <a data-action="click->dropdown#toggle" class="dropdown__menu_item"
+      <div class="navbar_dropdown__section">
+        <a data-action="click->dropdown#close" class="navbar_dropdown__link"
           href="<%= url_for(controller: '/users', action: 'show', username: current_user.username)%>">Profile</a>
-        <a data-action="click->dropdown#toggle" class="dropdown__menu_item" href="/users/edit">Settings</a>
-        <a data-action="click->dropdown#toggle" data-turbo-method="delete" class="dropdown__menu_item" href="/users/sign_out">Sign Out</a>
+        <a data-action="click->dropdown#close" class="navbar_dropdown__link" href="/users/edit">Settings</a>
+        <a data-action="click->dropdown#close" data-turbo-method="delete" class="navbar_dropdown__link" href="/users/sign_out">Sign Out</a>
       </div>
     <% end %>
   </div>

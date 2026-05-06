@@ -98,16 +98,4 @@
       }
     }
   }
-
-  @media (max-width: 36rem) {
-    &__menu {
-      position: fixed;
-      top: 4.75rem;
-      right: var(--layout-page-gutter-tight);
-      left: var(--layout-page-gutter-tight);
-      width: auto;
-      margin-top: 0;
-      transform-origin: top center;
-    }
-  }
 }
