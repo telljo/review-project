@@ -15,10 +15,10 @@ module BookHelper
 
   def bookshelves_menu_options(user: nil)
     [
-      { label: 'All', path: books_index_path_for(user:) },
-      { label: 'Read', path: books_index_path_for(user:, slug: UserBook::READ) },
-      { label: 'Currently reading', path: books_index_path_for(user:, slug: UserBook::READING) },
-      { label: 'Want to read', path: books_index_path_for(user:, slug: UserBook::WANT_TO_READ) }
+      { label: 'All', path: books_index_path_for(user:), slug: nil },
+      { label: 'Read', path: books_index_path_for(user:, slug: UserBook::READ), slug: UserBook::READ },
+      { label: 'Currently reading', path: books_index_path_for(user:, slug: UserBook::READING), slug: UserBook::READING },
+      { label: 'Want to read', path: books_index_path_for(user:, slug: UserBook::WANT_TO_READ), slug: UserBook::WANT_TO_READ }
     ]
   end
 
@@ -57,6 +57,7 @@ module BookHelper
     {
       title: UserBook::SLUGS_READABLE.fetch(slug),
       path: books_index_path_for(user:, slug:),
+      shelf_slug: slug,
       books:,
       empty_title:,
       empty_subtitle:,

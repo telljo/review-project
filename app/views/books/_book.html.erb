@@ -1,32 +1,65 @@
+<% current_shelf_slug = local_assigns[:shelf_slug] %>
+<% owner_view = local_assigns.fetch(:owner_view, false) %>
+<% show_actions = local_assigns.fetch(:show_actions, owner_view && current_shelf_slug.present?) %>
+<% author_text =
+     if book.respond_to?(:authors) && book.authors.present?
+       Array(book.authors).join(", ")
+     else
+       book.try(:author)
+     end
+%>
+
 <div class="books__item" data-id="<%= book.id %>">
-  <%= link_to book_path(book), class: "books__card", data: { turbo_frame: "_top" } do %>
-    <div class="books__meta">
-      <div class="books__title" title="<%= book.title %>"><%= book.title %></div>
+  <article class="books__card">
+    <% if show_actions %>
+      <div class="books__menu dropdown" data-controller="dropdown">
+        <button type="button"
+                class="books__menu_button"
+                aria-label="Move <%= book.title %> to another shelf"
+                data-action="click->dropdown#toggle click@window->dropdown#hide">
+          <span aria-hidden="true">...</span>
+        </button>
 
-      <% author_text =
-           if book.respond_to?(:authors) && book.authors.present?
-             Array(book.authors).join(", ")
-           else
-             book.try(:author)
-           end
-      %>
+        <div class="dropdown__menu dropdown__menu--right books__menu_dropdown"
+             data-dropdown-target="menu"
+             role="menu"
+             aria-label="Move book">
+          <p class="books__menu_title">Move to</p>
 
-      <% if author_text.present? %>
-        <div class="books__author" title="<%= author_text %>"><%= author_text %></div>
-      <% end %>
-    </div>
+          <% UserBook::USER_BOOK_STATUSES.each do |slug| %>
+            <% next if slug == current_shelf_slug %>
 
-    <div class="books__cover_wrap">
-      <%= image_tag(book.image_link.presence || "no_cover.gif",
-        class: "books__cover_image",
-        loading: "lazy",
-        alt: (book.title.presence || "Book cover")) %>
-    </div>
-
-    <% if book.respond_to?(:updated_at) && book.updated_at.present? %>
-        <div class="books__updated">
-          Updated <%= time_ago_in_words(book.updated_at) %> ago
+            <%= button_to UserBook::SLUGS_READABLE.fetch(slug),
+                move_book_path(book, slug: slug),
+                method: :patch,
+                class: "dropdown__button dropdown__button--in-list books__menu_action",
+                form: { class: "books__action_form", data: { turbo: false } } %>
+          <% end %>
         </div>
+      </div>
     <% end %>
-  <% end %>
+
+    <%= link_to book_path(book), class: "books__card_link", data: { turbo_frame: "_top" } do %>
+      <div class="books__cover_wrap">
+        <%= image_tag(book.image_link.presence || "no_cover.gif",
+          class: "books__cover_image",
+          loading: "lazy",
+          alt: (book.title.presence || "Book cover")) %>
+      </div>
+
+      <div class="books__meta">
+        <div class="books__title" title="<%= book.title %>"><%= book.title %></div>
+
+        <% if author_text.present? %>
+          <div class="books__author" title="<%= author_text %>"><%= author_text %></div>
+        <% end %>
+
+        <% if book.respond_to?(:updated_at) && book.updated_at.present? %>
+          <div class="books__updated">
+            Updated <%= time_ago_in_words(book.updated_at) %> ago
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </article>
 </div>

@@ -7,6 +7,9 @@ import { application } from "./application"
 import BooksController from "./books_controller"
 application.register("books", BooksController)
 
+import BookshelfController from "./bookshelf_controller"
+application.register("bookshelf", BookshelfController)
+
 import BookSelectController from "./book_select_controller"
 application.register("book_select", BookSelectController)
 
@@ -24,5 +27,4 @@ application.register("dropdown", DropdownController)
 
 import SortableController from "./sortable_controller"
 application.register("sortable", SortableController)
-
 

@@ -2,16 +2,20 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="dropdown"
 export default class extends Controller {
-
-  static targets = ["menu", "buttonText"]
+  static targets = ["menu", "buttonText", "checkbox"]
 
   connect() {
+    if (!this.hasButtonTextTarget) return;
+
     const urlParams = new URLSearchParams(window.location.search);
     const slug = urlParams.get('slug');
+
+    if (!slug) {
+      this.buttonTextTarget.textContent = "All";
+      return;
+    }
+
     switch(slug) {
-      case !slug:
-        this.buttonTextTarget.textContent = "All";
-        break;
       case 'read':
         this.buttonTextTarget.textContent = "Read";
         break;
@@ -25,6 +29,8 @@ export default class extends Controller {
   }
 
   toggle(){
+    if (!this.hasMenuTarget) return;
+
     if(this.menuTarget.classList.contains('toggled')) {
       this.menuTarget.classList.remove('toggled');
     }
@@ -34,9 +40,11 @@ export default class extends Controller {
   }
 
   hide(event) {
+    if (!this.hasMenuTarget) return;
+
     if (!this.element.contains(event.target)) {
       this.menuTarget.classList.remove('toggled');
-      if(this.checkboxTarget){
+      if(this.hasCheckboxTarget){
         this.checkboxTarget.checked = false;
       }
     }

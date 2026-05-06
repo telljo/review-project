@@ -2,13 +2,13 @@
 
 # Controller for Books
 class BooksController < ApplicationController
+  before_action :authenticate_user!, only: %i[create destroy move]
   before_action :set_user_book, only: %i[move destroy]
-
-  before_action :authenticate_user!, only: %i[create destroy]
 
   def index
     @user = User.find_by(username: params[:username])
     @slug = params[:slug]
+    @owner_view = @user.present? && user_signed_in? && @user == current_user
     @books = if @user.present?
                if @slug.present?
                  @user.books.where(user_books: { slug: @slug }).ordered.distinct
@@ -29,7 +29,10 @@ class BooksController < ApplicationController
 
   def move
     @user_book.update!(slug: params[:slug])
-    head :ok
+    return head :ok if request.xhr?
+
+    redirect_back fallback_location: current_user_collection_path,
+                  notice: "#{@book.title} moved to #{UserBook::SLUGS_READABLE.fetch(@user_book.slug)}."
   end
 
   def select
@@ -104,10 +107,16 @@ class BooksController < ApplicationController
 
   def set_user_book
     @book = Book.find(params[:id])
-    @user_book = current_user.user_books.find_by_book_id(params[:id])
+    @user_book = current_user.user_books.find_by_book_id!(params[:id])
   end
 
   def create_book_params
     params.require(:book).permit(:isbn, :slug)
+  end
+
+  def current_user_collection_path
+    return books_path unless current_user&.username.present?
+
+    user_books_path(username: current_user.username, slug: @user_book.slug)
   end
 end
