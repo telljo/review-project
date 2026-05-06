@@ -1,12 +1,31 @@
-<%= turbo_frame_tag "book-list" do %>
-  <% if @search_results %>
-    <% @search_results.each do |book| %>
-      <%= render template: "books/show", locals: { book: book }, key: book.isbn %>
-    <% end %>
+<%= turbo_frame_tag "book-list", class: "search__results" do %>
+  <% if @query.blank? %>
+    <div class="search__results_empty empty-state">
+      <div class="empty-state__icon" aria-hidden="true">
+        <i class="fas fa-book-open"></i>
+      </div>
+      <p class="empty-state__text">Start typing to search for a book</p>
+      <p class="empty-state__subtext">Results will appear here without leaving the page.</p>
+    </div>
+  <% elsif @search_results.present? %>
+    <div class="search__results_summary">
+      <strong>
+        Showing results for "<%= @query %>"
+      </strong>
+    </div>
+
+    <div class="search__results_list">
+      <% @search_results.each do |book| %>
+        <%= render template: "books/show", locals: { book: book }, key: book.isbn %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="search__results_empty empty-state">
+      <div class="empty-state__icon" aria-hidden="true">
+        <i class="fas fa-search"></i>
+      </div>
+      <p class="empty-state__text">No matching books found</p>
+      <p class="empty-state__subtext">Try a different title, author, or ISBN and we’ll search again instantly.</p>
+    </div>
   <% end %>
-  <div>
-    <strong>
-      Showing <%= @search_results.length %> <%= "book".pluralize(@search_results.length) %>
-    </strong>
-  </div>
 <% end %>

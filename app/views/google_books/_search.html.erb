@@ -1,35 +1,50 @@
-<div class="search" data-controller="search">
-  <div class="search__bar">
-    <span
-      class="search__icon"
-      data-search-target="search"
-    >
-      <i class="fas fa-search"></i>
-    </span>
+<% home_variant = local_assigns.fetch(:home_variant, false) %>
 
-    <span
-      class="search__icon visually-hidden"
-      aria-hidden="true"
-      data-search-target="spinner"
-    >
-      <i class="fas fa-spinner fa-spin"></i>
+<div class="<%= class_names('search', 'search--home': home_variant) %>" data-controller="search">
+
+  <div class="search__bar">
+    <span class="search__icon" aria-hidden="true">
+      <i class="fas fa-search"></i>
     </span>
 
     <%= simple_form_for :google_books,
       url: search_google_books_path,
       method: :get,
-      data: { turbo_frame: "book-list", turbo_action: "advance" },
-      html: { class: "search__form", data: { search_target: "form" } } do |form| %>
+      html: {
+        class: "search__form",
+        data: {
+          turbo_frame: "book-list",
+          turbo_action: "advance",
+          search_target: "form"
+        }
+      } do |form| %>
 
       <%= form.text_field :title,
         placeholder: "Search for a book by title, author, or ISBN",
         class: "search__bar-input",
         value: @query,
+        autocomplete: "off",
         data: {
           search_target: "searchInput",
           action: "input->search#search"
         }
       %>
     <% end %>
+
+    <div class="search__status" aria-live="polite" aria-atomic="true">
+      <span class="search__status-icon" data-search-target="search">
+        <i class="fas fa-bolt"></i>
+      </span>
+      <span
+        class="search__status-icon visually-hidden"
+        aria-hidden="true"
+        data-search-target="spinner"
+      >
+        <i class="fas fa-spinner fa-spin"></i>
+      </span>
+      <span class="search__status-text">Live search</span>
+    </div>
   </div>
+
+  <p class="search__hint">Search by title, author, or ISBN. Results appear after a short pause.</p>
 </div>

@@ -2,6 +2,11 @@
 
 class GoogleBooksController < ApplicationController
   def index
+    @query = ""
+    @search_results = []
+    @books_count = Book.count
+    @reviews_count = Review.count
+
     # Books that have an average review of 4 or higher
     @popular_books = Book.joins('LEFT OUTER JOIN reviews ON reviews.book_id = books.id')
                          .group('books.id')

@@ -22,14 +22,18 @@ export default class extends Controller {
   search() {
     const q = this.searchInputTarget.value?.trim()
 
+    clearTimeout(this._t)
+
     if (!q) {
       this.hideLoading()
+      this._t = setTimeout(() => {
+        this.formTarget.requestSubmit()
+      }, 100)
       return
     }
 
     this.showLoading()
 
-    clearTimeout(this._t)
     this._t = setTimeout(() => {
       this.formTarget.requestSubmit()
     }, 1000)
