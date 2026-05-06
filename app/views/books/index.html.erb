@@ -1,19 +1,49 @@
-<%# app/views/books/index.html.erb %>
-<% if @user.present? %>
-  <%= render "layouts/profile_section" %>
-<% end %>
+<div class="container container--no_style" style="--bookshelf-plank-image: url('<%= asset_path("bookshelf-shelf.webp") %>');">
+  <% collection_owner = @user&.username.presence || "The library" %>
+  <% page_title = if @user.present?
+                    @slug.present? ? selected_bookshelf_label(@slug) : "Bookshelf"
+                  else
+                    "Library"
+                  end %>
+  <% page_subtitle = if @owner_view && @slug.blank?
+                       "Arrange your books across the shelves and drag them between sections whenever the stack changes."
+                     elsif @user.present?
+                       "A curated reading record with space for finished books, active reads, and the next volume waiting in line."
+                     else
+                       "Browse the shared collection and open any title to explore the notes around it."
+                     end %>
 
-<div class="container container--no_style books__page">
-  <div class="review_titles">
-    <h1><%= @user.present? ? "Books" : "All Books" %></h1>
-  </div>
+  <section class="books__hero">
+    <div class="books__hero_copy">
+      <p class="books__eyebrow"><%= collection_owner %></p>
+      <h1 class="books__page_title"><%= page_title %></h1>
+      <p class="books__page_subtitle"><%= page_subtitle %></p>
+    </div>
+
+    <% if @user.present? %>
+      <div class="books__hero_meta" aria-label="Collection summary">
+        <div class="books__stat">
+          <span class="books__stat_value"><%= @user.books.count %></span>
+          <span class="books__stat_label">Books</span>
+        </div>
+
+        <div class="books__stat">
+          <span class="books__stat_value"><%= @user.reviews.count %></span>
+          <span class="books__stat_label">Reviews</span>
+        </div>
+      </div>
+    <% end %>
+  </section>
 
   <% if @user.present? %>
-    <div class="books__toolbar">
-      <div class="review_titles">
-        <%= render "books/bookshelf_dropdown", user: @user, selected_slug: @slug %>
-      </div>
-    </div>
+    <nav class="books__filters" aria-label="Bookshelf filters">
+      <% bookshelves_menu_options(user: @user).each do |option| %>
+        <% is_active = option[:slug].blank? ? @slug.blank? : option[:slug] == @slug %>
+        <%= link_to option[:label],
+            option[:path],
+            class: class_names("books__filter", "books__filter--active": is_active) %>
+      <% end %>
+    </nav>
   <% end %>
 
   <div class="books__sections">
