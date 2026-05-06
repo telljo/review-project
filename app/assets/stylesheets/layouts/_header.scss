@@ -3,18 +3,28 @@
 .header {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-s);
+  align-items: flex-end;
+  gap: var(--space-s) var(--space-m);
   justify-content: space-between;
   margin-top: var(--space-m);
   margin-bottom: var(--space-l);
+  min-width: 0;
 
   &__home-page {
     display: flex;
+    max-width: 48rem;
+    margin: 0 auto;
     gap: var(--space-s);
     flex-direction: column;
-    padding: var(--space-s);
+    padding: var(--space-m) 0 var(--space-s);
     text-align: center;
     width: 100%;
+
+    p {
+      max-width: 42rem;
+      margin: 0 auto;
+      color: var(--color-text-header);
+    }
   }
 
   &__review-page {
@@ -28,11 +38,23 @@
 
   &__user_books {
     display: flex;
-    width: 12em;
+    width: min(100%, 12rem);
     flex-direction: column;
   }
 
   @include media(tabletAndUp) {
     margin-bottom: var(--space-xl);
+  }
+
+  @include media(tabletAndDown) {
+    margin-bottom: var(--space-l);
+
+    &__home-page {
+      padding-top: 0;
+    }
+
+    &__user_books {
+      width: 100%;
+    }
   }
 }

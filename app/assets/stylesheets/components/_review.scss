@@ -1,54 +1,57 @@
 @use "../mixins/media" as *;
 
 .review {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: minmax(8rem, 10rem) minmax(0, 1fr);
   width: 100%;
-  gap: var(--space-xs);
-  margin-bottom: var(--space-m);
-  padding: var(--space-xs);
+  align-items: start;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  margin-bottom: 0;
+  padding: clamp(0.75rem, 1.5vw, 1rem);
 
   &__image {
     filter: drop-shadow(0 0.4em 0.8rem rgba(0, 0, 0, 0.2));
     border-radius: 0 6% 6% 0/1%;
     overflow: hidden;
-    margin-top: var(--space-m);
+    margin-top: var(--space-s);
   }
 
   &__header {
-    width: 100%;
     display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s) var(--space-m);
+    align-items: flex-start;
     justify-content: space-between;
-    flex-direction: row;
   }
 
   &__content {
-    width: 100%;
     display: flex;
     flex-direction: column;
+    gap: var(--space-m);
+    min-width: 0;
   }
 
   &__body {
-    border: 1px solid #bbb;
-    border-radius: 3px;
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 1rem;
     margin: 0;
-    padding: 0.4em 0.6em;
+    padding: 0.85rem 1rem;
     min-height: 5em;
-    margin-top: 1em;
-    margin-bottom: 1em;
+    background: rgb(255 255 255 / 3%);
     outline: none;
   }
 
   &__section {
     width: 100%;
-    display: row;
-    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    min-width: 0;
   }
 
-
   &__created_at {
-    float: right;
-    min-width: 100px;
+    min-width: min(100%, 10rem);
+    text-align: right;
   }
 
   @include media(tabletAndUp) {
@@ -56,28 +59,34 @@
   }
 
   @include media(tabletAndDown) {
-    display: flex;
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: var(--space-s);
-    &__created_at {
-      display: none;
-    }
 
     &__image {
-      width: 35%;
-      margin: auto;
+      width: min(11rem, 48vw);
+      margin: 0 auto;
       filter: drop-shadow(0 0.4em 0.8rem rgba(0, 0, 0, 0.2));
       border-radius: 0 6% 6% 0/4%;
       overflow: hidden;
     }
+
     &__content {
-      padding-right: var(--space-m);
-      padding-left: var(--space-m);
-      padding-bottom: var(--space-m);
+      padding: 0;
+    }
+
+    &__header,
+    &__created_at {
+      text-align: left;
+    }
+
+    &__created_at {
+      width: 100%;
+      min-width: 0;
     }
   }
 
   .review_titles {
+    display: flex;
     flex-flow: column;
     margin-top: var(--space-m);
     margin-bottom: var(--space-xs);
@@ -88,6 +97,7 @@
 
   &__actions {
     display: flex;
+    flex-wrap: wrap;
     flex: 0 0 auto;
     align-self: flex-start;
     gap: var(--space-xs);

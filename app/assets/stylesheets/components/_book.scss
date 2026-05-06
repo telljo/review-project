@@ -2,11 +2,12 @@
 
 .book {
   display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: var(--space-m);
+  grid-template-columns: minmax(9rem, 12rem) minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(1rem, 2.5vw, 1.5rem);
   width: 100%;
-  margin-bottom: var(--space-m);
-  padding: var(--space-s);
+  margin-bottom: 0;
+  padding: clamp(0.75rem, 1.5vw, 1rem);
   border-radius: var(--radius-m, 12px);
   background: var(--color-surface, transparent);
 
@@ -56,24 +57,33 @@
     display: flex;
     flex-direction: column;
     min-width: 0;
+    gap: var(--space-m);
+  }
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-m);
   }
 
   &__meta {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
-    margin-top: 0.15rem;
-    margin-bottom: var(--space-xs);
+    gap: var(--space-m);
+    margin: 0;
   }
 
   &__rating {
     display: inline-flex;
     align-items: center;
     gap: var(--space-xs);
-    text-align: right;
+    text-align: left;
     color: var(--color-text-muted);
     flex-wrap: wrap;
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 
   &__rating-score {
@@ -87,26 +97,40 @@
 
   &__body {
     margin: 0;
-    padding: 0;
+    padding: 1rem 1.1rem;
     min-height: 5em;
+    border: 1px solid rgb(255 255 255 / 8%);
+    border-radius: 1rem;
+    background: rgb(255 255 255 / 3%);
     outline: none;
   }
 
   @include media(tabletAndDown) {
     grid-template-columns: 1fr;
-    padding: var(--space-s);
+    padding: 0;
 
     &__aside {
       align-items: center;
       text-align: center;
     }
 
-    &__meta {
+    &__header,
+    &__meta,
+    &__rating {
       justify-content: center;
+      text-align: center;
+    }
+
+    &__meta {
+      gap: var(--space-s);
     }
 
     &__cover {
       width: 140px;
+    }
+
+    &__body {
+      padding: 0.9rem 1rem;
     }
   }
 }
