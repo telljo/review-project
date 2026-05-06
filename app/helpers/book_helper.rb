@@ -57,6 +57,7 @@ module BookHelper
     {
       title: UserBook::SLUGS_READABLE.fetch(slug),
       path: books_index_path_for(user:, slug:),
+      shelf_slug: slug,
       books:,
       empty_title:,
       empty_subtitle:,

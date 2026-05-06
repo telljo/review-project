@@ -1,32 +1,61 @@
+<% current_shelf_slug = local_assigns[:shelf_slug] %>
+<% owner_view = local_assigns.fetch(:owner_view, false) %>
+<% shelf_label = current_shelf_slug.present? ? selected_bookshelf_label(current_shelf_slug) : nil %>
+<% author_text =
+     if book.respond_to?(:authors) && book.authors.present?
+       Array(book.authors).join(", ")
+     else
+       book.try(:author)
+     end
+%>
+
 <div class="books__item" data-id="<%= book.id %>">
-  <%= link_to book_path(book), class: "books__card", data: { turbo_frame: "_top" } do %>
-    <div class="books__meta">
-      <div class="books__title" title="<%= book.title %>"><%= book.title %></div>
+  <article class="books__card">
+    <%= link_to(book_path(book), class: "books__card_link", data: { turbo_frame: "_top" }) do %>
+      <div class="books__card_header">
+        <% if shelf_label.present? %>
+          <span class="books__shelf_badge"><%= shelf_label %></span>
+        <% end %>
 
-      <% author_text =
-           if book.respond_to?(:authors) && book.authors.present?
-             Array(book.authors).join(", ")
-           else
-             book.try(:author)
-           end
-      %>
+        <% if book.respond_to?(:updated_at) && book.updated_at.present? %>
+          <div class="books__updated">
+            Updated <%= time_ago_in_words(book.updated_at) %> ago
+          </div>
+        <% end %>
+      </div>
 
-      <% if author_text.present? %>
-        <div class="books__author" title="<%= author_text %>"><%= author_text %></div>
-      <% end %>
-    </div>
+      <div class="books__cover_wrap">
+        <%= image_tag(book.image_link.presence || "no_cover.gif",
+          class: "books__cover_image",
+          loading: "lazy",
+          alt: (book.title.presence || "Book cover")) %>
+      </div>
 
-    <div class="books__cover_wrap">
-      <%= image_tag(book.image_link.presence || "no_cover.gif",
-        class: "books__cover_image",
-        loading: "lazy",
-        alt: (book.title.presence || "Book cover")) %>
-    </div>
+      <div class="books__meta">
+        <div class="books__title" title="<%= book.title %>"><%= book.title %></div>
 
-    <% if book.respond_to?(:updated_at) && book.updated_at.present? %>
-        <div class="books__updated">
-          Updated <%= time_ago_in_words(book.updated_at) %> ago
-        </div>
+        <% if author_text.present? %>
+          <div class="books__author" title="<%= author_text %>"><%= author_text %></div>
+        <% end %>
+      </div>
     <% end %>
-  <% end %>
+
+    <% if owner_view && current_shelf_slug.present? %>
+      <div class="books__actions">
+        <p class="books__actions_label">Change shelf</p>
+
+        <div class="books__action_buttons">
+          <% UserBook::USER_BOOK_STATUSES.each do |slug| %>
+            <% next if slug == current_shelf_slug %>
+
+            <%= button_to UserBook::SLUGS_READABLE.fetch(slug),
+                move_book_path(book, slug: slug),
+                method: :patch,
+                class: "books__action_button",
+                form: { class: "books__action_form", data: { turbo: false } } %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </article>
 </div>

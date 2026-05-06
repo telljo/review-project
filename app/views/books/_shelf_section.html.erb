@@ -1,4 +1,5 @@
 <% sortable_options = local_assigns[:sortable] %>
+<% owner_view = local_assigns.fetch(:owner_view, false) %>
 <section class="books__section">
   <% if title.present? %>
     <div class="review_titles">
@@ -21,7 +22,7 @@
           data-sortable-url="<%= sortable_options.dig(:data, :sortable_url) %>"
           data-sortable-source-id="<%= sortable_options.dig(:data, :sortable_source_id) %>"
         <% end %>>
-        <%= render books %>
+        <%= render books, owner_view:, shelf_slug: local_assigns[:shelf_slug] %>
       </div>
     <% else %>
       <%= render "books/empty_state", title: empty_title, subtitle: empty_subtitle %>
