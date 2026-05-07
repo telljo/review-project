@@ -3,7 +3,7 @@
 <%= turbo_frame_tag "book-list", class: "search-results" do %>
   <% if @query.blank? %>
     <div class="search-results__empty">
-      <% if @recently_added_books.any? %>
+      <% if @recently_added_books&.any? %>
         <%= render partial: 'books/recently_added' %>
       <% end %>
     </div>

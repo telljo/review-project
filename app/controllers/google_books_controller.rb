@@ -17,6 +17,7 @@ class GoogleBooksController < ApplicationController
   end
 
   def search
+    @recently_added_books = Book.order(created_at: :desc).limit(5)
     @query = search_query_param.to_s
     @search_scope = search_scope_param.presence_in(SEARCH_SCOPES.keys) || "title"
     @search_results = []
