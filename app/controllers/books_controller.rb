@@ -63,31 +63,32 @@ class BooksController < ApplicationController
   end
 
   def create
-    isbn = create_book_params[:isbn].strip
-    query_string = "isbn:#{isbn}"
+    attrs = normalized_create_book_params
+    slug = attrs.delete(:slug)
 
-    if Book.find_by(isbn: create_book_params[:isbn]).present?
-      @book = Book.find_by(isbn: create_book_params[:isbn])
-    else
-      gbook = GoogleBooksSearch.call(query_string, count: 1).first
+    ActiveRecord::Base.transaction do
+      @book = Book.find_or_initialize_by(isbn: attrs[:isbn])
+      @book.assign_attributes(attrs) if @book.new_record?
+      @book.save!
 
-      @book = Book.create(
-        isbn:,
-        title: gbook.title,
-        author: gbook.authors,
-        description: gbook.description,
-        image_link: gbook.image_link(zoom: 5)
-      )
+      user_book = current_user.user_books.find_or_initialize_by(book: @book)
+      user_book.slug = slug
+      user_book.save!
     end
-    UserBook.create!(book_id: @book.id, user_id: current_user.id, slug: create_book_params[:slug].strip)
 
-    if @book.save
-      respond_to do |format|
-        format.html { redirect_to books_path, notice: "#{@book.title} was added to your collection." }
-        format.turbo_stream { flash.now[:notice] = "#{@book.title} was added to your collection." }
+    respond_to do |format|
+      format.html { redirect_to books_path, notice: "#{@book.title} was added to your collection." }
+      format.turbo_stream { flash.now[:notice] = "#{@book.title} was added to your collection." }
+    end
+  rescue ActiveRecord::RecordInvalid
+    @book ||= Book.new(attrs.except(:isbn, :slug))
+
+    respond_to do |format|
+      format.html { render :new, status: :unprocessable_entity }
+      format.turbo_stream do
+        flash.now[:alert] = "We couldn't add that book to your collection."
+        render :create, status: :unprocessable_entity
       end
-    else
-      render :new, status: :unprocessable_entity
     end
   end
 
@@ -111,7 +112,13 @@ class BooksController < ApplicationController
   end
 
   def create_book_params
-    params.require(:book).permit(:isbn, :slug)
+    params.require(:book).permit(:isbn, :slug, :title, :author, :description, :image_link)
+  end
+
+  def normalized_create_book_params
+    create_book_params.to_h.transform_values do |value|
+      value.is_a?(String) ? value.strip : value
+    end.symbolize_keys
   end
 
   def current_user_collection_path

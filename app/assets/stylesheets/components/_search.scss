@@ -259,9 +259,21 @@
   }
 
   &__actions {
-    display: flex;
+    display: grid;
+    gap: 0.5rem;
     width: min(100%, 12rem);
-    justify-content: center;
+    justify-items: center;
+  }
+
+  &__actions_label {
+    margin: 0;
+    color: rgb(205 217 229 / 68%);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-align: center;
+    text-transform: uppercase;
   }
 
   &__empty {

@@ -32,11 +32,13 @@
               <% existing_book = current_user.books.find_by_isbn(book.isbn) %>
 
               <% if existing_book.present? %>
+                <p class="search-results__actions_label">In collection</p>
                 <%= link_to "Open book",
                     book_path(existing_book),
                     class: "btn btn--primary",
                     data: { turbo_frame: "_top" } %>
               <% else %>
+                <p class="search-results__actions_label">Save to collection</p>
                 <%= render "books/add_to_collection", book: book %>
               <% end %>
             </div>
