@@ -21,17 +21,7 @@
     </div>
 
     <% if @user.present? %>
-      <div class="books__hero_meta" aria-label="Collection summary">
-        <a href="<%= user_books_path(@user) %>" class="books__stat">
-          <span class="books__stat_value"><%= @user.books.count %></span>
-          <span class="books__stat_label">Books</span>
-        </a>
-
-        <a href="<%= user_reviews_path(@user) %>" class="books__stat">
-          <span class="books__stat_value"><%= @user.reviews.count %></span>
-          <span class="books__stat_label">Reviews</span>
-        </a>
-      </div>
+      <%= render "layouts/book_review_count" %>
     <% end %>
   </section>
 

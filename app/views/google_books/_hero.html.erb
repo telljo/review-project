@@ -7,14 +7,14 @@
     </div>
 
     <div class="header__home-meta" aria-label="Library overview">
-      <div class="header__stat">
+      <a href="<%= books_path %>" class="header__stat">
         <span class="header__stat-value"><%= @books_count %></span>
         <span class="header__stat-label">Books tracked</span>
-      </div>
-      <div class="header__stat">
+      </a>
+      <a href="<%= reviews_path %>" class="header__stat">
         <span class="header__stat-value"><%= @reviews_count %></span>
         <span class="header__stat-label">Reviews written</span>
-      </div>
+      </a>
     </div>
   </section>
 </div>
