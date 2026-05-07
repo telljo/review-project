@@ -20,6 +20,26 @@ export default class extends Controller {
   }
 
   search() {
+    this.queueSubmit(1000)
+  }
+
+  filter() {
+    this.queueSubmit(0)
+  }
+
+  showLoading() {
+    this.searchTarget.classList.add("visually-hidden");
+    this.spinnerTarget.classList.remove("visually-hidden");
+  }
+
+  hideLoading(event) {
+    if (event?.target?.id && event.target.id !== this.frameIdValue) return;
+
+    this.spinnerTarget.classList.add("visually-hidden");
+    this.searchTarget.classList.remove("visually-hidden");
+  }
+
+  queueSubmit(delay) {
     const q = this.searchInputTarget.value?.trim()
 
     clearTimeout(this._t)
@@ -36,18 +56,6 @@ export default class extends Controller {
 
     this._t = setTimeout(() => {
       this.formTarget.requestSubmit()
-    }, 1000)
-  }
-
-  showLoading() {
-    this.searchTarget.classList.add("visually-hidden");
-    this.spinnerTarget.classList.remove("visually-hidden");
-  }
-
-  hideLoading(event) {
-    if (event?.target?.id && event.target.id !== this.frameIdValue) return;
-
-    this.spinnerTarget.classList.add("visually-hidden");
-    this.searchTarget.classList.remove("visually-hidden");
+    }, delay)
   }
 }

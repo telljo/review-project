@@ -1,0 +1,21 @@
+<div style="--bookshelf-plank-image: url('<%= asset_path("bookshelf-shelf.webp") %>');">
+  <section class="books__showcase">
+    <header class="books__showcase_header">
+      <div class="books__showcase_copy">
+        <p class="books__eyebrow">Library</p>
+        <h2 class="books__showcase_title">Recently Added</h2>
+        <p class="books__showcase_subtitle">The newest arrivals in the shared library, ready to open, sort, and shelve.</p>
+      </div>
+    </header>
+
+    <div class="books__outer_grid_layout books__showcase_shelf">
+      <div class="books__shelf_shadow" aria-hidden="true"></div>
+
+      <div class="books__grid_layout books__showcase_grid" data-controller="bookshelf">
+        <%= render @recently_added_books, show_updated: false %>
+      </div>
+
+      <div class="books__shelf_plank" aria-hidden="true"></div>
+    </div>
+  </section>
+</div>

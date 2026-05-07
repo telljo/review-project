@@ -115,6 +115,47 @@
     }
   }
 
+  &__showcase {
+    position: relative;
+    min-width: 0;
+    padding: clamp(1.25rem, 2vw, 1.75rem);
+  }
+
+  &__showcase_header {
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  &__showcase_copy {
+    max-width: 40rem;
+  }
+
+  &__showcase_title {
+    margin: 0;
+    font-size: clamp(2.1rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  &__showcase_subtitle {
+    margin: 0.9rem 0 0;
+    color: rgb(205 217 229 / 72%);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  &__showcase_grid {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  &__showcase_shelf {
+    --bookshelf-book-width: clamp(5.3rem, 8vw, 7rem);
+    --bookshelf-row-gap: 4rem;
+
+    padding-bottom: 0;
+  }
+
   &__sections {
     display: grid;
     gap: clamp(2.5rem, 6vw, 4.5rem);
@@ -542,6 +583,29 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
+    &__showcase {
+      margin-top: var(--space-xl);
+      padding: 1.1rem 1rem 1.25rem;
+      border-radius: 1.4rem;
+    }
+
+    &__showcase_header {
+      margin-bottom: 1.35rem;
+    }
+
+    &__showcase_title {
+      font-size: clamp(2rem, 9vw, 2.75rem);
+    }
+
+    &__showcase_grid {
+      padding-right: 0;
+      padding-left: 0;
+    }
+
+    &__showcase_shelf {
+      --bookshelf-row-gap: 3.4rem;
+    }
+
     &__filters {
       flex-wrap: nowrap;
       overflow-x: auto;
@@ -591,6 +655,11 @@
     &__grid_layout {
       justify-content: center;
       column-gap: 0.75rem;
+    }
+
+    &__showcase_grid {
+      padding-right: 0;
+      padding-left: 0;
     }
 
     &__item {

@@ -7,28 +7,35 @@
       <i class="fas fa-search"></i>
     </span>
 
-    <%= simple_form_for :google_books,
-      url: search_google_books_path,
+    <%= form_with url: search_google_books_path,
       method: :get,
-      html: {
-        class: "search__form",
-        data: {
-          turbo_frame: "book-list",
-          turbo_action: "advance",
-          search_target: "form"
-        }
+      scope: nil,
+      class: "search__form",
+      data: {
+        turbo_frame: "book-list",
+        turbo_action: "advance",
+        search_target: "form"
       } do |form| %>
+      <div class="search__controls">
+        <%= form.select :scope,
+          GoogleBooksController::SEARCH_SCOPES.map { |value, label| [label, value] },
+          { selected: @search_scope || "title" },
+          {
+            class: "search__scope",
+            data: { action: "change->search#filter" }
+          } %>
 
-      <%= form.text_field :title,
-        placeholder: "Search for a book by title, author, or ISBN",
-        class: "search__bar-input",
-        value: @query,
-        autocomplete: "off",
-        data: {
-          search_target: "searchInput",
-          action: "input->search#search"
-        }
-      %>
+        <%= form.text_field :query,
+          placeholder: "Search for a book by title, author, or ISBN",
+          class: "search__bar-input",
+          value: @query,
+          autocomplete: "off",
+          data: {
+            search_target: "searchInput",
+            action: "input->search#search"
+          }
+        %>
+      </div>
     <% end %>
 
     <div class="search__status" aria-live="polite" aria-atomic="true">
@@ -45,6 +52,4 @@
       <span class="search__status-text">Live search</span>
     </div>
   </div>
-
-  <p class="search__hint">Search by title, author, or ISBN. Results appear after a short pause.</p>
 </div>

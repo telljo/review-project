@@ -1,6 +1,9 @@
 <% current_shelf_slug = local_assigns[:shelf_slug] %>
 <% owner_view = local_assigns.fetch(:owner_view, false) %>
 <% show_actions = local_assigns.fetch(:show_actions, owner_view && current_shelf_slug.present?) %>
+<% link_target = local_assigns[:link_target]
+   link_target = book_path(book) if link_target.nil? && book.persisted? %>
+<% show_updated = local_assigns.fetch(:show_updated, book.persisted?) %>
 <% author_text =
      if book.respond_to?(:authors) && book.authors.present?
        Array(book.authors).join(", ")
@@ -8,6 +11,28 @@
        book.try(:author)
      end
 %>
+<% card_content = capture do %>
+  <div class="books__cover_wrap">
+    <%= image_tag(book.image_link.presence || "no_cover.gif",
+      class: "books__cover_image",
+      loading: "lazy",
+      alt: (book.title.presence || "Book cover")) %>
+  </div>
+
+  <div class="books__meta">
+    <div class="books__title" title="<%= book.title %>"><%= book.title %></div>
+
+    <% if author_text.present? %>
+      <div class="books__author" title="<%= author_text %>"><%= author_text %></div>
+    <% end %>
+
+    <% if show_updated && book.respond_to?(:updated_at) && book.updated_at.present? %>
+      <div class="books__updated">
+        Updated <%= time_ago_in_words(book.updated_at) %> ago
+      </div>
+    <% end %>
+  </div>
+<% end %>
 
 <div class="books__item" data-id="<%= book.id %>">
   <article class="books__card">
@@ -39,26 +64,13 @@
       </div>
     <% end %>
 
-    <%= link_to book_path(book), class: "books__card_link", data: { turbo_frame: "_top" } do %>
-      <div class="books__cover_wrap">
-        <%= image_tag(book.image_link.presence || "no_cover.gif",
-          class: "books__cover_image",
-          loading: "lazy",
-          alt: (book.title.presence || "Book cover")) %>
-      </div>
-
-      <div class="books__meta">
-        <div class="books__title" title="<%= book.title %>"><%= book.title %></div>
-
-        <% if author_text.present? %>
-          <div class="books__author" title="<%= author_text %>"><%= author_text %></div>
-        <% end %>
-
-        <% if book.respond_to?(:updated_at) && book.updated_at.present? %>
-          <div class="books__updated">
-            Updated <%= time_ago_in_words(book.updated_at) %> ago
-          </div>
-        <% end %>
+    <% if link_target.present? %>
+      <%= link_to link_target, class: "books__card_link", data: { turbo_frame: "_top" } do %>
+        <%= card_content %>
+      <% end %>
+    <% else %>
+      <div class="books__card_link books__card_link--static">
+        <%= card_content %>
       </div>
     <% end %>
   </article>
