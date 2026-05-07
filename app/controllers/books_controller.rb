@@ -28,11 +28,23 @@ class BooksController < ApplicationController
   end
 
   def move
+    previous_slug = @user_book.slug
     @user_book.update!(slug: params[:slug])
-    return head :ok if request.xhr?
+    message = "#{@book.title} moved to #{UserBook::SLUGS_READABLE.fetch(@user_book.slug)}."
 
-    redirect_back fallback_location: current_user_collection_path,
-                  notice: "#{@book.title} moved to #{UserBook::SLUGS_READABLE.fetch(@user_book.slug)}."
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[:notice] = message
+        load_bookshelf_state(user: current_user, slug: params[:view_slug])
+        @moved_from_slug = previous_slug
+        @moved_to_slug = @user_book.slug
+      end
+      format.html do
+        redirect_back fallback_location: current_user_collection_path,
+                      notice: message
+      end
+      format.any { head :ok }
+    end
   end
 
   def select
@@ -63,31 +75,32 @@ class BooksController < ApplicationController
   end
 
   def create
-    isbn = create_book_params[:isbn].strip
-    query_string = "isbn:#{isbn}"
+    attrs = normalized_create_book_params
+    slug = attrs.delete(:slug)
 
-    if Book.find_by(isbn: create_book_params[:isbn]).present?
-      @book = Book.find_by(isbn: create_book_params[:isbn])
-    else
-      gbook = GoogleBooksSearch.call(query_string, count: 1).first
+    ActiveRecord::Base.transaction do
+      @book = Book.find_or_initialize_by(isbn: attrs[:isbn])
+      @book.assign_attributes(attrs) if @book.new_record?
+      @book.save!
 
-      @book = Book.create(
-        isbn:,
-        title: gbook.title,
-        author: gbook.authors,
-        description: gbook.description,
-        image_link: gbook.image_link(zoom: 5)
-      )
+      user_book = current_user.user_books.find_or_initialize_by(book: @book)
+      user_book.slug = slug
+      user_book.save!
     end
-    UserBook.create!(book_id: @book.id, user_id: current_user.id, slug: create_book_params[:slug].strip)
 
-    if @book.save
-      respond_to do |format|
-        format.html { redirect_to books_path, notice: "#{@book.title} was added to your collection." }
-        format.turbo_stream { flash.now[:notice] = "#{@book.title} was added to your collection." }
+    respond_to do |format|
+      format.html { redirect_to books_path, notice: "#{@book.title} was added to your collection." }
+      format.turbo_stream { flash.now[:notice] = "#{@book.title} was added to your collection." }
+    end
+  rescue ActiveRecord::RecordInvalid
+    @book ||= Book.new(attrs.except(:isbn, :slug))
+
+    respond_to do |format|
+      format.html { render :new, status: :unprocessable_entity }
+      format.turbo_stream do
+        flash.now[:alert] = "We couldn't add that book to your collection."
+        render :create, status: :unprocessable_entity
       end
-    else
-      render :new, status: :unprocessable_entity
     end
   end
 
@@ -111,7 +124,27 @@ class BooksController < ApplicationController
   end
 
   def create_book_params
-    params.require(:book).permit(:isbn, :slug)
+    params.require(:book).permit(:isbn, :slug, :title, :author, :description, :image_link)
+  end
+
+  def normalized_create_book_params
+    create_book_params.to_h.transform_values do |value|
+      value.is_a?(String) ? value.strip : value
+    end.symbolize_keys
+  end
+
+  def load_bookshelf_state(user:, slug: nil)
+    @user = user
+    @slug = slug.presence
+    @owner_view = @user.present? && user_signed_in? && @user == current_user
+
+    if @slug.present?
+      @books = @user.books.where(user_books: { slug: @slug }).ordered.distinct
+    else
+      @read_books = @user.books.where(user_books: { slug: UserBook::READ }).ordered.distinct
+      @books_in_progress = @user.books.where(user_books: { slug: UserBook::READING }).ordered.distinct
+      @to_read_books = @user.books.where(user_books: { slug: UserBook::WANT_TO_READ }).ordered.distinct
+    end
   end
 
   def current_user_collection_path

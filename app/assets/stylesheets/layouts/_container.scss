@@ -1,38 +1,38 @@
 @use "../mixins/media" as *;
 
 .container {
-  padding: var(--space-m);
+  --container-max-width: var(--layout-content-max);
+  --container-shell-padding: var(--layout-page-gutter);
 
-  margin-left: auto;
+  width: min(
+    calc(100% - (var(--container-shell-padding) * 2)),
+    var(--container-max-width)
+  );
+  min-width: 0;
   margin-right: auto;
-  margin-bottom: 2em;
-  min-width: 31em;
-
+  margin-bottom: var(--space-xl);
+  margin-left: auto;
   padding: clamp(1rem, 3vw, 1.5rem);
   border-radius: var(--borderRadius-medium, 6px);
-
-  // softer card styling
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.03);
-
-  // a little depth without being heavy
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 
   &--no_style {
     background: none;
     border: none;
     box-shadow: none;
+    border-radius: 0;
     padding: 0;
-    margin-bottom: 2em;
-    width: 100%;
+    margin-bottom: var(--space-l);
   }
 
   &--space-below {
-    margin-bottom: 15em;
+    margin-bottom: clamp(7rem, 18vw, 15rem);
   }
 
   &--wide {
-    width: 100%;
+    --container-max-width: var(--layout-wide-max);
   }
 
   .buttons {
@@ -42,22 +42,23 @@
   }
 
   @include media(tabletAndUp) {
-    padding-right: var(--space-m);
-    padding-left: var(--space-m);
-    max-width: 60rem;
-
     &--no_style {
       padding: 0;
     }
   }
+
   @include media(tabletAndDown) {
-    margin: auto;
-    margin-top: 0;
-    margin-bottom: var(--space-s);
-    width: 90%;
+    --container-shell-padding: var(--layout-page-gutter-tight);
+
+    margin-bottom: var(--space-l);
+    padding: clamp(0.9rem, 4vw, 1.15rem);
 
     &--space-below {
-      margin-bottom: 15em;
+      margin-bottom: clamp(6rem, 24vw, 12rem);
+    }
+
+    &--no_style {
+      padding: 0;
     }
   }
 }

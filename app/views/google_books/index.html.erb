@@ -1,14 +1,9 @@
-<div class="container container--no_style">
-  <div class="header__home-page">
-    <h1>Your virtual bookshelf</h1>
-    <p>Collect, review, and discover new books. Build your collection, and share your passion for reading with the world.</p>
-  </div>
+<%= render "hero" %>
+
+<div class="container container--wide container--no_style">
+  <%= render "search", home_variant: true %>
 </div>
 
-<div class="container container--no_style">
-  <%= render "search" %>
+<div class="container container--wide container--no_style">
+  <%= render "list" %>
 </div>
-
-<% if @popular_books.any? %>
-  <%= render partial: 'books/popular' %>
-<% end %>

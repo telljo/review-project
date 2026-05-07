@@ -2,13 +2,24 @@
 
 .devise-form {
   display: flex;
-  width: 500px;
+  width: min(100%, 50rem);
   justify-content: space-between;
   margin: 0 auto;
   flex-direction: column;
-  gap: var(--space-s);
+  gap: var(--space-m);
   padding: var(--space-xs);
 
+  &__content {
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border-radius: var(--borderRadius-large, 12px);
+
+    // softer card styling
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+
+    // a little depth without being heavy
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  }
 
   fieldset {
     border: none;
@@ -18,6 +29,20 @@
     color: red;
     margin-bottom: 10px;
     text-align: center;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  &__intro {
+    margin: 0;
+    color: white;
+    line-height: 1.7;
   }
 
   &__checkbox {
@@ -36,9 +61,61 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    margin-top: 1em;
+    margin-top: var(--space-m);
     gap: var(--space-s);
     justify-content: flex-end;
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    padding-top: var(--space-s);
+  }
+
+  &__section + &__section {
+    margin-top: var(--space-s);
+    border-top: 1px solid rgb(205 217 229 / 12%);
+  }
+
+  &__section_copy {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  &__section_title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  &__section_text {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  &__notice {
+    margin: 0;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgb(85 158 83 / 22%);
+    border-radius: var(--borderRadius-medium, 6px);
+    background: rgb(85 158 83 / 9%);
+    color: var(--color-text-header);
+    line-height: 1.5;
+  }
+
+  &__danger {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    margin-top: var(--space-m);
+    padding-top: var(--space-m);
+    border-top: 1px solid rgb(255 255 255 / 12%);
   }
 
   @include media(tabletAndDown) {
@@ -50,6 +127,29 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-s);
+
+  .input,
+  .string,
+  .email,
+  .password {
+    margin: 0;
+  }
+
+  label {
+    display: inline-block;
+    margin-bottom: 0.35rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+
+  .hint {
+    display: block;
+    margin-top: 0.45rem;
+    color: var(--color-text-muted);
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
 
   input {
     padding: var(--space-xxs) var(--space-s);
@@ -131,6 +231,13 @@
 }
 
 @include media(tabletAndDown) {
+  .devise-form {
+    &__actions,
+    &__danger {
+      margin-top: var(--space-s);
+    }
+  }
+
   .devise-form__actions,
   .form-actions {
     justify-content: stretch;

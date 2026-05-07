@@ -1,95 +1,193 @@
 @use "../mixins/media" as *;
 
+.reviews {
+  &__showcase {
+    position: relative;
+    min-width: 0;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: clamp(1.25rem, 2vw, 1.75rem);
+    align-items: stretch;
+  }
+}
+
 .review {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  gap: var(--space-xs);
-  margin-bottom: var(--space-m);
-  padding: var(--space-xs);
+  display: grid;
+  grid-template-columns: minmax(5.5rem, 6.8rem) minmax(0, 1fr);
+  gap: 1rem;
+  min-height: 100%;
+  padding: clamp(1rem, 2vw, 1.35rem);
+  border: 1px solid rgb(255 255 255 / 9%);
+  border-radius: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 4%),
+    0 18px 48px rgb(0 0 0 / 18%);
 
   &__image {
     filter: drop-shadow(0 0.4em 0.8rem rgba(0, 0, 0, 0.2));
     border-radius: 0 6% 6% 0/1%;
     overflow: hidden;
-    margin-top: var(--space-m);
+    align-self: start;
   }
 
   &__header {
-    width: 100%;
     display: flex;
-    justify-content: space-between;
-    flex-direction: row;
+    flex-direction: column;
+    gap: 0.85rem;
+    min-width: 0;
+  }
+
+  &__titles {
+    min-width: 0;
+  }
+
+  &__eyebrow {
+    margin: 0 0 0.45rem;
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: clamp(1.2rem, 2vw, 1.5rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+
+  &__author {
+    margin: 0.45rem 0 0;
+    color: var(--color-text-muted);
+  }
+
+  &__user_link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  &__rating {
+    display: inline-flex;
+    gap: 0.18rem;
+    align-items: flex-start;
+
+    .fa-star {
+      color: #ccc;
+      width: 2em;
+      height: 2em;
+    }
+
+    .selected {
+      color: #e87400;
+    }
   }
 
   &__content {
-    width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 1rem;
+    min-width: 0;
   }
 
   &__body {
-    border: 1px solid #bbb;
-    border-radius: 3px;
+    border: 1px solid rgb(255 255 255 / 10%);
+    border-radius: 1.15rem;
     margin: 0;
-    padding: 0.4em 0.6em;
-    min-height: 5em;
-    margin-top: 1em;
-    margin-bottom: 1em;
+    padding: 0.95rem 1rem;
+    min-height: 8.5rem;
+    background: rgb(255 255 255 / 4%);
     outline: none;
+
+    p:first-child {
+      margin-top: 0;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &__section {
     width: 100%;
-    display: row;
-    justify-content: space-between;
-  }
-
-
-  &__created_at {
-    float: right;
-    min-width: 100px;
-  }
-
-  @include media(tabletAndUp) {
-    padding: var(--space-xs) var(--space-m);
-  }
-
-  @include media(tabletAndDown) {
     display: flex;
     flex-direction: column;
     gap: var(--space-s);
-    &__created_at {
-      display: none;
-    }
-
-    &__image {
-      width: 35%;
-      margin: auto;
-      filter: drop-shadow(0 0.4em 0.8rem rgba(0, 0, 0, 0.2));
-      border-radius: 0 6% 6% 0/4%;
-      overflow: hidden;
-    }
-    &__content {
-      padding-right: var(--space-m);
-      padding-left: var(--space-m);
-      padding-bottom: var(--space-m);
-    }
+    min-width: 0;
   }
 
-  .review_titles {
-    flex-flow: column;
-    margin-top: var(--space-m);
-    margin-bottom: var(--space-xs);
-    h4 {
-      color: var(--color-text-muted);
-    }
+  &__created_at {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
   }
 
   &__actions {
     display: flex;
-    flex: 0 0 auto;
-    align-self: flex-start;
+    flex-wrap: wrap;
     gap: var(--space-xs);
+    margin-top: auto;
+  }
+
+  @include media(tabletAndUp) {
+    &__header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    &__created_at {
+      text-align: right;
+      min-width: 8.5rem;
+    }
+  }
+
+  @include media(tabletAndDown) {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+
+    &__image {
+      width: min(11rem, 48vw);
+      margin: 0 auto;
+      filter: drop-shadow(0 0.4em 0.8rem rgba(0, 0, 0, 0.2));
+      border-radius: 0 6% 6% 0/4%;
+      overflow: hidden;
+    }
+
+    &__content {
+      padding: 0;
+    }
+
+    &__created_at {
+      text-align: left;
+      width: 100%;
+    }
+  }
+
+  .review_titles {
+    display: flex;
+    flex-flow: column;
+    margin-top: var(--space-m);
+    margin-bottom: var(--space-xs);
+
+    h1,
+    h4 {
+      margin: 0;
+    }
+
+    h4 {
+      color: var(--color-text-muted);
+    }
   }
 }

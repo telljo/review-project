@@ -1,35 +1,55 @@
-<div class="search" data-controller="search">
+<% home_variant = local_assigns.fetch(:home_variant, false) %>
+
+<div class="<%= class_names('search', 'search--home': home_variant) %>" data-controller="search">
+
   <div class="search__bar">
-    <span
-      class="search__icon"
-      data-search-target="search"
-    >
+    <span class="search__icon" aria-hidden="true">
       <i class="fas fa-search"></i>
     </span>
 
-    <span
-      class="search__icon visually-hidden"
-      aria-hidden="true"
-      data-search-target="spinner"
-    >
-      <i class="fas fa-spinner fa-spin"></i>
-    </span>
-
-    <%= simple_form_for :google_books,
-      url: search_google_books_path,
+    <%= form_with url: search_google_books_path,
       method: :get,
-      data: { turbo_frame: "book-list", turbo_action: "advance" },
-      html: { class: "search__form", data: { search_target: "form" } } do |form| %>
+      scope: nil,
+      class: "search__form",
+      data: {
+        turbo_frame: "book-list",
+        turbo_action: "advance",
+        search_target: "form"
+      } do |form| %>
+      <div class="search__controls">
+        <%= form.select :scope,
+          GoogleBooksController::SEARCH_SCOPES.map { |value, label| [label, value] },
+          { selected: @search_scope || "title" },
+          {
+            class: "search__scope",
+            data: { action: "change->search#filter" }
+          } %>
 
-      <%= form.text_field :title,
-        placeholder: "Search for a book by title, author, or ISBN",
-        class: "search__bar-input",
-        value: @query,
-        data: {
-          search_target: "searchInput",
-          action: "input->search#search"
-        }
-      %>
+        <%= form.text_field :query,
+          placeholder: "Search for a book by title, author, or ISBN",
+          class: "search__bar-input",
+          value: @query,
+          autocomplete: "off",
+          data: {
+            search_target: "searchInput",
+            action: "input->search#search"
+          }
+        %>
+      </div>
     <% end %>
+
+    <div class="search__status" aria-live="polite" aria-atomic="true">
+      <span class="search__status-icon" data-search-target="search">
+        <i class="fas fa-bolt"></i>
+      </span>
+      <span
+        class="search__status-icon visually-hidden"
+        aria-hidden="true"
+        data-search-target="spinner"
+      >
+        <i class="fas fa-spinner fa-spin"></i>
+      </span>
+      <span class="search__status-text">Live search</span>
+    </div>
   </div>
 </div>

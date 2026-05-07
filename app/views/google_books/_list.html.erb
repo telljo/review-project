@@ -1,12 +1,58 @@
-<%= turbo_frame_tag "book-list" do %>
-  <% if @search_results %>
-    <% @search_results.each do |book| %>
-      <%= render template: "books/show", locals: { book: book }, key: book.isbn %>
-    <% end %>
+<% results_count = @search_results.length %>
+
+<%= turbo_frame_tag "book-list", class: "search-results" do %>
+  <% if @query.blank? %>
+    <div class="search-results__empty">
+      <% if @recently_added_books&.any? %>
+        <%= render partial: 'books/recently_added' %>
+      <% end %>
+    </div>
+  <% elsif @search_results.present? %>
+    <header class="search-results__header">
+      <p class="search-results__eyebrow">Search Results</p>
+      <p class="search-results__summary">
+        Showing <strong><%= results_count %> <%= "book".pluralize(results_count) %></strong> for
+        <span class="search-results__query">"<%= @query %>"</span>
+        in <span class="search-results__scope"><%= GoogleBooksController::SEARCH_SCOPES.fetch(@search_scope, "Title") %></span> search.
+      </p>
+    </header>
+
+    <div class="search-results__grid">
+      <% @search_results.each do |book| %>
+        <article class="search-results__item">
+          <%= render "books/book",
+            book: book,
+            link_target: (book.persisted? ? book_path(book) : nil),
+            show_updated: false,
+            owner_view: false,
+            show_actions: false %>
+
+          <% if current_user && book.isbn.present? %>
+            <div class="search-results__actions">
+              <% existing_book = current_user.books.find_by_isbn(book.isbn) %>
+
+              <% if existing_book.present? %>
+                <p class="search-results__actions_label">In collection</p>
+                <%= link_to "Open book",
+                    book_path(existing_book),
+                    class: "btn btn--primary",
+                    data: { turbo_frame: "_top" } %>
+              <% else %>
+                <p class="search-results__actions_label">Save to collection</p>
+                <%= render "books/add_to_collection", book: book %>
+              <% end %>
+            </div>
+          <% end %>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="search-results__empty empty-state">
+      <div class="empty-state__icon" aria-hidden="true">
+        <i class="fas fa-search"></i>
+      </div>
+      <p class="empty-state__text">No matching books found</p>
+      <p class="empty-state__subtext">Try a different title, author, or ISBN and we’ll search again instantly.</p>
+    </div>
   <% end %>
-  <div>
-    <strong>
-      Showing <%= @search_results.length %> <%= "book".pluralize(@search_results.length) %>
-    </strong>
-  </div>
 <% end %>

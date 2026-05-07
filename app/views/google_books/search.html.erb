@@ -1,9 +1,9 @@
+<%= render "hero" %>
+
 <div class="container container--wide container--no_style">
-  <%= render "search" %>
+  <%= render "search", home_variant: true %>
 </div>
 
 <div class="container container--wide container--no_style">
-  <%=
-    render(:partial => 'list')
-  %>
+  <%= render "list" %>
 </div>

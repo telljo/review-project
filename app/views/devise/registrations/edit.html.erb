@@ -1,46 +1,78 @@
-<main class="container">
-  <div class="devise-form">
-    <h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="devise-form">
+  <h1>Edit account</h1>
+  <p class="devise-form__intro">
+    Update your public profile details or change your password.
+  </p>
 
+  <div class="devise-form__content">
     <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= f.error_notification %>
 
       <div class="form-inputs">
-        <%= f.label :username %>
-        <%= f.input :username, required: true, autofocus: true %>
-        <%= f.label :email %>
-        <%= f.input :email, required: true %>
+        <section class="devise-form__section">
+          <div class="devise-form__section_copy">
+            <h2 class="devise-form__section_title">Profile</h2>
+            <p class="devise-form__section_text">These details appear with your account and help other readers find you.</p>
+          </div>
 
-        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-          <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
-        <% end %>
+          <%= f.input :username,
+                      required: true,
+                      autofocus: true,
+                      input_html: { autocomplete: "username" } %>
 
-        <%= f.label :password %>
-        <%= f.input :current_password,
-                    hint: "we need your current password to confirm your changes",
-                    required: true,
-                    input_html: { autocomplete: "current-password" } %>
+          <%= f.input :email,
+                      required: true,
+                      input_html: { autocomplete: "email" } %>
 
-        <%= f.label :new_password %>
-        <%= f.input :password,
-                    hint: "leave it blank if you don't want to change it",
-                    required: false,
-                    input_html: { autocomplete: "new-password" } %>
-        <%= f.label :new_password_confirmation %>
-        <%= f.input :password_confirmation,
-                    required: false,
-                    input_html: { autocomplete: "new-password" } %>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <p class="devise-form__notice">
+              Confirmation pending for <strong><%= resource.unconfirmed_email %></strong>.
+            </p>
+          <% end %>
+        </section>
+
+        <section class="devise-form__section">
+          <div class="devise-form__section_copy">
+            <h2 class="devise-form__section_title">Security</h2>
+            <p class="devise-form__section_text">Leave the new password fields blank if you only want to update your username or email.</p>
+          </div>
+
+          <%= f.input :current_password,
+                      label: "Current password",
+                      hint: "We need your current password to confirm your changes.",
+                      required: true,
+                      input_html: { autocomplete: "current-password" } %>
+
+          <%= f.input :password,
+                      label: "New password",
+                      hint: "Leave it blank if you don't want to change it.",
+                      required: false,
+                      input_html: { autocomplete: "new-password" } %>
+
+          <%= f.input :password_confirmation,
+                      label: "Confirm new password",
+                      required: false,
+                      input_html: { autocomplete: "new-password" } %>
+        </section>
       </div>
 
-      <div class="form-actions">
-        <%= button_tag "Update", class: "btn btn--secondary btn--medium", type: :submit %>
-      </div>
+      <fieldset class="devise-form__actions">
+        <%= f.submit "Save changes", class: "btn btn--secondary btn--medium" %>
+        <%= link_to "Cancel", root_path, class: "btn btn--light btn--medium" %>
+      </fieldset>
     <% end %>
 
-    <%= button_to "Cancel my account",
-                  registration_path(resource_name),
-                  method: :delete,
-                  data: { turbo_confirm: "Are you sure?" },
-                  class: "btn btn--danger btn--medium" %>
+    <section class="devise-form__danger" aria-labelledby="danger-zone-title">
+      <div class="devise-form__section_copy">
+        <h2 id="danger-zone-title" class="devise-form__section_title">Danger zone</h2>
+        <p class="devise-form__section_text">Deleting your account is permanent and will remove your profile, shelves, and reviews.</p>
+      </div>
+
+      <%= button_to "Delete account",
+                    registration_path(resource_name),
+                    method: :delete,
+                    data: { turbo_confirm: "Are you sure?" },
+                    class: "btn btn--danger btn--medium" %>
+    </section>
   </div>
-</main>
+</div>

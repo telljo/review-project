@@ -1,3 +1,18 @@
+<% author_text =
+     if book.respond_to?(:authors) && book.authors.present?
+       Array(book.authors).join(", ")
+     else
+       book.author
+     end
+%>
+<% book_payload = {
+     isbn: book.isbn,
+     title: book.title,
+     author: author_text,
+     description: book.description,
+     image_link: book.image_link
+   } %>
+
 <div class="dropdown" data-controller="dropdown">
     <button id="dropdown_sort" data-action="click->dropdown#toggle click@window->dropdown#hide" role="button" type="button" class="dropdown__button">
     <span data-dropdown-target="buttonText">Add to collection</span>
@@ -7,25 +22,19 @@
   </button>
   <div id="dropdown__menu" data-dropdown-target="menu" class="dropdown__menu" id="options" role="listbox">
     <%= button_to "Read",
-      books_path(book: {
-        isbn: book.isbn,
-        slug: "read"
-      }),
+      books_path,
       method: :post,
+      params: { book: book_payload.merge(slug: "read") },
       class: "dropdown__menu_item dropdown__button dropdown__button--in-list" %>
     <%= button_to "Currently reading",
-      books_path(book: {
-        isbn: book.isbn,
-        slug: "reading"
-      }),
+      books_path,
       method: :post,
+      params: { book: book_payload.merge(slug: "reading") },
       class: "dropdown__menu_item dropdown__button dropdown__button--in-list" %>
     <%= button_to "Want to read",
-      books_path(book: {
-        isbn: book.isbn,
-        slug: "want_to_read"
-      }),
+      books_path,
       method: :post,
+      params: { book: book_payload.merge(slug: "want_to_read") },
       class: "dropdown__menu_item dropdown__button dropdown__button--in-list" %>
   </div>
 </div>

@@ -2,9 +2,11 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="dropdown"
 export default class extends Controller {
-  static targets = ["menu", "buttonText", "checkbox"]
+  static targets = ["menu", "buttonText", "checkbox", "button"]
 
   connect() {
+    this.setExpanded(this.isOpen());
+
     if (!this.hasButtonTextTarget) return;
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -28,25 +30,53 @@ export default class extends Controller {
     }
   }
 
-  toggle(){
+  toggle() {
     if (!this.hasMenuTarget) return;
 
-    if(this.menuTarget.classList.contains('toggled')) {
-      this.menuTarget.classList.remove('toggled');
+    if (this.isOpen()) {
+      this.closeMenu();
+    } else {
+      this.openMenu();
     }
-    else {
-      this.menuTarget.classList.add('toggled');
-    }
+  }
+
+  close() {
+    this.closeMenu();
   }
 
   hide(event) {
     if (!this.hasMenuTarget) return;
 
     if (!this.element.contains(event.target)) {
-      this.menuTarget.classList.remove('toggled');
-      if(this.hasCheckboxTarget){
-        this.checkboxTarget.checked = false;
-      }
+      this.closeMenu();
     }
+  }
+
+  openMenu() {
+    this.menuTarget.classList.add('toggled');
+    this.syncCheckbox(true);
+    this.setExpanded(true);
+  }
+
+  closeMenu() {
+    this.menuTarget.classList.remove('toggled');
+    this.syncCheckbox(false);
+    this.setExpanded(false);
+  }
+
+  syncCheckbox(expanded) {
+    if (this.hasCheckboxTarget) {
+      this.checkboxTarget.checked = expanded;
+    }
+  }
+
+  setExpanded(expanded) {
+    if (this.hasButtonTarget) {
+      this.buttonTarget.setAttribute("aria-expanded", expanded ? "true" : "false");
+    }
+  }
+
+  isOpen() {
+    return this.hasMenuTarget && this.menuTarget.classList.contains("toggled");
   }
 }

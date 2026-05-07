@@ -1,27 +1,26 @@
-<%# app/views/reviews/show.html.erb %>
-<div class="container">
-  <div class="book">
-    <div class="book__image">
+<%# app/views/books/show.html.erb %>
+<div class="container container--wide">
+  <article class="book">
+    <div class="book__aside">
+      <div class="book__cover">
       <% if book.image_link %>
-        <%= image_tag book.image_link, class: "books__cover_image" %>
+        <%= image_tag book.image_link, class: "book__cover-image" %>
       <% else %>
-        <%= image_tag "no_cover.gif", class: "books__cover_image" %>
+        <%= image_tag "no_cover.gif", class: "book__cover-image" %>
       <% end %>
+      </div>
     </div>
     <div class="book__content">
-      <div class="book__header">
-        <div class="book_titles">
-          <h1>
-            <%= book.title %>
-          </h1>
-          <h4>
-            <%= book.author %>
-          </h4>
+      <header class="book__header">
+        <div class="book__titles">
+          <h1 class="book__title"><%= book.title %></h1>
+          <h4 class="book__author"><%= book.author %></h4>
         </div>
-        <div class="book__rating">
+        <div class="book__meta">
+          <div class="book__rating">
           <div class="book__rating_average">
             <% if book.average_review_score %>
-              <p><strong><%= book.average_review_score %></strong></p>
+              <p><strong class="book__rating-score"><%= book.average_review_score %></strong></p>
             <% end %>
             <div class="form__show_rating_stars">
               <% [1,2,3,4,5].each do |i| %>
@@ -34,10 +33,11 @@
             </div>
           </div>
           <% if book.reviews.count.positive? %>
-            <%= link_to "#{book.reviews.count} reviews", "/books/#{book.id}/reviews", class: "underline", data: { turbo_frame: "_top"} %>
+            <%= link_to "#{book.reviews.count} reviews", "/books/#{book.id}/reviews", class: "book__reviews-link underline", data: { turbo_frame: "_top"} %>
           <% end %>
         </div>
-      </div>
+        </div>
+      </header>
       <div class="book__body">
         <div class="trix-content">
           <p><%= book.description %></p>
@@ -64,5 +64,5 @@
         </div>
       <% end %>
     </div>
-  </div>
+  </article>
 </div>

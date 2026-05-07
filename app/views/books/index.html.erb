@@ -1,4 +1,4 @@
-<div class="container container--no_style" style="--bookshelf-plank-image: url('<%= asset_path("bookshelf-shelf.webp") %>');">
+<div class="container container--wide container--no_style books__page" style="--bookshelf-plank-image: url('<%= asset_path("bookshelf-shelf.webp") %>');">
   <% collection_owner = @user&.username.presence || "The library" %>
   <% page_title = if @user.present?
                     @slug.present? ? selected_bookshelf_label(@slug) : "Bookshelf"
@@ -21,17 +21,7 @@
     </div>
 
     <% if @user.present? %>
-      <div class="books__hero_meta" aria-label="Collection summary">
-        <div class="books__stat">
-          <span class="books__stat_value"><%= @user.books.count %></span>
-          <span class="books__stat_label">Books</span>
-        </div>
-
-        <div class="books__stat">
-          <span class="books__stat_value"><%= @user.reviews.count %></span>
-          <span class="books__stat_label">Reviews</span>
-        </div>
-      </div>
+      <%= render "layouts/book_review_count" %>
     <% end %>
   </section>
 
@@ -46,36 +36,5 @@
     </nav>
   <% end %>
 
-  <div class="books__sections">
-    <% if @user.present? %>
-      <% if @slug.present? %>
-        <%= render "books/shelf_section",
-            title: selected_bookshelf_label(@slug),
-            path: books_index_path_for(user: @user, slug: @slug),
-            shelf_slug: @slug,
-            books: @books,
-            owner_view: @owner_view,
-            empty_title: "There are no books yet",
-            empty_subtitle: "Be the first to add a book you've read." %>
-      <% else %>
-        <% user_bookshelf_sections(
-            user: @user,
-            read_books: @read_books,
-            books_in_progress: @books_in_progress,
-            to_read_books: @to_read_books
-          ).each do |section| %>
-          <%= render "books/shelf_section", **section, owner_view: @owner_view %>
-        <% end %>
-      <% end %>
-    <% else %>
-      <%= render "books/shelf_section",
-          title: nil,
-          path: nil,
-          shelf_slug: nil,
-          books: @books,
-          owner_view: false,
-          empty_title: "There are no books yet",
-          empty_subtitle: "Be the first to add a book you've read." %>
-    <% end %>
-  </div>
+  <%= render "books/sections" %>
 </div>

@@ -20,19 +20,11 @@ export default class extends Controller {
   }
 
   search() {
-    const q = this.searchInputTarget.value?.trim()
+    this.queueSubmit(1000)
+  }
 
-    if (!q) {
-      this.hideLoading()
-      return
-    }
-
-    this.showLoading()
-
-    clearTimeout(this._t)
-    this._t = setTimeout(() => {
-      this.formTarget.requestSubmit()
-    }, 1000)
+  filter() {
+    this.queueSubmit(0)
   }
 
   showLoading() {
@@ -45,5 +37,25 @@ export default class extends Controller {
 
     this.spinnerTarget.classList.add("visually-hidden");
     this.searchTarget.classList.remove("visually-hidden");
+  }
+
+  queueSubmit(delay) {
+    const q = this.searchInputTarget.value?.trim()
+
+    clearTimeout(this._t)
+
+    if (!q) {
+      this.hideLoading()
+      this._t = setTimeout(() => {
+        this.formTarget.requestSubmit()
+      }, 100)
+      return
+    }
+
+    this.showLoading()
+
+    this._t = setTimeout(() => {
+      this.formTarget.requestSubmit()
+    }, delay)
   }
 }

@@ -1,24 +1,52 @@
-<%# app/views/reviews/index.html.erb %>
-
-<% if @user.present? %>
-  <%= render "layouts/profile_section" %>
-<% end %>
-
 <%= turbo_stream_from current_user, "reviews" %>
 
-<div class="container container--no_style">
-  <div class="review_titles">
-    <h1>
-      Reviews
-    </h1>
-  </div>
-  <%= turbo_frame_tag Review.new %>
+<div class="container container--wide container--no_style books__page">
+  <% page_eyebrow = if @book.present?
+                      @user.present? ? @user.username : "Book reviews"
+                    elsif @user.present?
+                      @user.username
+                    else
+                      "Community"
+                    end %>
+  <% page_title = if @book.present?
+                    @book.title
+                  else
+                    "Reviews"
+                  end %>
+  <% page_subtitle = if @book.present?
+                       "Collected reactions, highlights, and personal notes for #{@book.title}."
+                     elsif @user.present?
+                       "A running archive of finished thoughts, memorable passages, and verdicts from #{@user.username}'s shelf."
+                     else
+                       "Browse the latest reflections from the community and open any review to read the full note."
+                     end %>
 
-  <%= turbo_frame_tag "reviews" do %>
-    <%= render "reviews/empty_state",
-      title: "There are no reviews yet",
-      subtitle: "Be the first to add a review for a book you've read."
-    %>
-    <%= render @reviews %>
-  <% end %>
+  <section class="books__hero">
+    <div class="books__hero_copy">
+      <p class="books__eyebrow"><%= page_eyebrow %></p>
+      <h1 class="books__page_title"><%= page_title %></h1>
+      <p class="books__page_subtitle"><%= page_subtitle %></p>
+    </div>
+
+    <% if @user.present? %>
+      <%= render "layouts/book_review_count" %>
+    <% end %>
+  </section>
+
+  <section class="reviews__showcase">
+    <%= turbo_frame_tag Review.new %>
+
+    <%= turbo_frame_tag "reviews" do %>
+      <% if @reviews.present? %>
+        <div class="reviews__grid">
+          <%= render @reviews %>
+        </div>
+      <% else %>
+        <%= render "reviews/empty_state",
+          title: "There are no reviews yet",
+          subtitle: "Be the first to add a review for a book you've read."
+        %>
+      <% end %>
+    <% end %>
+  </section>
 </div>

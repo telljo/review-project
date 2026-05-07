@@ -1,0 +1,6 @@
+:root {
+  --layout-content-max: 60rem;
+  --layout-wide-max: 82.5rem;
+  --layout-page-gutter: clamp(1rem, 3vw, 1.5rem);
+  --layout-page-gutter-tight: clamp(0.75rem, 4vw, 1rem);
+}

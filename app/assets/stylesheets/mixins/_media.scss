@@ -1,8 +1,19 @@
+@use "sass:map";
+
+$breakpoints: (
+  phone: 36rem,
+  tablet: 50rem,
+  desktop: 75rem,
+);
+
 @mixin media($query) {
-  @if $query == tabletAndUp {
-    @media (min-width: 50rem) { @content; }
-  }
-  @if $query == tabletAndDown {
-    @media (max-width: 50rem) { @content; }
+  @if $query == phoneOnly {
+    @media (max-width: calc(#{map.get($breakpoints, phone)} - 0.02rem)) { @content; }
+  } @else if $query == tabletAndUp {
+    @media (min-width: #{map.get($breakpoints, tablet)}) { @content; }
+  } @else if $query == tabletAndDown {
+    @media (max-width: #{map.get($breakpoints, tablet)}) { @content; }
+  } @else if $query == desktopUp {
+    @media (min-width: #{map.get($breakpoints, desktop)}) { @content; }
   }
 }
