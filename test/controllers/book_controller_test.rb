@@ -18,6 +18,23 @@ class BookControllerTest < ActionDispatch::IntegrationTest
     assert_equal UserBook::READ, user_book.reload.slug
   end
 
+  test 'moving a book can respond with turbo stream without reloading the page' do
+    user = create_user(email: 'streamer@example.com', username: 'streamer')
+    book = Book.create!(isbn: 9780140449198, title: 'Meditations', author: 'Marcus Aurelius')
+    user_book = UserBook.create!(user:, book:, slug: UserBook::WANT_TO_READ)
+
+    sign_in_as(user)
+
+    patch move_book_path(book),
+          params: { slug: UserBook::READ, view_slug: "" },
+          as: :turbo_stream
+
+    assert_response :success
+    assert_equal "text/vnd.turbo-stream.html", response.media_type
+    assert_equal UserBook::READ, user_book.reload.slug
+    assert_includes response.body, 'target="books-sections"'
+  end
+
   test 'moving a book requires authentication' do
     user = create_user(email: 'owner@example.com', username: 'owner')
     book = Book.create!(isbn: 9780140449136, title: 'The Odyssey', author: 'Homer')

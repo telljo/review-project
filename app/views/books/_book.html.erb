@@ -58,7 +58,8 @@
                 move_book_path(book, slug: slug),
                 method: :patch,
                 class: "dropdown__button dropdown__button--in-list books__menu_action",
-                form: { class: "books__action_form", data: { turbo: false } } %>
+                params: { view_slug: local_assigns[:view_slug] },
+                form: { class: "books__action_form" } %>
           <% end %>
         </div>
       </div>

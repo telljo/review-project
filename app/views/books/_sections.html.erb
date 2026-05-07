@@ -1,0 +1,34 @@
+<div id="books-sections" class="books__sections">
+  <% if @user.present? %>
+    <% if @slug.present? %>
+      <%= render "books/shelf_section",
+          title: selected_bookshelf_label(@slug),
+          path: books_index_path_for(user: @user, slug: @slug),
+          shelf_slug: @slug,
+          view_slug: @slug,
+          books: @books,
+          owner_view: @owner_view,
+          empty_title: "There are no books yet",
+          empty_subtitle: "Be the first to add a book you've read." %>
+    <% else %>
+      <% user_bookshelf_sections(
+          user: @user,
+          read_books: @read_books,
+          books_in_progress: @books_in_progress,
+          to_read_books: @to_read_books
+        ).each do |section| %>
+        <%= render "books/shelf_section", **section, owner_view: @owner_view, view_slug: nil %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= render "books/shelf_section",
+        title: nil,
+        path: nil,
+        shelf_slug: nil,
+        view_slug: nil,
+        books: @books,
+        owner_view: false,
+        empty_title: "There are no books yet",
+        empty_subtitle: "Be the first to add a book you've read." %>
+  <% end %>
+</div>

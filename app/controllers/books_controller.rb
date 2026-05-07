@@ -28,11 +28,23 @@ class BooksController < ApplicationController
   end
 
   def move
+    previous_slug = @user_book.slug
     @user_book.update!(slug: params[:slug])
-    return head :ok if request.xhr?
+    message = "#{@book.title} moved to #{UserBook::SLUGS_READABLE.fetch(@user_book.slug)}."
 
-    redirect_back fallback_location: current_user_collection_path,
-                  notice: "#{@book.title} moved to #{UserBook::SLUGS_READABLE.fetch(@user_book.slug)}."
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[:notice] = message
+        load_bookshelf_state(user: current_user, slug: params[:view_slug])
+        @moved_from_slug = previous_slug
+        @moved_to_slug = @user_book.slug
+      end
+      format.html do
+        redirect_back fallback_location: current_user_collection_path,
+                      notice: message
+      end
+      format.any { head :ok }
+    end
   end
 
   def select
@@ -119,6 +131,20 @@ class BooksController < ApplicationController
     create_book_params.to_h.transform_values do |value|
       value.is_a?(String) ? value.strip : value
     end.symbolize_keys
+  end
+
+  def load_bookshelf_state(user:, slug: nil)
+    @user = user
+    @slug = slug.presence
+    @owner_view = @user.present? && user_signed_in? && @user == current_user
+
+    if @slug.present?
+      @books = @user.books.where(user_books: { slug: @slug }).ordered.distinct
+    else
+      @read_books = @user.books.where(user_books: { slug: UserBook::READ }).ordered.distinct
+      @books_in_progress = @user.books.where(user_books: { slug: UserBook::READING }).ordered.distinct
+      @to_read_books = @user.books.where(user_books: { slug: UserBook::WANT_TO_READ }).ordered.distinct
+    end
   end
 
   def current_user_collection_path
