@@ -10,4 +10,8 @@ module ApplicationHelper
     normalized = isbn.to_s.gsub(/[^0-9A-Za-z]/, "").downcase
     "search-result-actions-#{normalized}"
   end
+
+  def book_collection_actions_dom_id(book)
+    dom_id(book, :collection_actions)
+  end
 end

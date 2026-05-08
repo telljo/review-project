@@ -1,4 +1,5 @@
 <%# app/views/books/show.html.erb %>
+<% review_count = book.reviews.count %>
 <div class="container container--wide">
   <article class="book">
     <div class="book__aside">
@@ -18,11 +19,14 @@
         </div>
         <div class="book__meta">
           <div class="book__rating">
-          <div class="book__rating_average">
             <% if book.average_review_score %>
-              <p><strong class="book__rating-score"><%= book.average_review_score %></strong></p>
+              <div class="book__rating_summary">
+                <p class="book__rating_value">
+                  <strong class="book__rating-score"><%= book.average_review_score %></strong>
+                </p>
+              </div>
             <% end %>
-            <div class="form__show_rating_stars">
+            <div class="book__rating_stars form__show_rating_stars" aria-label="Average rating">
               <% [1,2,3,4,5].each do |i| %>
                 <% if book.average_review_score && book.average_review_score >= i%>
                   <%= icon('fa-regular fas selected', 'star')%>
@@ -32,10 +36,12 @@
               <% end %>
             </div>
           </div>
-          <% if book.reviews.count.positive? %>
-            <%= link_to "#{book.reviews.count} reviews", "/books/#{book.id}/reviews", class: "book__reviews-link underline", data: { turbo_frame: "_top"} %>
+          <% if review_count.positive? %>
+            <%= link_to pluralize(review_count, "review"),
+                book_reviews_path(book),
+                class: "book__reviews-link underline",
+                data: { turbo_frame: "_top"} %>
           <% end %>
-        </div>
         </div>
       </header>
       <div class="book__body">
@@ -44,25 +50,7 @@
         </div>
       </div>
 
-      <% if current_user %>
-        <div class="form__buttons form__buttons--right">
-          <% if current_user.books.find_by_isbn(book.isbn) && book.id %>
-            <%= link_to "Write review",
-                      new_review_path(book_id: book.id),
-                      data: { turbo_frame: dom_id(Review.new) },
-                      class: "btn btn--primary btn--medium" %>
-            <%= button_to "Remove from collection",
-                          book_path(book),
-                          method: :delete,
-                          class: "btn btn--danger btn--medium" %>
-          <% else %>
-            <%= render(:partial => 'books/add_to_collection',  locals: {
-                    book: book
-                    })
-                  %>
-          <% end %>
-        </div>
-      <% end %>
+      <%= render "books/collection_actions", book: book %>
     </div>
   </article>
 </div>

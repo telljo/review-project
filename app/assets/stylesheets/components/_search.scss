@@ -481,16 +481,12 @@
     margin-top: 0;
   }
 
-  .books__item {
+  .search-results__item .books__item {
     width: min(100%, 10.5rem);
   }
 
-  .books__card_link--static {
+  .search-results__item .books__card_link--static {
     cursor: default;
-  }
-
-  .books__meta {
-    width: min(14rem, 78vw);
   }
 
   .dropdown,
@@ -523,6 +519,12 @@
       .search-results__actions {
         width: 100%;
       }
+    }
+  }
+
+  @include media(tabletAndUp) {
+    .search-results__item .books__meta {
+      width: min(14rem, 78vw);
     }
   }
 }

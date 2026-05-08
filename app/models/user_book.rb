@@ -14,7 +14,7 @@ class UserBook < ApplicationRecord
 
   SLUGS_READABLE = {
     READ => 'Read',
-    READING => 'Currently reading',
+    READING => 'Reading',
     WANT_TO_READ => 'Want to read'
   }.freeze
 

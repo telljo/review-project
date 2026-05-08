@@ -3,7 +3,6 @@
 <% show_actions = local_assigns.fetch(:show_actions, owner_view && current_shelf_slug.present?) %>
 <% link_target = local_assigns[:link_target]
    link_target = book_path(book) if link_target.nil? && book.persisted? %>
-<% show_updated = local_assigns.fetch(:show_updated, book.persisted?) %>
 <% footer_content = local_assigns[:footer_content] %>
 <% author_text =
      if book.respond_to?(:authors) && book.authors.present?
@@ -25,12 +24,6 @@
 
     <% if author_text.present? %>
       <div class="books__author" title="<%= author_text %>"><%= author_text %></div>
-    <% end %>
-
-    <% if show_updated && book.respond_to?(:updated_at) && book.updated_at.present? %>
-      <div class="books__updated">
-        Updated <%= time_ago_in_words(book.updated_at) %> ago
-      </div>
     <% end %>
   </div>
 <% end %>

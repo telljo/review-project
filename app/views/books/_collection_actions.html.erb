@@ -1,0 +1,18 @@
+<% return unless current_user %>
+<% in_collection = current_user.books.find_by_isbn(book.isbn).present? && book.id.present? %>
+
+<div id="<%= book_collection_actions_dom_id(book) %>" class="form__buttons form__buttons--right">
+  <% if in_collection %>
+    <%= link_to "Write review",
+        new_review_path(book_id: book.id),
+        data: { turbo_frame: dom_id(Review.new) },
+        class: "btn btn--primary btn--medium" %>
+    <%= button_to "Remove from collection",
+        book_path(book),
+        method: :delete,
+        params: { source: "book_show" },
+        class: "btn btn--danger btn--medium" %>
+  <% else %>
+    <%= render "books/add_to_collection", book: book, source: :book_show %>
+  <% end %>
+</div>

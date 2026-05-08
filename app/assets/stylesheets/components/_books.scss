@@ -123,6 +123,15 @@
     }
   }
 
+  &__filter_label {
+    display: block;
+    white-space: nowrap;
+
+    &--short {
+      display: none;
+    }
+  }
+
   &__showcase {
     position: relative;
     min-width: 0;
@@ -213,7 +222,7 @@
 
   &__section_hint {
     margin: 0.85rem 0 0;
-    color: var(--bookshelf-muted);
+    color: var(--color-text-muted);
     font-family: var(--bookshelf-sans);
     font-size: 0.82rem;
     line-height: 1.6;
@@ -544,7 +553,8 @@
   }
 
   &__action_form {
-    display: inline-flex;
+    display: flex;
+    flex-direction: column;
     margin: 0;
   }
 
@@ -664,6 +674,27 @@
   }
 
   @include media(phoneOnly) {
+    &__filters {
+      gap: 0.6rem;
+    }
+
+    &__filter {
+      min-height: 2.35rem;
+      padding: 0.65rem 0.9rem;
+      font-size: 0.84rem;
+      white-space: nowrap;
+    }
+
+    &__filter_label {
+      &--full {
+        display: none;
+      }
+
+      &--short {
+        display: block;
+      }
+    }
+
     &__hero_meta {
       grid-template-columns: minmax(0, 1fr);
     }
@@ -704,23 +735,50 @@
     }
 
     &__meta {
-      top: calc(100% + 0.5rem);
-      width: min(11rem, 74vw);
+      position: static;
+      top: auto;
+      left: auto;
+      width: 100%;
       min-width: 0;
-      padding: 0.65rem 0.7rem 0.75rem;
+      margin-top: 0.45rem;
+      padding: 0.1rem 0.15rem 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      opacity: 1;
+      pointer-events: auto;
+      transform: none;
+      transition: none;
+      text-align: center;
     }
 
     &__title {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      color: rgb(255 255 255 / 94%);
       font-size: 0.92rem;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     &__author,
     &__updated {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      color: rgb(205 217 229 / 78%);
       font-size: 0.72rem;
+      line-height: 1.35;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     &__updated {
-      font-size: 0.64rem;
+      display: none;
     }
 
     &__item {

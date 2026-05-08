@@ -16,12 +16,9 @@ import {
   faBookOpen,
   faStarHalfAlt
 } from '@fortawesome/free-solid-svg-icons'
-import {
-  faStar as farStar
-} from '@fortawesome/free-regular-svg-icons'
 
 // Add Font Awesome icons to the library
-library.add(faStar, faStarHalfAlt, farStar, faSearch, faSpinner, faBookOpen, faBolt)
+library.add(faStar, faStarHalfAlt, faSearch, faSpinner, faBookOpen, faBolt)
 
 
 // Initialize Font Awesome

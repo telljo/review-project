@@ -5,19 +5,11 @@
                   else
                     "Library"
                   end %>
-  <% page_subtitle = if @owner_view && @slug.blank?
-                       "Arrange your books across the shelves and drag them between sections whenever the stack changes."
-                     elsif @user.present?
-                       "A curated reading record with space for finished books, active reads, and the next volume waiting in line."
-                     else
-                       "Browse the shared collection and open any title to explore the notes around it."
-                     end %>
 
   <section class="books__hero">
     <div class="books__hero_copy">
       <p class="books__eyebrow"><%= collection_owner %></p>
       <h1 class="books__page_title"><%= page_title %></h1>
-      <p class="books__page_subtitle"><%= page_subtitle %></p>
     </div>
 
     <% if @user.present? %>
@@ -29,9 +21,12 @@
     <nav class="books__filters" aria-label="Bookshelf filters">
       <% bookshelves_menu_options(user: @user).each do |option| %>
         <% is_active = option[:slug].blank? ? @slug.blank? : option[:slug] == @slug %>
-        <%= link_to option[:label],
-            option[:path],
-            class: class_names("books__filter", "books__filter--active": is_active) %>
+        <%= link_to option[:path],
+            class: class_names("books__filter", "books__filter--active": is_active),
+            aria: { label: option[:label] } do %>
+          <span class="books__filter_label books__filter_label--full"><%= option[:label] %></span>
+          <span class="books__filter_label books__filter_label--short"><%= option[:short_label] %></span>
+        <% end %>
       <% end %>
     </nav>
   <% end %>
