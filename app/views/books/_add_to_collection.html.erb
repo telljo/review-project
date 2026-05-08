@@ -1,3 +1,5 @@
+<% source = local_assigns[:source] %>
+<% search_result_footer_id = search_result_actions_dom_id(book.isbn) if source == :search_results || source == "search_results" %>
 <% author_text =
      if book.respond_to?(:authors) && book.authors.present?
        Array(book.authors).join(", ")
@@ -24,17 +26,29 @@
     <%= button_to "Read",
       books_path,
       method: :post,
-      params: { book: book_payload.merge(slug: "read") },
+      params: {
+        book: book_payload.merge(slug: "read"),
+        source: source,
+        search_result_footer_id: search_result_footer_id
+      },
       class: "dropdown__menu_item dropdown__button dropdown__button--in-list" %>
     <%= button_to "Currently reading",
       books_path,
       method: :post,
-      params: { book: book_payload.merge(slug: "reading") },
+      params: {
+        book: book_payload.merge(slug: "reading"),
+        source: source,
+        search_result_footer_id: search_result_footer_id
+      },
       class: "dropdown__menu_item dropdown__button dropdown__button--in-list" %>
     <%= button_to "Want to read",
       books_path,
       method: :post,
-      params: { book: book_payload.merge(slug: "want_to_read") },
+      params: {
+        book: book_payload.merge(slug: "want_to_read"),
+        source: source,
+        search_result_footer_id: search_result_footer_id
+      },
       class: "dropdown__menu_item dropdown__button dropdown__button--in-list" %>
   </div>
 </div>

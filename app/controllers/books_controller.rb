@@ -77,6 +77,7 @@ class BooksController < ApplicationController
   def create
     attrs = normalized_create_book_params
     slug = attrs.delete(:slug)
+    @search_result_footer_id = params[:search_result_footer_id]
 
     ActiveRecord::Base.transaction do
       @book = Book.find_or_initialize_by(isbn: attrs[:isbn])

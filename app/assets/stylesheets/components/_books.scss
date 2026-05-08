@@ -156,6 +156,13 @@
     padding-left: 0;
   }
 
+  &__card_footer {
+    display: grid;
+    justify-items: center;
+    width: 100%;
+    margin-top: 0.95rem;
+  }
+
   &__showcase_shelf {
     --bookshelf-book-width: clamp(5.3rem, 8vw, 7rem);
     --bookshelf-row-gap: 4rem;
@@ -328,7 +335,6 @@
     -webkit-user-select: none;
     transition: transform 180ms ease;
 
-    &:hover,
     &:focus-within {
       z-index: 30;
       transform: translateY(-0.25rem);
@@ -365,6 +371,8 @@
     -webkit-user-drag: none;
 
     &:hover,
+    &:focus-within,
+    &:focus-visible,
     &:focus,
     &:active {
       text-decoration: none;
@@ -498,8 +506,9 @@
       transform 180ms ease;
   }
 
-  &__item:hover &__meta,
-  &__item:focus-within &__meta {
+  &__card_link:hover &__meta,
+  &__card_link:focus-visible &__meta,
+  &__card_link:focus-within &__meta {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }

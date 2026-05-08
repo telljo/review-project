@@ -1,6 +1,10 @@
 <% home_variant = local_assigns.fetch(:home_variant, false) %>
 
-<div class="<%= class_names('search', 'search--home': home_variant) %>" data-controller="search">
+<div
+  class="<%= class_names('search', 'search--home': home_variant, 'search--ready': @query.present?) %>"
+  data-controller="search"
+  data-search-clear-url-value="<%= root_path %>"
+>
 
   <div class="search__bar">
     <span class="search__icon" aria-hidden="true">
@@ -10,11 +14,12 @@
     <%= form_with url: search_google_books_path,
       method: :get,
       scope: nil,
+      id: "google-books-search-form",
       class: "search__form",
       data: {
         turbo_frame: "book-list",
         turbo_action: "advance",
-        search_target: "form"
+        action: "submit->search#submit"
       } do |form| %>
       <div class="search__controls">
         <%= form.select :scope,
@@ -22,25 +27,47 @@
           { selected: @search_scope || "title" },
           {
             class: "search__scope",
-            data: { action: "change->search#filter" }
+            data: {
+              action: "change->search#formChanged",
+              search_target: "scopeSelect"
+            }
           } %>
 
-        <%= form.text_field :query,
-          placeholder: "Search for a book by title, author, or ISBN",
-          class: "search__bar-input",
-          value: @query,
-          autocomplete: "off",
-          data: {
-            search_target: "searchInput",
-            action: "input->search#search"
-          }
-        %>
+        <div class="search__input-wrap">
+          <%= form.text_field :query,
+            placeholder: "Search for a book by title, author, or ISBN",
+            class: "search__bar-input",
+            value: @query,
+            autocomplete: "off",
+            data: {
+              action: "input->search#formChanged",
+              search_target: "searchInput"
+            }
+          %>
+
+          <button
+            type="button"
+            class="search__clear"
+            aria-label="Clear search"
+            data-action="click->search#clear"
+            data-search-target="clearButton"
+          >
+            Clear
+          </button>
+        </div>
       </div>
     <% end %>
 
-    <div class="search__status" aria-live="polite" aria-atomic="true">
+    <button
+      type="submit"
+      form="google-books-search-form"
+      class="search__submit"
+      aria-live="polite"
+      aria-atomic="true"
+      data-search-target="submitButton"
+    >
       <span class="search__status-icon" data-search-target="search">
-        <i class="fas fa-bolt"></i>
+        <i class="fas fa-search"></i>
       </span>
       <span
         class="search__status-icon visually-hidden"
@@ -49,7 +76,11 @@
       >
         <i class="fas fa-spinner fa-spin"></i>
       </span>
-      <span class="search__status-text">Live search</span>
-    </div>
+      <span class="search__status-text">Search</span>
+    </button>
+
+    <template data-search-target="loadingTemplate">
+      <%= render "loading_list" %>
+    </template>
   </div>
 </div>

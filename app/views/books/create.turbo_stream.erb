@@ -1,1 +1,7 @@
+<% if @search_result_footer_id.present? %>
+  <%= turbo_stream.replace @search_result_footer_id do %>
+    <%= render "google_books/result_actions", book: @book %>
+  <% end %>
+<% end %>
+
 <%= render_turbo_stream_flash_messages %>

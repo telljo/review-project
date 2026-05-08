@@ -1,7 +1,14 @@
+<% loading = local_assigns.fetch(:loading, false) %>
+<% frame_src = local_assigns[:frame_src] %>
 <% results_count = @search_results.length %>
 
-<%= turbo_frame_tag "book-list", class: "search-results" do %>
-  <% if @query.blank? %>
+<%= turbo_frame_tag "book-list",
+  class: class_names("search-results", "search-results--loading": loading),
+  src: frame_src,
+  aria: { busy: loading ? "true" : "false" } do %>
+  <% if loading %>
+    <%= render "loading_list" %>
+  <% elsif @query.blank? %>
     <div class="search-results__empty">
       <% if @recently_added_books&.any? %>
         <%= render partial: 'books/recently_added' %>
@@ -19,30 +26,19 @@
 
     <div class="search-results__grid">
       <% @search_results.each do |book| %>
+        <% footer_content = nil %>
+        <% if current_user && book.isbn.present? %>
+          <% footer_content = capture { render "result_actions", book: book } %>
+        <% end %>
+
         <article class="search-results__item">
           <%= render "books/book",
             book: book,
             link_target: (book.persisted? ? book_path(book) : nil),
             show_updated: false,
             owner_view: false,
-            show_actions: false %>
-
-          <% if current_user && book.isbn.present? %>
-            <div class="search-results__actions">
-              <% existing_book = current_user.books.find_by_isbn(book.isbn) %>
-
-              <% if existing_book.present? %>
-                <p class="search-results__actions_label">In collection</p>
-                <%= link_to "Open book",
-                    book_path(existing_book),
-                    class: "btn btn--primary",
-                    data: { turbo_frame: "_top" } %>
-              <% else %>
-                <p class="search-results__actions_label">Save to collection</p>
-                <%= render "books/add_to_collection", book: book %>
-              <% end %>
-            </div>
-          <% end %>
+            show_actions: false,
+            footer_content: footer_content %>
         </article>
       <% end %>
     </div>
@@ -52,7 +48,7 @@
         <i class="fas fa-search"></i>
       </div>
       <p class="empty-state__text">No matching books found</p>
-      <p class="empty-state__subtext">Try a different title, author, or ISBN and we’ll search again instantly.</p>
+      <p class="empty-state__subtext">Try a different title, author, or ISBN and submit another search right away.</p>
     </div>
   <% end %>
 <% end %>

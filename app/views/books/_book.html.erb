@@ -4,6 +4,7 @@
 <% link_target = local_assigns[:link_target]
    link_target = book_path(book) if link_target.nil? && book.persisted? %>
 <% show_updated = local_assigns.fetch(:show_updated, book.persisted?) %>
+<% footer_content = local_assigns[:footer_content] %>
 <% author_text =
      if book.respond_to?(:authors) && book.authors.present?
        Array(book.authors).join(", ")
@@ -72,6 +73,12 @@
     <% else %>
       <div class="books__card_link books__card_link--static">
         <%= card_content %>
+      </div>
+    <% end %>
+
+    <% if footer_content.present? %>
+      <div class="books__card_footer">
+        <%= footer_content %>
       </div>
     <% end %>
   </article>

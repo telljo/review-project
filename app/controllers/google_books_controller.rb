@@ -24,7 +24,18 @@ class GoogleBooksController < ApplicationController
     set_home_page_metrics
 
     return unless @query.present?
+    return if defer_search_results?
 
+    load_search_results
+  end
+
+  private
+
+  def defer_search_results?
+    !turbo_frame_request?
+  end
+
+  def load_search_results
     normalized = @query.strip.downcase.gsub(/\s+/, " ")
 
     existing_book = existing_book_match(normalized)
@@ -37,7 +48,7 @@ class GoogleBooksController < ApplicationController
 
     google_book_results.each do |gbook|
       next unless gbook.isbn.present?
-      next if @search_results.any? { |result| result.isbn == gbook.isbn }
+      next if @search_results.any? { |result| normalized_isbn_value(result.isbn) == normalized_isbn_value(gbook.isbn) }
 
       new_book = Book.new(
         title: gbook.title,
@@ -54,8 +65,6 @@ class GoogleBooksController < ApplicationController
       @search_results << new_book
     end
   end
-
-  private
 
   def existing_book_match(normalized_query)
     case @search_scope
@@ -88,6 +97,10 @@ class GoogleBooksController < ApplicationController
 
   def normalized_isbn_query
     @query.to_s.gsub(/[^0-9Xx]/, "")
+  end
+
+  def normalized_isbn_value(value)
+    value.to_s.gsub(/[^0-9Xx]/, "").downcase
   end
 
   def search_query_param

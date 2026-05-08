@@ -1,0 +1,23 @@
+<div class="search-results__loading" role="status" aria-live="polite" aria-atomic="true">
+  <header class="search-results__header">
+    <p class="search-results__eyebrow">Searching Books</p>
+    <p class="search-results__summary">
+      Fetching matching titles, authors, and editions for your search.
+    </p>
+  </header>
+
+  <div class="search-results__grid">
+    <% 6.times do %>
+      <article class="search-results__item">
+        <div class="search-results__loading-book" aria-hidden="true">
+          <div class="search-results__skeleton search-results__skeleton--cover"></div>
+
+          <div class="search-results__loading-meta">
+            <div class="search-results__skeleton search-results__skeleton--title"></div>
+            <div class="search-results__skeleton search-results__skeleton--author"></div>
+          </div>
+        </div>
+      </article>
+    <% end %>
+  </div>
+</div>
