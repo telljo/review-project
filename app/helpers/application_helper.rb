@@ -5,4 +5,13 @@ module ApplicationHelper
   def render_turbo_stream_flash_messages
     turbo_stream.prepend 'flash', partial: 'layouts/flash'
   end
+
+  def search_result_actions_dom_id(isbn)
+    normalized = isbn.to_s.gsub(/[^0-9A-Za-z]/, "").downcase
+    "search-result-actions-#{normalized}"
+  end
+
+  def book_collection_actions_dom_id(book)
+    dom_id(book, :collection_actions)
+  end
 end

@@ -1,2 +1,8 @@
-<%= turbo_stream.remove @book %>
+<% if params[:source] == "book_show" %>
+  <%= turbo_stream.replace book_collection_actions_dom_id(@book) do %>
+    <%= render "books/collection_actions", book: @book %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.remove @book %>
+<% end %>
 <%= render_turbo_stream_flash_messages %>
