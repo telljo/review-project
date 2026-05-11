@@ -2,6 +2,8 @@
 
 # Controller for the application
 class ApplicationController < ActionController::Base
+  include Pagy::Method
+
   before_action :turbo_frame_request_variant
   before_action :configure_permitted_parameters, if: :devise_controller?
 

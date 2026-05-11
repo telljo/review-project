@@ -29,6 +29,12 @@
         <% end %>
       <% end %>
     </nav>
+
+    <% if @owner_view %>
+      <p class="books__section_hint">
+          Drag or use the buttons to reorder or move books between shelves.
+      </p>
+    <% end %>
   <% end %>
 
   <%= render "books/sections" %>

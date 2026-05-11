@@ -7,6 +7,8 @@
           shelf_slug: @slug,
           view_slug: @slug,
           books: @books,
+          pagy: @pagy,
+          subtitle: bookshelf_section_description(@slug),
           owner_view: @owner_view,
           empty_title: "There are no books yet",
           empty_subtitle: "Be the first to add a book you've read." %>
@@ -15,7 +17,10 @@
           user: @user,
           read_books: @read_books,
           books_in_progress: @books_in_progress,
-          to_read_books: @to_read_books
+          to_read_books: @to_read_books,
+          read_pagy: @read_pagy,
+          books_in_progress_pagy: @books_in_progress_pagy,
+          to_read_pagy: @to_read_pagy
         ).each do |section| %>
         <%= render "books/shelf_section", **section, owner_view: @owner_view, view_slug: nil %>
       <% end %>
@@ -27,6 +32,7 @@
         shelf_slug: nil,
         view_slug: nil,
         books: @books,
+        pagy: @pagy,
         owner_view: false,
         empty_title: "There are no books yet",
         empty_subtitle: "Be the first to add a book you've read." %>

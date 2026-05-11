@@ -1,6 +1,10 @@
 <% sortable_options = local_assigns[:sortable] %>
 <% owner_view = local_assigns.fetch(:owner_view, false) %>
-<section class="<%= class_names('books__section', 'books__section--untitled': title.blank?) %>">
+<% shelf_slug = local_assigns[:shelf_slug] %>
+<% pagy = local_assigns[:pagy] %>
+<% total_count = pagy&.count || books.size %>
+<% subtitle = local_assigns[:subtitle] %>
+<section id="<%= bookshelf_section_dom_id(shelf_slug) %>" class="<%= class_names('books__section', 'books__section--untitled': title.blank?) %>">
   <% if title.present? %>
     <header class="books__section_header">
       <h2 class="books__section_title">
@@ -11,14 +15,18 @@
         <% end %>
       </h2>
 
-      <% if owner_view && local_assigns[:shelf_slug].present? %>
-        <p class="books__section_hint">
-          <%= if sortable_options.present?
-                "Drag or use the buttons to reorder or move between shelves."
-              else
-                "Use the quick buttons on a book to move it to another shelf."
-              end %>
-        </p>
+      <div class="books__section_meta">
+        <p class="books__section_count"><%= pluralize(total_count, "book") %></p>
+
+        <% if subtitle.present? %>
+          <p class="books__section_subtitle"><%= subtitle %></p>
+        <% end %>
+      </div>
+
+      <% if pagy && pagy.last > 1 %>
+        <div class="books__pagination books__pagination--section">
+          <%== pagy.series_nav(aria_label: "#{title.presence || 'Books'} pages", **pagy_turbo_stream_options(shelf_slug)) %>
+        </div>
       <% end %>
     </header>
   <% end %>
@@ -58,4 +66,10 @@
 
     <div class="books__shelf_plank" aria-hidden="true"></div>
   </div>
+
+  <% if title.blank? && pagy && pagy.last > 1 %>
+    <div class="books__pagination">
+      <%== pagy.series_nav(aria_label: "Books pages", **pagy_turbo_stream_options(shelf_slug)) %>
+    </div>
+  <% end %>
 </section>

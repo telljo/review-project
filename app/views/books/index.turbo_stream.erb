@@ -1,0 +1,48 @@
+<% bookshelf_slug = params[:bookshelf_slug].presence %>
+
+<% if @user.present? && @slug.blank? && UserBook::USER_BOOK_STATUSES.include?(bookshelf_slug) %>
+  <% section = user_bookshelf_sections(
+      user: @user,
+      read_books: @read_books,
+      books_in_progress: @books_in_progress,
+      to_read_books: @to_read_books,
+      read_pagy: @read_pagy,
+      books_in_progress_pagy: @books_in_progress_pagy,
+      to_read_pagy: @to_read_pagy
+    ).find { |candidate| candidate[:shelf_slug] == bookshelf_slug } %>
+
+  <%= turbo_stream.replace bookshelf_section_dom_id(bookshelf_slug) do %>
+    <%= render "books/shelf_section", **section, owner_view: @owner_view, view_slug: nil %>
+  <% end %>
+<% elsif @user.present? && @slug.present? %>
+  <%= turbo_stream.replace bookshelf_section_dom_id(@slug) do %>
+    <%= render "books/shelf_section",
+        title: selected_bookshelf_label(@slug),
+        path: books_index_path_for(user: @user, slug: @slug),
+        shelf_slug: @slug,
+        view_slug: @slug,
+        books: @books,
+        pagy: @pagy,
+        subtitle: bookshelf_section_description(@slug),
+        owner_view: @owner_view,
+        empty_title: "There are no books yet",
+        empty_subtitle: "Be the first to add a book you've read." %>
+  <% end %>
+<% elsif @user.blank? %>
+  <%= turbo_stream.replace bookshelf_section_dom_id do %>
+    <%= render "books/shelf_section",
+        title: nil,
+        path: nil,
+        shelf_slug: nil,
+        view_slug: nil,
+        books: @books,
+        pagy: @pagy,
+        owner_view: false,
+        empty_title: "There are no books yet",
+        empty_subtitle: "Be the first to add a book you've read." %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.replace "books-sections" do %>
+    <%= render "books/sections" %>
+  <% end %>
+<% end %>
