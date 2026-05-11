@@ -1,1 +1,6 @@
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  TargetRubyVersion: 4.0
+
 inherit_from: .rubocop_todo.yml

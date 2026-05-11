@@ -26,7 +26,7 @@ watcher, the CSS watcher, and Redis when needed.
 
 - `bin/setup` installs gems and JS packages, then prepares the database.
 - `bin/dev` starts the local development stack.
-- `bundle exec rails test` runs the test suite.
+- `bundle exec rspec` runs the test suite.
 - `bundle exec rubocop` runs the Ruby linter.
 
 ## Production configuration

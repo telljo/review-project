@@ -106,3 +106,5 @@ gem 'dockerfile-rails', '>= 1.0', group: :development
 gem 'acts_as_list', '~> 1.1'
 
 gem "pagy", "~> 43.5"
+
+gem "rspec-rails", "~> 8.0", groups: [:development, :test]
