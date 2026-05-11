@@ -50,6 +50,18 @@ jobs:
           bundler: 4.0.6
           bundler-cache: true
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: yarn
+
+      - name: Install JavaScript dependencies
+        run: yarn install --frozen-lockfile --ignore-engines
+
+      - name: Build test assets
+        run: yarn build && yarn build:css
+
       - name: Prepare test database
         run: bundle exec rails db:prepare
 
