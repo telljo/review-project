@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '4.0.3'
 
-gem 'devise', '~> 4.9.4'
+gem 'devise', github: 'heartcombo/devise', branch: 'main'
 
 gem 'googlebooks'
 
@@ -104,3 +104,7 @@ end
 gem 'dockerfile-rails', '>= 1.0', group: :development
 
 gem 'acts_as_list', '~> 1.1'
+
+gem "pagy", "~> 43.5"
+
+gem "rspec-rails", "~> 8.0", groups: [:development, :test]

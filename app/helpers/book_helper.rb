@@ -13,6 +13,25 @@ module BookHelper
     UserBook::SLUGS_READABLE.fetch(slug, 'All bookshelves')
   end
 
+  def bookshelf_section_dom_id(slug = nil)
+    "books-shelf-section-#{slug.presence || 'library'}"
+  end
+
+  def bookshelf_section_description(slug)
+    {
+      UserBook::READ => 'Finished books saved to this collection.',
+      UserBook::READING => 'Books currently in progress.',
+      UserBook::WANT_TO_READ => 'Books queued up for later.'
+    }.fetch(slug, 'Books saved to this shelf.')
+  end
+
+  def pagy_turbo_stream_options(slug = nil)
+    {
+      anchor_string: 'data-turbo-stream="true"',
+      querify: ->(params) { params['bookshelf_slug'] = slug.presence || 'library' }
+    }
+  end
+
   def bookshelves_menu_options(user: nil)
     [
       { label: 'All', short_label: 'All', path: books_index_path_for(user:), slug: nil },
@@ -22,12 +41,14 @@ module BookHelper
     ]
   end
 
-  def user_bookshelf_sections(user:, read_books:, books_in_progress:, to_read_books:)
+  def user_bookshelf_sections(user:, read_books:, books_in_progress:, to_read_books:, read_pagy: nil, books_in_progress_pagy: nil, to_read_pagy: nil)
     [
       bookshelf_section(
         user:,
         slug: UserBook::READ,
         books: read_books,
+        pagy: read_pagy,
+        subtitle: bookshelf_section_description(UserBook::READ),
         empty_title: "You haven't read any books yet",
         empty_subtitle: 'Once you add books to your collection and mark them as read, they will appear here.',
         sortable_id: 'readList'
@@ -36,6 +57,8 @@ module BookHelper
         user:,
         slug: UserBook::READING,
         books: books_in_progress,
+        pagy: books_in_progress_pagy,
+        subtitle: bookshelf_section_description(UserBook::READING),
         empty_title: "You aren't reading any books currently",
         empty_subtitle: 'Once you add books to your collection and mark them as currently reading, they will appear here.',
         sortable_id: 'currentlyReadingList'
@@ -44,6 +67,8 @@ module BookHelper
         user:,
         slug: UserBook::WANT_TO_READ,
         books: to_read_books,
+        pagy: to_read_pagy,
+        subtitle: bookshelf_section_description(UserBook::WANT_TO_READ),
         empty_title: "You haven't added any books to your want to read list yet",
         empty_subtitle: 'Once you add books to your collection and mark them as want to read, they will appear here.',
         sortable_id: 'toReadList'
@@ -53,12 +78,14 @@ module BookHelper
 
   private
 
-  def bookshelf_section(user:, slug:, books:, empty_title:, empty_subtitle:, sortable_id: nil)
+  def bookshelf_section(user:, slug:, books:, empty_title:, empty_subtitle:, pagy: nil, subtitle: nil, sortable_id: nil)
     {
       title: UserBook::SLUGS_READABLE.fetch(slug),
       path: books_index_path_for(user:, slug:),
       shelf_slug: slug,
       books:,
+      pagy:,
+      subtitle:,
       empty_title:,
       empty_subtitle:,
       sortable: sortable_id.present? ? sortable_options(sortable_id) : nil

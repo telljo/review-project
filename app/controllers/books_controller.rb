@@ -2,25 +2,25 @@
 
 # Controller for Books
 class BooksController < ApplicationController
+  BOOKS_PER_PAGE = 18
+  USER_BOOKS_PER_SECTION = 16
+
   before_action :authenticate_user!, only: %i[create destroy move]
   before_action :set_user_book, only: %i[move destroy]
 
   def index
-    @user = User.find_by(username: params[:username])
+    @user = User.find_by(username: params[:username]) if params[:username].present?
     @slug = params[:slug]
     @owner_view = @user.present? && user_signed_in? && @user == current_user
-    @books = if @user.present?
-               if @slug.present?
-                 @user.books.where(user_books: { slug: @slug }).ordered.distinct
-               else
-                 @read_books = @user.books.where(user_books: { slug: UserBook::READ }).ordered.distinct
-                 @books_in_progress = @user.books.where(user_books: { slug: UserBook::READING }).ordered.distinct
-                 @to_read_books = @user.books.where(user_books: { slug: UserBook::WANT_TO_READ }).ordered.distinct
-                 @user.books.ordered
-               end
-             else
-               Book.all.ordered
-             end
+    if @user.present?
+      if @slug.present?
+        @pagy, @books = pagy(:offset, user_books_for(@slug), limit: USER_BOOKS_PER_SECTION)
+      else
+        load_paginated_bookshelf_sections(@user)
+      end
+    else
+      @pagy, @books = pagy(:offset, Book.all.ordered, limit: BOOKS_PER_PAGE)
+    end
   end
 
   def show
@@ -140,12 +140,35 @@ class BooksController < ApplicationController
     @owner_view = @user.present? && user_signed_in? && @user == current_user
 
     if @slug.present?
-      @books = @user.books.where(user_books: { slug: @slug }).ordered.distinct
+      @pagy, @books = pagy(:offset, user_books_for(@slug), limit: USER_BOOKS_PER_SECTION)
     else
-      @read_books = @user.books.where(user_books: { slug: UserBook::READ }).ordered.distinct
-      @books_in_progress = @user.books.where(user_books: { slug: UserBook::READING }).ordered.distinct
-      @to_read_books = @user.books.where(user_books: { slug: UserBook::WANT_TO_READ }).ordered.distinct
+      load_paginated_bookshelf_sections(@user)
     end
+  end
+
+  def load_paginated_bookshelf_sections(user)
+    @read_pagy, @read_books = pagy(
+      :offset,
+      user_books_for(UserBook::READ, user:),
+      limit: USER_BOOKS_PER_SECTION,
+      page_key: 'read_page'
+    )
+    @books_in_progress_pagy, @books_in_progress = pagy(
+      :offset,
+      user_books_for(UserBook::READING, user:),
+      limit: USER_BOOKS_PER_SECTION,
+      page_key: 'reading_page'
+    )
+    @to_read_pagy, @to_read_books = pagy(
+      :offset,
+      user_books_for(UserBook::WANT_TO_READ, user:),
+      limit: USER_BOOKS_PER_SECTION,
+      page_key: 'want_to_read_page'
+    )
+  end
+
+  def user_books_for(slug, user: @user)
+    user.books.where(user_books: { slug: }).ordered.distinct
   end
 
   def current_user_collection_path
