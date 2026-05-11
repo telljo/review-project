@@ -191,17 +191,25 @@
 
     &--untitled {
       grid-template-columns: minmax(0, 1fr);
+
+      .books__pagination {
+        grid-column: 1;
+      }
     }
   }
 
   &__pagination {
     grid-column: 2;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    gap: 0.65rem;
     margin-top: clamp(1rem, 3vw, 1.8rem);
 
     &--section {
       grid-column: 1;
+      align-items: flex-start;
       justify-content: start;
     }
 
@@ -271,6 +279,17 @@
       min-width: 1.5rem;
       color: rgb(245 240 231 / 56%);
     }
+  }
+
+  &__pagination_meta {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-family: var(--bookshelf-sans);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1.2;
+    text-transform: uppercase;
   }
 
   &__section_header {
@@ -392,6 +411,7 @@
     position: relative;
     z-index: 2;
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     column-gap: clamp(0.85rem, 1.8vw, 1.35rem);
     row-gap: var(--bookshelf-row-gap);
@@ -450,6 +470,7 @@
     -webkit-user-select: none;
     transition: transform 180ms ease;
 
+    &:hover,
     &:focus-within {
       z-index: 30;
       transform: translateY(-0.25rem);

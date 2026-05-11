@@ -4,14 +4,15 @@ require 'rails_helper'
 
 RSpec.describe 'Books' do
   describe 'GET /books' do
-    it 'paginates the library at 20 books' do
+    it 'paginates the library at 18 books' do
       create_books(prefix: 'Library', count: 21)
 
       get books_path
 
       expect(response).to have_http_status(:ok)
-      expect(parsed_body.css('.books__item').size).to eq(20)
+      expect(parsed_body.css('.books__item').size).to eq(18)
       expect(parsed_body.css('.books__pagination .pagy')).to be_present
+      expect(css_texts('.books__pagination_meta')).to include('21 books in the library')
       expect(css_texts('.books__title')).to include('Library 21')
       expect(css_texts('.books__title')).not_to include('Library 1')
     end
@@ -82,6 +83,17 @@ RSpec.describe 'Books' do
       expect(css_texts('.books__section_subtitle')).to include('Finished books saved to this collection.')
       expect(response.body).to include('Filtered Read 1')
       expect(response.body).not_to include('Filtered Read 17', 'Filtered Want 1')
+    end
+
+    it 'shows an empty state for an empty filtered bookshelf' do
+      user = create_user(email: 'empty-filtered@example.com', username: 'empty-filtered')
+
+      get user_books_path(username: user.username, slug: UserBook::READ)
+
+      expect(response).to have_http_status(:ok)
+      expect(parsed_body.css('.books__grid_layout--empty .empty-state')).to be_present
+      expect(css_texts('.empty-state__text')).to include('There are no books yet')
+      expect(css_texts('.empty-state__actions a')).to include('Search for books')
     end
   end
 
@@ -176,23 +188,6 @@ RSpec.describe 'Books' do
       expect(UserBook.count).to eq(1)
       expect(user_book.reload.slug).to eq(UserBook::READ)
       expect(response).to redirect_to(books_path)
-    end
-  end
-
-  def create_books(prefix:, count:, isbn_offset: 0)
-    Array.new(count) do |index|
-      Book.create!(
-        isbn: 9_780_000_000_000 + isbn_offset + index,
-        title: "#{prefix} #{index + 1}",
-        author: "#{prefix} Author"
-      )
-    end
-  end
-
-  def create_user_books(user:, prefix:, slug:, count:)
-    isbn_offset = UserBook::USER_BOOK_STATUSES.index(slug) * 1_000
-    create_books(prefix:, count:, isbn_offset:).each do |book|
-      UserBook.create!(user:, book:, slug:)
     end
   end
 end

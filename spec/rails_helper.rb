@@ -41,6 +41,23 @@ module RequestSpecHelpers
       }
     }
   end
+
+  def create_books(prefix:, count:, isbn_offset: 0)
+    Array.new(count) do |index|
+      Book.create!(
+        isbn: 9_780_000_000_000 + isbn_offset + index,
+        title: "#{prefix} #{index + 1}",
+        author: "#{prefix} Author"
+      )
+    end
+  end
+
+  def create_user_books(user:, prefix:, slug:, count:)
+    isbn_offset = UserBook::USER_BOOK_STATUSES.index(slug) * 1_000
+    create_books(prefix:, count:, isbn_offset:).each do |book|
+      UserBook.create!(user:, book:, slug:)
+    end
+  end
 end
 
 RSpec.configure do |config|

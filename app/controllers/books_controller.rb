@@ -2,7 +2,7 @@
 
 # Controller for Books
 class BooksController < ApplicationController
-  BOOKS_PER_PAGE = 20
+  BOOKS_PER_PAGE = 18
   USER_BOOKS_PER_SECTION = 16
 
   before_action :authenticate_user!, only: %i[create destroy move]

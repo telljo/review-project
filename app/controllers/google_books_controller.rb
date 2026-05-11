@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class GoogleBooksController < ApplicationController
+  RECENTLY_ADDED_LIMIT = 9
   SEARCH_SCOPES = {
     "title" => "Title",
     "author" => "Author",
@@ -13,11 +14,11 @@ class GoogleBooksController < ApplicationController
     @search_results = []
     set_home_page_metrics
 
-    @recently_added_books = Book.order(created_at: :desc).limit(5)
+    @recently_added_books = Book.order(created_at: :desc).limit(RECENTLY_ADDED_LIMIT)
   end
 
   def search
-    @recently_added_books = Book.order(created_at: :desc).limit(5)
+    @recently_added_books = Book.order(created_at: :desc).limit(RECENTLY_ADDED_LIMIT)
     @query = search_query_param.to_s
     @search_scope = search_scope_param.presence_in(SEARCH_SCOPES.keys) || "title"
     @search_results = []
