@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '4.0.3'
 
-gem 'devise', '~> 4.9.4'
+gem 'devise', github: 'heartcombo/devise', branch: 'main'
 
 gem 'googlebooks'
 

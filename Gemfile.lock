@@ -1,3 +1,15 @@
+GIT
+  remote: https://github.com/heartcombo/devise.git
+  revision: 9ea459de9aec5f1217ad738c58e0d23fb9f5beaa
+  branch: main
+  specs:
+    devise (5.0.4)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 7.0)
+      responders
+      warden (~> 1.2.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -107,12 +119,6 @@ GEM
       railties (>= 6.0.0)
     csv (3.3.5)
     date (3.5.1)
-    devise (4.9.4)
-      bcrypt (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 4.1.0)
-      responders
-      warden (~> 1.2.3)
     diff-lcs (1.6.2)
     dockerfile-rails (1.0.11)
       rails
@@ -372,7 +378,7 @@ DEPENDENCIES
   capybara
   cssbundling-rails
   csv
-  devise (~> 4.9.4)
+  devise!
   dockerfile-rails (>= 1.0)
   dotenv-rails
   drb

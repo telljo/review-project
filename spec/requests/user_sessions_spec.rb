@@ -48,7 +48,7 @@ RSpec.describe 'User sessions' do
     }
 
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include('Invalid Email or password.')
+    expect(response.body).to include('Invalid email or password.')
     expect(cookies['remember_user_token']).to be_nil
     expect(user.reload.remember_created_at).to be_nil
   end
