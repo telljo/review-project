@@ -11,11 +11,13 @@
 
 .search-result,
 .search-results__loading-book {
+  --result-cover-width: 5.5rem;
+  --result-gap: var(--space-m);
   display: grid;
-  grid-template-columns: 5.5rem minmax(0, 1fr);
+  grid-template-columns: var(--result-cover-width) minmax(0, 1fr);
   align-items: start;
   justify-items: stretch;
-  gap: var(--space-m);
+  gap: var(--result-gap);
   width: 100%;
   min-width: 0;
 }
@@ -73,6 +75,93 @@
 
   &__footer {
     margin-top: var(--space-m);
+  }
+
+  &__description {
+    margin-top: var(--space-xxxs);
+
+    summary {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      width: fit-content;
+      min-height: 2.75rem;
+      color: var(--color-glint);
+      font-size: var(--font-size-s);
+      cursor: pointer;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+
+    summary:focus-visible {
+      outline: 2px solid var(--color-glint);
+      outline-offset: 2px;
+      border-radius: var(--border-radius);
+    }
+
+    summary svg {
+      flex-shrink: 0;
+    }
+
+    &[open] summary svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__description-hide {
+    display: none;
+  }
+
+  &__description[open] &__description-read {
+    display: none;
+  }
+
+  &__description[open] &__description-hide {
+    display: inline;
+  }
+
+  &__description-text {
+    max-height: 16rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-color) var(--color-container);
+    margin-inline-start: calc(0px - var(--result-cover-width) - var(--result-gap));
+    // Keep full-width text below the cover when book metadata fits on one line.
+    margin-block-start: var(--space-xl);
+    padding: var(--space-xs) var(--space-s) var(--space-xs) 0;
+    color: var(--color-text-header);
+    font-size: var(--font-size-s);
+    line-height: 1.65;
+    white-space: pre-line;
+
+    &:focus-visible {
+      outline: 2px solid var(--color-glint);
+      outline-offset: 2px;
+    }
+
+    p + p,
+    ul,
+    ol {
+      margin-top: var(--space-s);
+    }
+
+    ul,
+    ol {
+      padding-left: var(--space-l);
+    }
+
+    li + li {
+      margin-top: var(--space-xxxs);
+    }
   }
 }
 
@@ -139,8 +228,8 @@
 @media (max-width: 24rem) {
   .search-result,
   .search-results__loading-book {
-    grid-template-columns: 4rem minmax(0, 1fr);
-    gap: var(--space-s);
+    --result-cover-width: 4rem;
+    --result-gap: var(--space-s);
   }
 }
 

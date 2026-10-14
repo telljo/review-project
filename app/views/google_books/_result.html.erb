@@ -16,6 +16,20 @@
     <% if book.isbn.present? %>
       <p class="search-result__isbn">ISBN <%= book.isbn %></p>
     <% end %>
+    <% description = sanitize(book.description.to_s.strip, tags: %w[p br strong em b i ul ol li], attributes: []) %>
+    <% if strip_tags(description).squish.present? %>
+      <details class="search-result__description" name="book-descriptions">
+        <summary>
+          <span class="search-result__description-read">Read description</span>
+          <span class="search-result__description-hide">Hide description</span>
+          <span class="visually-hidden">for <%= book.title %></span>
+          <svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </summary>
+        <div class="search-result__description-text" tabindex="0" role="region" aria-label="Description of <%= book.title %>"><%= description %></div>
+      </details>
+    <% end %>
     <% if local_assigns.fetch(:show_actions, true) %>
       <div class="books__card_footer search-result__footer">
         <%= render 'result_actions', book: book %>

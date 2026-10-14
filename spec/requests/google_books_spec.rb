@@ -8,7 +8,8 @@ RSpec.describe 'Google Books' do
       def image_link(**)
         nil
       end
-    end.new('9780261103344', 'The Hobbit: An Illustrated Edition', 'J.R.R. Tolkien', 'An adventure.')
+    end.new('9780261103344', 'The Hobbit: An Illustrated Edition', 'J.R.R. Tolkien',
+            '<p>An <strong>adventure</strong>.</p><img src="x" onerror="alert(1)"><script>alert(1)</script>')
     allow(GoogleBooksSearch).to receive(:call).and_return([google_result])
 
     get search_google_books_path, params: { query: 'Hobbit', scope: 'title' },
@@ -19,7 +20,24 @@ RSpec.describe 'Google Books' do
     expect(css_texts('.search-result__isbn')).to eq(['ISBN 9780261103344'])
     expect(parsed_body.at_css('form[action="/book_selection"] input[name="query"]')['value']).to eq('Hobbit')
     expect(css_texts('button')).to include('Save to shelf')
+    expect(parsed_body.css('details.search-result__description[open]')).to be_empty
+    expect(css_texts('.search-result__description summary')).to include(a_string_matching(/Read description/))
+    expect(css_texts('.search-result__description-text strong')).to eq(['adventure'])
+    expect(parsed_body.css('.search-result__description-text script, .search-result__description-text img')).to be_empty
     expect(Book.count).to eq(0)
+  end
+
+  it 'does not offer a description disclosure for missing or empty descriptions' do
+    book = Book.create!(isbn: 9780261103344, title: 'The Hobbit', author: 'J.R.R. Tolkien')
+    allow(GoogleBooksSearch).to receive(:call).and_return([])
+
+    [nil, '<p> </p>'].each do |description|
+      book.update!(description:)
+      get search_google_books_path, params: { query: 'Hobbit', scope: 'title' },
+                                    headers: { 'Turbo-Frame' => 'book-list' }
+      expect(response).to have_http_status(:ok)
+      expect(parsed_body.css('.search-result__description')).to be_empty
+    end
   end
 
   it 'renders a search form that submits explicitly without live search hooks' do
