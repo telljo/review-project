@@ -38,3 +38,11 @@
 
 /node_modules
 /dump.rdb
+
+# Impeccable local preferences, generated reports, screenshots, and session data.
+/.impeccable/config.local.json
+/.impeccable/critique/*
+!/.impeccable/critique/ignore.md
+/.impeccable/implementation/
+/.impeccable/live/*
+!/.impeccable/live/config.json

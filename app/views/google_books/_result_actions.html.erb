@@ -1,8 +1,13 @@
-<% return unless current_user && book.isbn.present? %>
-<% existing_book = current_user.books.find_by_isbn(book.isbn) %>
+<% return unless book.isbn.present? %>
+<% existing_book = current_user&.books&.find_by_isbn(book.isbn) %>
 
 <div id="<%= search_result_actions_dom_id(book.isbn) %>" class="search-results__actions">
-  <% if existing_book.present? %>
+  <% if current_user.blank? %>
+    <p class="search-results__actions_label">Create an account or log in to save this book.</p>
+    <%= button_to 'Save to shelf', book_selection_path,
+        params: { isbn: book.isbn, title: book.title, query: @query, scope: @search_scope },
+        class: 'btn btn--primary', form: { data: { turbo: false } } %>
+  <% elsif existing_book.present? %>
     <p class="search-results__actions_label">In collection</p>
     <%= link_to "Open book",
         book_path(existing_book),

@@ -7,7 +7,7 @@ the UI and PostgreSQL/Redis backing the app locally and in production.
 
 - Ruby 4.0.3
 - Bundler 4.0.6
-- Node.js 24.13.0
+- Node.js 24.13.0 or newer within the 24.x series
 - Yarn 1.22.19
 - PostgreSQL
 - Redis

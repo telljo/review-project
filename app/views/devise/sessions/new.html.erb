@@ -1,6 +1,7 @@
 
 <div class="devise-form">
   <h1>Log in</h1>
+  <%= render 'book_selections/context' %>
 
   <div class="devise-form__content">
     <%= simple_form_for(resource,
@@ -27,7 +28,11 @@
 
       <fieldset class="devise-form__actions">
         <%= f.submit "Sign in", class: "btn btn--secondary btn--medium" %>
-        <%= link_to "Cancel", root_path, class: "btn btn--light btn--medium" %>
+        <% if session[:book_selection].present? %>
+          <%= button_tag 'Cancel', type: 'submit', form: 'book-selection-cancel', class: 'btn btn--light btn--medium' %>
+        <% else %>
+          <%= link_to "Cancel", root_path, class: "btn btn--light btn--medium" %>
+        <% end %>
       </fieldset>
     <% end %>
 

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
 
   devise_for :users, controllers: { sessions: 'users/sessions' }
+  resource :book_selection, only: %i[create show update destroy]
   resources :reviews
   resources :google_books do
     collection do

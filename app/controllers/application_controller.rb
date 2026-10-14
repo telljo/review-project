@@ -9,6 +9,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def after_sign_in_path_for(resource)
+    session[:book_selection].present? ? book_selection_path : super
+  end
+
   def devise_or_another_controller?
     devise_controller? || google_books_controller?
   end

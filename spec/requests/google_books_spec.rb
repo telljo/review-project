@@ -3,6 +3,25 @@
 require 'rails_helper'
 
 RSpec.describe 'Google Books' do
+  it 'offers guests a save action and readable metadata for external search results' do
+    google_result = Struct.new(:isbn, :title, :authors, :description) do
+      def image_link(**)
+        nil
+      end
+    end.new('9780261103344', 'The Hobbit: An Illustrated Edition', 'J.R.R. Tolkien', 'An adventure.')
+    allow(GoogleBooksSearch).to receive(:call).and_return([google_result])
+
+    get search_google_books_path, params: { query: 'Hobbit', scope: 'title' },
+                                  headers: { 'Turbo-Frame' => 'book-list' }
+
+    expect(css_texts('.search-result__title')).to eq(['The Hobbit: An Illustrated Edition'])
+    expect(css_texts('.search-result__author')).to eq(['J.R.R. Tolkien'])
+    expect(css_texts('.search-result__isbn')).to eq(['ISBN 9780261103344'])
+    expect(parsed_body.at_css('form[action="/book_selection"] input[name="query"]')['value']).to eq('Hobbit')
+    expect(css_texts('button')).to include('Save to shelf')
+    expect(Book.count).to eq(0)
+  end
+
   it 'renders a search form that submits explicitly without live search hooks' do
     get root_path
 
@@ -63,7 +82,7 @@ RSpec.describe 'Google Books' do
 
     expect(response).to have_http_status(:ok)
     expect(parsed_body.css('.search-results__item').size).to eq(1)
-    expect(css_texts('.books__title')).to include('The Hobbit')
+    expect(css_texts('.search-result__title')).to include('The Hobbit')
   end
 
   it 'updates a search result footer to in-collection without rerunning the search' do

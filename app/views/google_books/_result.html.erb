@@ -1,0 +1,25 @@
+<article class="search-results__item search-result">
+  <div class="search-result__cover">
+    <%= image_tag book.image_link.presence || 'no_cover.gif', alt: '', loading: 'lazy' %>
+  </div>
+  <div class="search-result__content">
+    <h3 class="search-result__title">
+      <% if book.persisted? %>
+        <%= link_to book.title, book_path(book), data: { turbo_frame: '_top' } %>
+      <% else %>
+        <%= book.title %>
+      <% end %>
+    </h3>
+    <% if book.author.present? %>
+      <p class="search-result__author"><%= book.author %></p>
+    <% end %>
+    <% if book.isbn.present? %>
+      <p class="search-result__isbn">ISBN <%= book.isbn %></p>
+    <% end %>
+    <% if local_assigns.fetch(:show_actions, true) %>
+      <div class="books__card_footer search-result__footer">
+        <%= render 'result_actions', book: book %>
+      </div>
+    <% end %>
+  </div>
+</article>

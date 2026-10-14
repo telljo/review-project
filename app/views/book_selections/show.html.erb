@@ -1,0 +1,25 @@
+<main class="container container--wide">
+  <section class="book-selection">
+    <h1>Choose a shelf</h1>
+    <% if @book %>
+      <%= render 'google_books/result', book: @book, show_actions: false %>
+      <%= form_with url: book_selection_path, method: :patch, data: { turbo: false }, class: 'book-selection__form' do |form| %>
+        <fieldset class="book-selection__shelves">
+          <legend>Where does this book belong?</legend>
+          <% UserBook::USER_BOOK_STATUSES.each do |slug| %>
+            <label>
+              <%= radio_button_tag :slug, slug, slug == (@selected_slug || UserBook::WANT_TO_READ) %>
+              <%= UserBook::SLUGS_READABLE.fetch(slug) %>
+            </label>
+          <% end %>
+        </fieldset>
+        <%= form.submit 'Save to shelf', class: 'btn btn--primary' %>
+      <% end %>
+    <% else %>
+      <p>We couldn't load your selected book. Your selection is still saved.</p>
+      <%= link_to 'Try again', book_selection_path, class: 'btn btn--primary' %>
+    <% end %>
+    <%= button_to 'Back to search', book_selection_path, method: :delete,
+        class: 'btn btn--light', form: { data: { turbo: false } } %>
+  </section>
+</main>

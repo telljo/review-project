@@ -1,4 +1,4 @@
 web: bin/rails server -p ${PORT:-3000} -b ${BINDING:-127.0.0.1}
 js: yarn build --watch
-redis: redis-server --port 6379
+redis: redis-server --port 6380
 css: yarn build:css --watch
