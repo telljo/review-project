@@ -91,11 +91,9 @@
       <span class="search__status-text" data-search-target="submitText">Search</span>
     </button>
 
-    <template data-search-target="loadingTemplate">
-      <%= render "loading_list" %>
-    </template>
   </div>
   <p id="search-hint" class="search__hint" data-search-target="hint"><%= GoogleBooksController::SEARCH_HINTS.fetch(@search_scope || 'title').last %></p>
   <p id="search-feedback" class="search__feedback" role="alert" data-search-target="feedback" <%= 'hidden' if @query_error.blank? %>><%= @query_error %></p>
+  <button type="submit" form="google-books-search-form" class="btn btn--light search__retry" hidden data-search-target="retryButton">Retry search</button>
   <noscript><%= link_to 'Clear search', root_path, class: 'search__hint' %></noscript>
 </div>

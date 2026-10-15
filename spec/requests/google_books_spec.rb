@@ -58,7 +58,7 @@ RSpec.describe 'Google Books' do
     expect(parsed_body.at_css('input[name="query"]')['aria-describedby']).to eq('search-hint search-feedback')
     expect(parsed_body.at_css('button.search__clear').key?('hidden')).to be true
     expect(parsed_body.at_css('input[name="query"]')['maxlength']).to eq('500')
-    expect(css_texts('template[data-search-target="loadingTemplate"]')).to include(a_string_matching(/Searching Books/))
+    expect(parsed_body.at_css('[data-search-target="retryButton"]').key?('hidden')).to be true
   end
 
   it 'renders completed results for full-page searches without depending on JavaScript' do
@@ -109,7 +109,7 @@ RSpec.describe 'Google Books' do
     allow(GoogleBooksSearch).to receive(:call).and_raise(GoogleBooksSearch::Unavailable)
     get search_google_books_path, params: { query: 'Dune', scope: 'title' }
     expect(response).to have_http_status(:ok)
-    expect(response.body).to include("We couldn't reach Google Books.", 'Retry search')
+    expect(response.body).to include('Google Books is temporarily unavailable.', 'Retry search')
     expect(response.body).not_to include('No matching books found')
     expect(parsed_body.at_css('input[name="query"]')['value']).to eq('Dune')
   end

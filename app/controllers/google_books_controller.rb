@@ -75,8 +75,8 @@ class GoogleBooksController < ApplicationController
 
       @search_results << new_book
     end
-  rescue GoogleBooksSearch::Unavailable
-    @search_error = true
+  rescue GoogleBooksSearch::Unavailable => e
+    @search_error = e
   end
 
   def existing_book_match(normalized_query)

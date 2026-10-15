@@ -263,6 +263,15 @@
     overflow-wrap: anywhere;
   }
 
+  &__retry {
+    margin: var(--space-s) 4px 4px;
+  }
+
+  &__retry:focus-visible {
+    outline: 2px solid var(--color-glint);
+    outline-offset: 2px;
+  }
+
   @include media(tabletAndDown) {
     margin: auto;
     margin-top: 0;
@@ -393,10 +402,21 @@
     margin-bottom: var(--space-l);
     color: var(--color-text-header);
     overflow-wrap: anywhere;
+    line-height: 1.5;
 
-    .btn {
-      width: fit-content;
+    p { margin: 0; }
+
+    [data-recovery-detail] { margin-top: var(--space-xs); }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--color-glint);
+      outline-offset: 2px;
     }
+
+  }
+
+  &__notice-title {
+    font-weight: 700;
   }
 
   &__eyebrow {
@@ -524,6 +544,10 @@
   .button_to,
   .btn {
     width: 100%;
+  }
+
+  .search-results__notice .btn {
+    width: fit-content;
   }
 
   .dropdown__button {

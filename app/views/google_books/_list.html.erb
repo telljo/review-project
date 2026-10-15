@@ -6,6 +6,8 @@
   class: class_names("search-results", "search-results--loading": loading),
   src: frame_src,
   aria: { busy: loading ? "true" : "false" } do %>
+  <%= tag.div data: { search_response: true, query: @query, scope: @search_scope,
+                     failed: (@search_error.present? ? 'true' : nil), retry_at: @search_error&.retry_at&.iso8601(3) } do %>
   <% if loading %>
     <%= render "loading_list" %>
   <% elsif @query_error.present? %>
@@ -18,9 +20,15 @@
     </div>
   <% else %>
     <% if @search_error %>
-      <div class="search-results__notice" role="alert">
-        <p>We couldn't reach Google Books. <%= @search_results.present? ? 'Books already in Bookshelf are shown below.' : 'Your search is still here; try again in a moment.' %></p>
-        <button type="submit" form="google-books-search-form" class="btn btn--light">Retry search</button>
+      <div class="search-results__notice">
+        <div role="alert">
+          <p class="search-results__notice-title"><%= @search_error.message %></p>
+          <p data-recovery-detail><%= @search_results.present? ? 'Books already in Bookshelf are shown below.' : 'Your search is still here.' %></p>
+        </div>
+        <% if @search_error.retry_at %>
+          <p data-recovery-countdown role="timer" aria-live="off">You can retry in <%= @search_error.retry_after %> seconds.</p>
+        <% end %>
+        <button type="submit" form="google-books-search-form" class="btn btn--light" data-recovery-retry>Retry search</button>
       </div>
     <% end %>
     <% if @search_results.present? %>
@@ -47,5 +55,6 @@
         <p class="empty-state__subtext">Try a different title, author, or ISBN and submit another search right away.</p>
       </div>
     <% end %>
+  <% end %>
   <% end %>
 <% end %>
