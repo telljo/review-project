@@ -17,13 +17,18 @@
       id: "google-books-search-form",
       class: "search__form",
       data: {
+        search_target: "form",
         turbo_frame: "book-list",
         turbo_action: "advance",
         action: "submit->search#submit"
       } do |form| %>
       <div class="search__controls">
+        <%= form.label :scope, 'Search by', class: 'visually-hidden' %>
         <%= form.select :scope,
-          GoogleBooksController::SEARCH_SCOPES.map { |value, label| [label, value] },
+          GoogleBooksController::SEARCH_SCOPES.map { |value, label|
+            [label, value, { 'data-placeholder' => GoogleBooksController::SEARCH_HINTS.fetch(value).first,
+                            'data-hint' => GoogleBooksController::SEARCH_HINTS.fetch(value).last }]
+          },
           { selected: @search_scope || "title" },
           {
             class: "search__scope",
@@ -34,10 +39,16 @@
           } %>
 
         <div class="search__input-wrap">
+          <%= form.label :query, 'Search books', class: 'visually-hidden' %>
           <%= form.text_field :query,
-            placeholder: "Search for a book by title, author, or ISBN",
+            placeholder: GoogleBooksController::SEARCH_HINTS.fetch(@search_scope || 'title').first,
             class: "search__bar-input",
             value: @query,
+            required: true,
+            maxlength: GoogleBooksController::QUERY_LIMIT,
+            dir: 'auto',
+            enterkeyhint: 'search',
+            aria: { describedby: 'search-hint search-feedback', invalid: (@query_error.present? ? 'true' : nil) },
             autocomplete: "off",
             data: {
               action: "input->search#formChanged",
@@ -48,6 +59,7 @@
           <button
             type="button"
             class="search__clear"
+            hidden
             aria-label="Clear search"
             data-action="click->search#clear"
             data-search-target="clearButton"
@@ -66,7 +78,7 @@
       aria-atomic="true"
       data-search-target="submitButton"
     >
-      <span class="search__status-icon" data-search-target="search">
+      <span class="search__status-icon" data-search-target="search" aria-hidden="true">
         <i class="fas fa-search"></i>
       </span>
       <span
@@ -76,11 +88,14 @@
       >
         <i class="fas fa-spinner fa-spin"></i>
       </span>
-      <span class="search__status-text">Search</span>
+      <span class="search__status-text" data-search-target="submitText">Search</span>
     </button>
 
     <template data-search-target="loadingTemplate">
       <%= render "loading_list" %>
     </template>
   </div>
+  <p id="search-hint" class="search__hint" data-search-target="hint"><%= GoogleBooksController::SEARCH_HINTS.fetch(@search_scope || 'title').last %></p>
+  <p id="search-feedback" class="search__feedback" role="alert" data-search-target="feedback" <%= 'hidden' if @query_error.blank? %>><%= @query_error %></p>
+  <noscript><%= link_to 'Clear search', root_path, class: 'search__hint' %></noscript>
 </div>

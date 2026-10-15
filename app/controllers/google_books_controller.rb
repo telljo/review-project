@@ -2,10 +2,16 @@
 
 class GoogleBooksController < ApplicationController
   RECENTLY_ADDED_LIMIT = 9
+  QUERY_LIMIT = 500
   SEARCH_SCOPES = {
     "title" => "Title",
     "author" => "Author",
     "isbn" => "ISBN"
+  }.freeze
+  SEARCH_HINTS = {
+    'title' => ['Book title', 'Enter a book title.'],
+    'author' => ['Author name', "Enter an author's name."],
+    'isbn' => ['ISBN', 'Enter an ISBN. Spaces and hyphens are fine.']
   }.freeze
 
   def index
@@ -19,22 +25,26 @@ class GoogleBooksController < ApplicationController
 
   def search
     @recently_added_books = Book.order(created_at: :desc).limit(RECENTLY_ADDED_LIMIT)
-    @query = search_query_param.to_s
+    @query = search_query_param.to_s.strip
     @search_scope = search_scope_param.presence_in(SEARCH_SCOPES.keys) || "title"
     @search_results = []
     set_home_page_metrics
 
     return unless @query.present?
-    return if defer_search_results?
+
+    if @query.length > QUERY_LIMIT
+      @query_error = "Keep your search to #{QUERY_LIMIT} characters or fewer."
+      return
+    end
+    if @search_scope == 'isbn' && (!@query.match?(/\A[0-9Xx\s-]+\z/) || !@query.match?(/\d/))
+      @query_error = 'Enter an ISBN using numbers, spaces, hyphens, and X when needed.'
+      return
+    end
 
     load_search_results
   end
 
   private
-
-  def defer_search_results?
-    !turbo_frame_request?
-  end
 
   def load_search_results
     normalized = @query.strip.downcase.gsub(/\s+/, " ")
@@ -45,7 +55,7 @@ class GoogleBooksController < ApplicationController
     remaining = 10 - @search_results.length
     return if remaining <= 0
 
-    google_book_results = GoogleBooksSearch.call(google_books_query, count: remaining)
+    google_book_results = GoogleBooksSearch.call(google_books_query, count: remaining, raise_on_error: true)
 
     google_book_results.each do |gbook|
       next unless gbook.isbn.present?
@@ -65,6 +75,8 @@ class GoogleBooksController < ApplicationController
 
       @search_results << new_book
     end
+  rescue GoogleBooksSearch::Unavailable
+    @search_error = true
   end
 
   def existing_book_match(normalized_query)

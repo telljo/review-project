@@ -5,7 +5,5 @@
 </div>
 
 <div class="container container--wide container--no_style">
-  <%= render "list",
-    loading: @query.present?,
-    frame_src: (@query.present? ? search_google_books_path(query: @query, scope: @search_scope) : nil) %>
+  <%= render "list" %>
 </div>

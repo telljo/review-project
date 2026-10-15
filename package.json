@@ -20,6 +20,7 @@
     "yarn": "1.22.x"
   },
   "scripts": {
+    "test:js": "node --test spec/javascript/*.test.mjs",
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=iife --outdir=app/assets/builds --public-path=assets",
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
   },

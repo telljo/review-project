@@ -53,20 +53,74 @@ RSpec.describe 'Google Books' do
     expect(parsed_body.css('input[name="query"][data-action="input->search#search"]')).to be_empty
     expect(css_texts('button.search__clear[data-action="click->search#clear"]')).to include('Clear')
     expect(css_texts('button.search__submit[type="submit"]')).to include('Search')
+    expect(parsed_body.at_css('label[for="query"]').text).to eq('Search books')
+    expect(parsed_body.at_css('label[for="scope"]').text).to eq('Search by')
+    expect(parsed_body.at_css('input[name="query"]')['aria-describedby']).to eq('search-hint search-feedback')
+    expect(parsed_body.at_css('button.search__clear').key?('hidden')).to be true
+    expect(parsed_body.at_css('input[name="query"]')['maxlength']).to eq('500')
     expect(css_texts('template[data-search-target="loadingTemplate"]')).to include(a_string_matching(/Searching Books/))
   end
 
-  it 'loads the list via turbo frame for manual full-page search url visits' do
-    allow(GoogleBooksSearch).to receive(:call).and_raise('GoogleBooksSearch should be deferred until the frame request')
+  it 'renders completed results for full-page searches without depending on JavaScript' do
+    allow(GoogleBooksSearch).to receive(:call).with('intitle:Dune', count: 10, raise_on_error: true).and_return([])
 
     get search_google_books_path, params: { query: 'Dune', scope: 'title' }
 
     expect(response).to have_http_status(:ok)
     expect(css_texts('button.search__clear[data-action="click->search#clear"]')).to include('Clear')
-    expect(
-      parsed_body.css('turbo-frame#book-list.search-results.search-results--loading[aria-busy="true"]')
-    ).to be_present
-    expect(response.body).to include('Searching Books', 'query=Dune&amp;scope=title')
+    expect(parsed_body.css('turbo-frame#book-list[aria-busy="false"]')).to be_present
+    expect(parsed_body.at_css('turbo-frame#book-list')['src']).to be_nil
+    expect(response.body).to include('No matching books found')
+    expect(parsed_body.css('.empty-state[role="status"]')).to be_present
+    expect(parsed_body.at_css('input[name="query"]')['value']).to eq('Dune')
+  end
+
+  it 'rejects long or malformed ISBN searches without calling the provider' do
+    expect(GoogleBooksSearch).not_to receive(:call)
+    [['x' * 501, 'title'], ['not-an-isbn', 'isbn']].each do |query, scope|
+      get search_google_books_path, params: { query:, scope: }, headers: { 'Turbo-Frame' => 'book-list' }
+      expect(response).to have_http_status(:ok)
+      expect(parsed_body.css('[role="alert"]')).to be_present
+      expect(response.body).not_to include('No matching books found')
+    end
+    get search_google_books_path, params: { query: 'not-an-isbn', scope: 'isbn' }
+    expect(parsed_body.at_css('input[name="query"]')['aria-invalid']).to eq('true')
+  end
+
+  it 'handles whitespace-only searches without a provider request' do
+    expect(GoogleBooksSearch).not_to receive(:call)
+    get search_google_books_path, params: { query: " \t\n ", scope: 'title' }
+    expect(response).to have_http_status(:ok)
+    expect(parsed_body.at_css('input[name="query"]')['value']).to eq('')
+  end
+
+  it 'preserves international queries and provides scope-specific guidance' do
+    allow(GoogleBooksSearch).to receive(:call).and_return([])
+    ['宮崎駿 📚', 'نجيب محفوظ'].each do |query|
+      get search_google_books_path, params: { query:, scope: 'author' }
+      expect(parsed_body.at_css('input[name="query"]')['value']).to eq(query)
+      expect(parsed_body.at_css('input[name="query"]')['dir']).to eq('auto')
+      expect(parsed_body.at_css('input[name="query"]')['placeholder']).to eq('Author name')
+      expect(css_texts('#search-hint')).to eq(["Enter an author's name."])
+    end
+  end
+
+  it 'shows a retry state for provider failures while preserving the query' do
+    allow(GoogleBooksSearch).to receive(:call).and_raise(GoogleBooksSearch::Unavailable)
+    get search_google_books_path, params: { query: 'Dune', scope: 'title' }
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include("We couldn't reach Google Books.", 'Retry search')
+    expect(response.body).not_to include('No matching books found')
+    expect(parsed_body.at_css('input[name="query"]')['value']).to eq('Dune')
+  end
+
+  it 'keeps local matches visible when the provider is unavailable' do
+    Book.create!(isbn: 9780261103344, title: 'The Hobbit', author: 'J.R.R. Tolkien')
+    allow(GoogleBooksSearch).to receive(:call).and_raise(GoogleBooksSearch::Unavailable)
+    get search_google_books_path, params: { query: 'Hobbit', scope: 'title' },
+                                  headers: { 'Turbo-Frame' => 'book-list' }
+    expect(css_texts('.search-result__title')).to eq(['The Hobbit'])
+    expect(response.body).to include('Books already in Bookshelf are shown below.', 'Retry search')
   end
 
   it 'shows add-to-collection controls inside search result cards for signed-in users' do

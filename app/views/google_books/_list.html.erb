@@ -8,34 +8,44 @@
   aria: { busy: loading ? "true" : "false" } do %>
   <% if loading %>
     <%= render "loading_list" %>
+  <% elsif @query_error.present? %>
+    <p role="alert" class="search-results__summary"><%= @query_error %></p>
   <% elsif @query.blank? %>
     <div class="search-results__empty">
       <% if @recently_added_books&.any? %>
         <%= render partial: 'books/recently_added' %>
       <% end %>
     </div>
-  <% elsif @search_results.present? %>
-    <header class="search-results__header">
-      <p class="search-results__eyebrow">Search Results</p>
-      <p class="search-results__summary">
-        Showing <strong><%= results_count %> <%= "book".pluralize(results_count) %></strong> for
-        <span class="search-results__query">"<%= @query %>"</span>
-        in <span class="search-results__scope"><%= GoogleBooksController::SEARCH_SCOPES.fetch(@search_scope, "Title") %></span> search.
-      </p>
-    </header>
-
-    <div class="search-results__grid">
-      <% @search_results.each do |book| %>
-        <%= render "result", book: book %>
-      <% end %>
-    </div>
   <% else %>
-    <div class="search-results__empty empty-state">
-      <div class="empty-state__icon" aria-hidden="true">
-        <i class="fas fa-search"></i>
+    <% if @search_error %>
+      <div class="search-results__notice" role="alert">
+        <p>We couldn't reach Google Books. <%= @search_results.present? ? 'Books already in Bookshelf are shown below.' : 'Your search is still here; try again in a moment.' %></p>
+        <button type="submit" form="google-books-search-form" class="btn btn--light">Retry search</button>
       </div>
-      <p class="empty-state__text">No matching books found</p>
-      <p class="empty-state__subtext">Try a different title, author, or ISBN and submit another search right away.</p>
-    </div>
+    <% end %>
+    <% if @search_results.present? %>
+      <header class="search-results__header">
+        <p class="search-results__eyebrow">Search Results</p>
+        <p class="search-results__summary" role="status" aria-live="polite" aria-atomic="true">
+          Showing <strong><%= results_count %> <%= "book".pluralize(results_count) %></strong> for
+          <span class="search-results__query">"<%= @query %>"</span>
+          in <span class="search-results__scope"><%= GoogleBooksController::SEARCH_SCOPES.fetch(@search_scope, "Title") %></span> search.
+        </p>
+      </header>
+
+      <div class="search-results__grid">
+        <% @search_results.each do |book| %>
+          <%= render "result", book: book %>
+        <% end %>
+      </div>
+    <% elsif !@search_error %>
+      <div class="search-results__empty empty-state" role="status">
+        <div class="empty-state__icon" aria-hidden="true">
+          <i class="fas fa-search"></i>
+        </div>
+        <p class="empty-state__text">No matching books found</p>
+        <p class="empty-state__subtext">Try a different title, author, or ISBN and submit another search right away.</p>
+      </div>
+    <% end %>
   <% end %>
 <% end %>
