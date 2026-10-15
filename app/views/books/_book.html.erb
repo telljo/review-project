@@ -16,14 +16,14 @@
     <%= image_tag(book.image_link.presence || "no_cover.gif",
       class: "books__cover_image",
       loading: "lazy",
-      alt: (book.title.presence || "Book cover")) %>
+      alt: '') %>
   </div>
 
   <div class="books__meta">
-    <div class="books__title" title="<%= book.title %>"><%= book.title %></div>
+    <h3 class="books__title" title="<%= book.title %>"><%= book.title %></h3>
 
     <% if author_text.present? %>
-      <div class="books__author" title="<%= author_text %>"><%= author_text %></div>
+      <p class="books__author" title="<%= author_text %>"><%= author_text %></p>
     <% end %>
   </div>
 <% end %>
@@ -35,11 +35,14 @@
         <button type="button"
                 class="books__menu_button"
                 aria-label="Move <%= book.title %> to another shelf"
-                data-action="click->dropdown#toggle click@window->dropdown#hide">
+                aria-controls="<%= dom_id(book, :shelf_menu) %>"
+                aria-expanded="false"
+                data-action="click->dropdown#toggle click@window->dropdown#hide"
+                data-dropdown-target="button">
           <span aria-hidden="true">...</span>
         </button>
 
-        <div class="dropdown__menu dropdown__menu--right books__menu_dropdown"
+        <div id="<%= dom_id(book, :shelf_menu) %>" class="dropdown__menu dropdown__menu--right books__menu_dropdown"
              data-dropdown-target="menu"
              role="menu"
              aria-label="Move book">

@@ -23,7 +23,7 @@
         <% is_active = option[:slug].blank? ? @slug.blank? : option[:slug] == @slug %>
         <%= link_to option[:path],
             class: class_names("books__filter", "books__filter--active": is_active),
-            aria: { label: option[:label] } do %>
+            aria: { label: option[:label], current: (is_active ? 'page' : nil) } do %>
           <span class="books__filter_label books__filter_label--full"><%= option[:label] %></span>
           <span class="books__filter_label books__filter_label--short"><%= option[:short_label] %></span>
         <% end %>

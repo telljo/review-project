@@ -50,7 +50,9 @@ export default class extends Controller {
 
       items.forEach((item) => {
         const rowKey = Math.round(item.offsetTop)
-        const itemBottom = item.offsetTop + item.offsetHeight
+        const cover = item.querySelector(".books__cover_wrap")
+        // Labels live below the plank; their height must not move the wood off the covers.
+        const itemBottom = item.offsetTop + (cover?.offsetHeight || item.offsetHeight)
         const previousBottom = rows.get(rowKey) || 0
         rows.set(rowKey, Math.max(previousBottom, itemBottom))
       })
