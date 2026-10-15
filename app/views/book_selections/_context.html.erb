@@ -1,15 +1,8 @@
 <% if session[:book_selection].present? %>
   <div class="devise-form__notice">
     <p>You're saving <strong><%= session[:book_selection]['title'] %></strong>.</p>
-    <p>After signing in or creating an account, choose the shelf it belongs on.</p>
-    <p>
-      <% if controller_name == 'sessions' %>
-        <%= link_to 'Create an account instead', new_user_registration_path %>
-      <% else %>
-        <%= link_to 'Log in instead', new_user_session_path %>
-      <% end %>
-    </p>
-    <%= button_to 'Back to search', book_selection_path, method: :delete,
+    <p>After signing in or creating an account, <%= session.dig(:book_selection, 'book_id').present? ? 'return to this book and choose a shelf.' : 'choose the shelf it belongs on.' %></p>
+    <%= button_to book_selection_return_label, book_selection_path, method: :delete,
         class: 'shared-links__link', form: { id: 'book-selection-cancel', data: { turbo: false } } %>
   </div>
 <% end %>

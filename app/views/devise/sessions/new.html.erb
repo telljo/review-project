@@ -4,6 +4,9 @@
   <%= render 'book_selections/context' %>
 
   <div class="devise-form__content">
+    <% if flash[:alert].present? %>
+      <p class="devise-form__error" role="alert"><%= flash[:alert] %></p>
+    <% end %>
     <%= simple_form_for(resource,
                         as: resource_name,
                         url: session_path(resource_name),
@@ -12,18 +15,24 @@
       <div class="form-inputs">
         <%= f.label :email %>
         <%= f.input :email,
+                    label: false,
                     required: false,
                     autofocus: true,
                     input_html: { autocomplete: "email" } %>
         <%= f.label :password %>
         <%= f.input :password,
+                    label: false,
                     required: false,
                     input_html: { autocomplete: "current-password" } %>
       </div>
 
       <div class="devise-form__checkbox">
-        <%= f.label :remember_me %>
-        <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+        <% if devise_mapping.rememberable? %>
+          <%= f.label :remember_me do %>
+            <%= f.check_box :remember_me %>
+            <span>Remember me</span>
+          <% end %>
+        <% end %>
       </div>
 
       <fieldset class="devise-form__actions">

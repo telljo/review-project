@@ -1,4 +1,5 @@
 <% flash.each do |flash_type, message| %>
+  <% next if flash_type.to_s == 'alert' && controller_path == 'users/sessions' %>
   <div
     class="flash__message"
     data-controller="removals"

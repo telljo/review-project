@@ -2,175 +2,181 @@
 
 .book {
   display: grid;
-  grid-template-columns: minmax(9rem, 12rem) minmax(0, 1fr);
+  grid-template-columns: 10rem minmax(0, 1fr);
   align-items: start;
-  gap: clamp(1rem, 2.5vw, 1.5rem);
-  width: 100%;
-  margin-bottom: 0;
-  padding: clamp(0.75rem, 1.5vw, 1rem);
-  border-radius: var(--radius-m, 12px);
-  background: var(--color-surface, transparent);
+  gap: var(--space-l) var(--space-xl);
+  padding: var(--space-m);
+  color: var(--color-text-header);
 
-  &__aside {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-s);
-    align-self: start;
+  &__back,
+  &__shelf_link,
+  &__reviews-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    color: var(--color-glint);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
 
-  &__titles {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  &__title {
-    margin: 0;
-    font-size: clamp(1.3rem, 2.2vw, 1.8rem);
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-  }
-
-  &__author {
-    margin: 0;
-    color: var(--color-text-muted);
-    font-size: 1rem;
-  }
-
-  &__cover {
-    filter: drop-shadow(0 0.4em 0.8rem rgba(0, 0, 0, 0.18));
-    border-radius: 10px;
-    overflow: hidden;
-    width: 160px;
-    max-width: 100%;
-  }
+  &__back { margin: 0 var(--space-m) var(--space-s); }
+  &__aside { grid-row: 1 / span 3; min-width: 0; }
 
   &__cover-image {
     display: block;
     width: 100%;
-    height: auto;
     aspect-ratio: 2 / 3;
-    object-fit: cover;
+    object-fit: contain;
+    border-radius: var(--borderRadius-medium);
+    filter: drop-shadow(0 0.4rem 0.8rem rgb(0 0 0 / 18%));
   }
 
-  &__content {
-    display: flex;
-    flex-direction: column;
+  &__header,
+  &__collection,
+  &__body {
+    grid-column: 2;
     min-width: 0;
-    gap: var(--space-m);
+    overflow-wrap: anywhere;
   }
 
-  &__header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: var(--space-m);
+  &__title {
+    margin: 0 0 var(--space-xs);
+    max-width: 38ch;
+    color: var(--color-text-header);
+    font-size: var(--font-size-xxxl);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-transform: none;
   }
 
-  &__meta {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: var(--space-m);
-    margin: 0;
-  }
+  &__author { margin: 0; font-size: 1rem; line-height: 1.5; }
 
+  &__meta,
   &__rating {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.45rem;
-    text-align: left;
-    color: var(--color-text-muted);
-    min-width: 0;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s);
   }
 
-  &__rating_summary {
+  &__meta { margin-top: var(--space-xs); }
+  &__rating { margin: 0; font-size: 0.875rem; }
+  &__rating_stars { display: inline-flex; gap: 0.15rem; }
+  &__rating_stars .selected { color: var(--color-tertiary); }
+  &__collection { max-width: 44rem; }
+  #save-to-shelf { scroll-margin-top: var(--space-xl); }
+
+  &__save_hint,
+  &__saved { margin: var(--space-xs) 0 0; line-height: 1.5; }
+  &__save_hint { font-size: 0.875rem; }
+  &__saved { margin-top: 0; }
+  &__shelf_form { margin: 0; }
+  &__shelf_choices { margin: 0 0 var(--space-m); padding: 0; border: 0; }
+  &__shelf_choices legend { padding: 0; margin-bottom: var(--space-s); font-weight: 700; }
+
+  &__shelf_options {
     display: flex;
-    align-items: baseline;
-    gap: 0.35rem;
-  }
+    flex-wrap: wrap;
+    gap: var(--space-xs);
 
-  &__rating_value {
-    margin: 0;
-    line-height: 1;
-  }
-
-  &__rating_stars {
-    width: auto;
-    min-width: 0;
-
-    .fa-star {
-      width: 1.65rem;
-      height: 1.65rem;
+    label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 2.875rem;
+      padding: var(--space-xs) var(--space-s);
+      border: 1px solid var(--color-border-color);
+      border-radius: var(--borderRadius-medium);
+      font-size: 1rem;
+      line-height: 1.5;
+      cursor: pointer;
     }
+
+    label:has(:checked) { background: var(--color-btn-bg); border-color: var(--color-glint); }
+    input { width: 1rem; height: 1rem; margin: 0; accent-color: var(--color-glint); }
+    label:focus-within { outline: 2px solid var(--color-glint); outline-offset: 3px; }
   }
 
-  &__rating-score {
-    display: block;
-    font-weight: 700;
-    color: var(--color-text, inherit);
-    font-size: clamp(1.8rem, 3vw, 2.35rem);
+  &__shelf_editor summary,
+  &__description summary {
+    width: fit-content;
+    min-height: 2.75rem;
+    padding-block: var(--space-xs);
+    color: var(--color-glint);
+    line-height: 1.75;
+    cursor: pointer;
   }
 
-  &__reviews-link {
-    margin-left: 0;
-    align-self: flex-end;
-    white-space: nowrap;
-    line-height: 1.2;
+  &__shelf_editor[open] { margin-bottom: var(--space-m); }
+  &__shelf_editor[open] summary { margin-bottom: var(--space-xs); }
+
+  &__secondary_actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s);
+    margin-top: var(--space-s);
   }
+
+  &__remove {
+    min-height: 2.75rem;
+    padding: var(--space-xs) 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-text-header);
+    font: inherit;
+    font-size: 0.875rem;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+  }
+
+  &__form_status,
+  &__shelf_error { margin: var(--space-s) 0; font-size: 0.875rem; line-height: 1.5; }
+  &__form_status:empty { display: none; }
+  &__shelf_error { color: var(--color-text-header); font-weight: 700; }
 
   &__body {
-    margin: 0;
-    padding: 1rem 1.1rem;
-    min-height: 5em;
-    border: 1px solid rgb(255 255 255 / 8%);
-    border-radius: 1rem;
-    background: rgb(255 255 255 / 3%);
-    outline: none;
+    max-width: 70ch;
+    padding-top: var(--space-l);
+    border-top: 1px solid var(--color-border-color);
+    font-size: 1rem;
+    line-height: 1.65;
+
+    h2 { margin: 0 0 var(--space-s); font-size: 1.125rem; line-height: 1.4; }
+    p { margin: 0; }
   }
+
+  &__description_hide { display: none; }
+  &__description[open] &__description_read { display: none; }
+  &__description[open] &__description_hide { display: inline; }
+  &__body:has(details[open]) &__description_preview { display: none; }
+
+  a:focus-visible,
+  summary:focus-visible,
+  button:focus-visible,
+  input[type='submit']:focus-visible { outline: 2px solid var(--color-glint); outline-offset: 3px; }
 
   @include media(tabletAndDown) {
-    grid-template-columns: 1fr;
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: var(--space-l) var(--space-m);
     padding: 0;
 
-    &__aside {
-      align-items: center;
-      text-align: center;
-    }
-
-    &__header,
-    &__meta,
-    &__rating {
-      justify-content: center;
-      text-align: center;
-    }
-
-    &__meta {
-      flex-direction: column;
-      align-items: center;
-      gap: var(--space-s);
-    }
-
-    &__rating {
-      align-items: center;
-    }
-
-    &__rating_summary {
-      justify-content: center;
-    }
-
-    &__reviews-link {
-      align-self: center;
-    }
-
-    &__cover {
-      width: 140px;
-    }
-
-    &__body {
-      padding: 0.9rem 1rem;
-    }
+    &__aside { grid-row: 1; }
+    &__title { font-size: var(--font-size-xxl); }
+    &__collection,
+    &__body { grid-column: 1 / -1; }
+    &__back { margin-inline: 0; }
   }
+
+  @include media(phoneOnly) {
+    &__shelf_options { flex-direction: column; align-items: stretch; }
+    &__shelf_form > .btn,
+    &__collection section > .button_to,
+    &__collection section > .button_to .btn { width: 100%; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book .btn { transition: none; }
 }

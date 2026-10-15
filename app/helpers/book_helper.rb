@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 module BookHelper
+  def book_selection_return_label
+    session.dig(:book_selection, 'book_id').present? ? 'Back to book' : 'Back to search'
+  end
+
+  def book_shelf_choice(book, user_book: nil)
+    pending_slug = session.dig(:book_selection, 'slug') if session.dig(:book_selection, 'book_id') == book.id
+    @selected_slug.presence_in(UserBook::USER_BOOK_STATUSES) || pending_slug ||
+      user_book&.slug || UserBook::WANT_TO_READ
+  end
+
   def books_index_path_for(user: nil, slug: nil)
     if user.present?
       user_books_path(username: user.username, slug:)

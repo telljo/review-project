@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     member do
       patch :move
       patch :select
+      patch :shelve, to: 'book_shelves#update'
     end
     collection do
       get :search

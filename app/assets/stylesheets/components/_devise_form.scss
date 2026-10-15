@@ -51,9 +51,19 @@
     margin-top: 1em;
     gap: 0.5em;
     justify-content: left;
+
+    label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 2.75rem;
+      cursor: pointer;
+    }
+
     input {
-      margin: 0.4em;
+      margin: 0;
       width: 1em;
+      accent-color: var(--color-glint);
     }
   }
 
@@ -107,6 +117,19 @@
     background: rgb(85 158 83 / 9%);
     color: var(--color-text-header);
     line-height: 1.5;
+
+    p { margin: 0 0 var(--space-xs); }
+    .shared-links__link { min-height: 2.75rem; }
+  }
+
+  &__error {
+    margin: 0 0 var(--space-m);
+    color: var(--color-text-header);
+    font-weight: 700;
+    line-height: 1.5;
+
+    p { margin: 0 0 var(--space-xs); }
+    ul { margin: 0; padding-left: var(--space-l); }
   }
 
   &__danger {

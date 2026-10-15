@@ -1,56 +1,50 @@
-<%# app/views/books/show.html.erb %>
 <% review_count = book.reviews.count %>
+<% average_rating = book.average_review_score %>
+<% description = strip_tags(book.description.to_s).squish %>
 <div class="container container--wide">
+  <%= link_to 'Browse books', books_path, class: 'book__back' %>
   <article class="book">
     <div class="book__aside">
-      <div class="book__cover">
-      <% if book.image_link %>
-        <%= image_tag book.image_link, class: "book__cover-image" %>
-      <% else %>
-        <%= image_tag "no_cover.gif", class: "book__cover-image" %>
-      <% end %>
-      </div>
+      <%= image_tag book.image_link.presence || 'no_cover.gif', class: 'book__cover-image', alt: '' %>
     </div>
-    <div class="book__content">
-      <header class="book__header">
-        <div class="book__titles">
-          <h1 class="book__title"><%= book.title %></h1>
-          <h4 class="book__author"><%= book.author %></h4>
-        </div>
-        <div class="book__meta">
-          <div class="book__rating">
-            <% if book.average_review_score %>
-              <div class="book__rating_summary">
-                <p class="book__rating_value">
-                  <strong class="book__rating-score"><%= book.average_review_score %></strong>
-                </p>
-              </div>
-            <% end %>
-            <div class="book__rating_stars form__show_rating_stars" aria-label="Average rating">
-              <% [1,2,3,4,5].each do |i| %>
-                <% if book.average_review_score && book.average_review_score >= i%>
-                  <%= icon('fa-regular fas selected', 'star')%>
-                <% else %>
-                  <%= icon('fa-regular fas', 'star')%>
-                <% end%>
+    <header class="book__header">
+      <h1 class="book__title"><%= book.title %></h1>
+      <p class="book__author"><%= book.author %></p>
+      <div class="book__meta">
+        <% if average_rating %>
+          <p class="book__rating">
+            <span class="book__rating_stars" aria-hidden="true">
+              <% (1..5).each do |star| %>
+                <%= icon('fa-solid', 'star', class: ('selected' if average_rating >= star)) %>
               <% end %>
-            </div>
-          </div>
-          <% if review_count.positive? %>
-            <%= link_to pluralize(review_count, "review"),
-                book_reviews_path(book),
-                class: "book__reviews-link underline",
-                data: { turbo_frame: "_top"} %>
-          <% end %>
-        </div>
-      </header>
-      <div class="book__body">
-        <div class="trix-content">
-          <p><%= book.description %></p>
-        </div>
+            </span>
+            <span><%= number_with_precision(average_rating, precision: 1) %> out of 5</span>
+          </p>
+        <% else %>
+          <p class="book__rating">No ratings yet</p>
+        <% end %>
+        <% if review_count.positive? %>
+          <%= link_to pluralize(review_count, 'review'), book_reviews_path(book), class: 'book__reviews-link' %>
+        <% end %>
       </div>
-
-      <%= render "books/collection_actions", book: book %>
-    </div>
+    </header>
+    <%= render 'books/collection_actions', book: book %>
+    <section class="book__body" aria-labelledby="book-description-heading">
+      <h2 id="book-description-heading">About this book</h2>
+      <% if description.blank? %>
+        <p>No description is available for this edition.</p>
+      <% elsif description.length > 360 %>
+        <p class="book__description_preview"><%= truncate(description, length: 360, separator: ' ') %></p>
+        <details class="book__description">
+          <summary>
+            <span class="book__description_read">Read full description</span>
+            <span class="book__description_hide">Show less</span>
+          </summary>
+          <p><%= description %></p>
+        </details>
+      <% else %>
+        <p><%= description %></p>
+      <% end %>
+    </section>
   </article>
 </div>

@@ -19,7 +19,7 @@
       <p>We couldn't load your selected book. Your selection is still saved.</p>
       <%= link_to 'Try again', book_selection_path, class: 'btn btn--primary' %>
     <% end %>
-    <%= button_to 'Back to search', book_selection_path, method: :delete,
+    <%= button_to book_selection_return_label, book_selection_path, method: :delete,
         class: 'btn btn--light', form: { data: { turbo: false } } %>
   </section>
 </main>

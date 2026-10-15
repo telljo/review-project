@@ -1,0 +1,22 @@
+<%= form_with url: shelve_book_path(book), method: :patch, class: 'book__shelf_form',
+    data: { controller: 'shelf-form', action: 'turbo:submit-start->shelf-form#start turbo:submit-end->shelf-form#finish' } do |form| %>
+  <%= hidden_field_tag :intent, user_book ? 'move' : 'save' %>
+  <% if @shelf_error.present? %>
+    <p id="shelf-error" class="book__shelf_error" role="alert"><%= @shelf_error %></p>
+  <% end %>
+  <fieldset class="book__shelf_choices" <%= 'aria-describedby=shelf-error' if @shelf_error.present? %>>
+    <legend><%= user_book ? 'Move to a shelf' : 'Choose a shelf' %></legend>
+    <div class="book__shelf_options">
+      <% UserBook::USER_BOOK_STATUSES.each do |slug| %>
+        <label for="<%= dom_id(book, slug) %>">
+          <%= radio_button_tag :slug, slug, slug == book_shelf_choice(book, user_book: user_book),
+              id: dom_id(book, slug), required: true %>
+          <span><%= UserBook::SLUGS_READABLE.fetch(slug) %></span>
+        </label>
+      <% end %>
+    </div>
+  </fieldset>
+  <%= form.submit user_book ? 'Update shelf' : 'Save to shelf', class: 'btn btn--primary',
+      data: { turbo_submits_with: 'Saving…' } %>
+  <p class="book__form_status" role="status" data-shelf-form-target="status"></p>
+<% end %>

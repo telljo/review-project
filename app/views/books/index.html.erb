@@ -1,5 +1,5 @@
 <div class="container container--wide container--no_style books__page" style="--bookshelf-plank-image: url('<%= asset_path("bookshelf-shelf.webp") %>');">
-  <% collection_owner = @user&.username.presence || "The library" %>
+  <% collection_owner = @user&.username.presence || "Global" %>
   <% page_title = if @user.present?
                     @slug.present? ? selected_bookshelf_label(@slug) : "Bookshelf"
                   else
