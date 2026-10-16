@@ -4,9 +4,9 @@
   <div class="review" data-turbo>
     <div class="review__image">
       <% if @review.book.image_link %>
-        <%= image_tag @review.book.image_link, class: "books__cover_image" %>
+        <%= image_tag @review.book.image_link, class: "books__cover_image", alt: '' %>
       <% else %>
-        <%= image_tag "no_cover.gif", class: "books__cover_image" %>
+        <%= image_tag "no_cover.gif", class: "books__cover_image", alt: '' %>
       <% end %>
     </div>
     <div class="review__content">
@@ -15,7 +15,7 @@
           <div class="review_titles">
               <h1>
                 <%= link_to @review.book.title,
-                    review_path(@review),
+                    book_path(@review.book),
                     data: { turbo_frame: "_top" } %>
               </h1>
               <h4>
@@ -25,25 +25,16 @@
           <div class="review__created_at">
             <p><%= @review.created_at.strftime("%B %d, %Y") %></p>
             <%= link_to @review.user.username,
-                url_for(controller: '/reviews', action: 'index', username: @review.user.username),
+                user_path(username: @review.user.username),
                 class: "underline",
                 data: { turbo_frame: "_top"} %>
           </div>
         </div>
       </section>
       <section class="review__section">
-        <div data-controller="review",
-            class="form__show_rating_stars">
-          <% [1,2,3,4,5].each do |i| %>
-            <% if @review.rating >= i%>
-              <%= icon('fa-regular fas selected', 'star')%>
-            <% else %>
-              <%= icon('fa-regular fas', 'star')%>
-            <% end%>
-          <% end %>
-        </div>
-        <div class="review__body">
-          <p><%= @review.content %></p>
+        <%= render 'reviews/rating', rating: @review.rating %>
+        <div class="review__body trix-content">
+          <%= @review.content %>
         </div>
         <% if current_user == @review.user %>
           <div class="form__buttons">

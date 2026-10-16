@@ -3,9 +3,9 @@
     <div class="review">
       <div class="review__image">
         <% if @review.book.image_link %>
-          <%= image_tag @review.book.image_link, class: "books__cover_image" %>
+          <%= image_tag @review.book.image_link, class: "books__cover_image", alt: '' %>
         <% else %>
-          <%= image_tag "no_cover.gif", class: "books__cover_image" %>
+          <%= image_tag "no_cover.gif", class: "books__cover_image", alt: '' %>
         <% end %>
       </div>
       <div class="review__content">

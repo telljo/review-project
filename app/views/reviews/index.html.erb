@@ -23,7 +23,14 @@
 
   <section class="books__hero">
     <div class="books__hero_copy">
-      <p class="books__eyebrow"><%= page_eyebrow %></p>
+      <p class="books__eyebrow">
+        <% if @user.present? %>
+          <%= link_to page_eyebrow, user_path(username: @user.username),
+              class: 'books__profile_link', aria: { label: "View #{@user.username}'s profile" } %>
+        <% else %>
+          <%= page_eyebrow %>
+        <% end %>
+      </p>
       <h1 class="books__page_title"><%= page_title %></h1>
       <p class="books__page_subtitle"><%= page_subtitle %></p>
     </div>
@@ -44,7 +51,7 @@
       <% else %>
         <%= render "reviews/empty_state",
           title: "There are no reviews yet",
-          subtitle: "Be the first to add a review for a book you've read."
+          subtitle: (@user.present? && current_user != @user ? 'This reader hasn’t shared any reviews yet.' : "Open a book on your shelf to write a review.")
         %>
       <% end %>
     <% end %>

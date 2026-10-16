@@ -16,9 +16,11 @@
     </p>
   <% end %>
 
-  <div class="empty-state__actions">
+  <% if local_assigns.fetch(:show_search, true) %>
+    <div class="empty-state__actions">
     <%= link_to "Search for books",
         google_books_url,
         class: "btn btn--large btn--primary" %>
-  </div>
+    </div>
+  <% end %>
 </div>

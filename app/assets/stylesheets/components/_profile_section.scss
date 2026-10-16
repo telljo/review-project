@@ -1,73 +1,78 @@
 @use "../mixins/media" as *;
 
 .profile-section {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-m) var(--space-l);
-  flex-direction: row;
-
-  &__container {
-    --container-max-width: var(--layout-wide-max);
-  }
-
-  &__picture {
-    object-fit: cover;
-    border-radius: 9999px;
-    width: 8rem;
-    height: 8rem;
-  }
-
+  .books__hero_copy { min-width: 0; }
   &__username {
-    font-size: var(--font-size-xxxl);
-    line-height: var(--line-height-headers);
-    color: var(--color-text-header);
+    overflow-wrap: anywhere;
+  }
+}
+
+.profile-page {
+  &__overview {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-areas: 'reading reviews' 'shelves reviews';
+    align-items: start;
+    gap: var(--space-xl) var(--space-xxxl);
   }
 
-  &__summary {
+  &__reading { grid-area: reading; min-width: 0; }
+  &__reviews { grid-area: reviews; min-width: 0; }
+  &__shelves { grid-area: shelves; min-width: 0; }
+  &__shelf + &__shelf { margin-top: var(--space-xl); }
+
+  &__section_header {
     display: flex;
     flex-wrap: wrap;
-    flex-direction: row;
-    justify-content: center;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-xs) var(--space-m);
+    margin-bottom: var(--space-s);
+  }
+
+  h3 { font-size: 1rem; line-height: 1.4; overflow-wrap: anywhere; }
+
+  &__count {
+    display: inline-block;
+    margin-inline-start: var(--space-xs);
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: var(--line-height-body);
+    letter-spacing: normal;
+  }
+
+  a { text-underline-offset: 0.2em; }
+  a:not(.books__stat) { color: var(--color-glint); }
+  a:not(.books__stat):hover { text-decoration: underline; }
+  a:focus-visible { outline: 2px solid var(--color-glint); outline-offset: 3px; }
+  &__section_header > a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+  &__book_list,
+  &__review_list { list-style: none; margin: 0; padding: 0; }
+
+  &__book {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
     align-items: center;
-    gap: var(--space-xs);
-    margin-left: auto;
-    text-align: center;
-    text-transform: uppercase;
+    gap: var(--space-m);
+    padding-block: var(--space-s);
+    border-bottom: 1px solid var(--color-border-color);
 
-    a {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      padding-left: 1rem;
-      padding-right: 1rem;
-      border-radius: 999px;
-      background: rgb(255 255 255 / 3%);
-    }
+    img { width: 100%; aspect-ratio: 2 / 3; object-fit: contain; border-radius: var(--borderRadius-medium); }
+    h3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   }
 
-  .summary__count {
-    display: block;
-    font-size: 1.5rem;
-    line-height: 2rem;
-    font-weight: 600;
-  }
+  &__author { margin-top: var(--space-xxxs); color: var(--color-text-header); font-size: 0.875rem; line-height: 1.5; }
+  &__review_list > li { padding-block: var(--space-m); border-bottom: 1px solid var(--color-border-color); }
+  &__review_list > li:first-child { padding-top: var(--space-s); }
+  &__review_list h3 a { text-decoration: underline; }
+  &__review_list .rating-display { margin-top: var(--space-s); }
+  &__review_excerpt { margin-block: var(--space-s); font-size: 1rem; line-height: 1.6; overflow-wrap: anywhere; }
+  time { font-size: 0.875rem; color: var(--color-text-header); }
+  &__empty_text { font-size: 1rem; line-height: 1.6; }
+  &__empty { max-width: 60ch; padding-block: var(--space-m); }
+  &__empty p { margin-block: var(--space-m); }
 
   @include media(tabletAndDown) {
-    margin-top: 0;
-    justify-content: center;
-    text-align: center;
-
-    &__username {
-      line-height: 1.8em;
-    }
-
-    &__summary {
-      width: 100%;
-      margin-left: 0;
-    }
+    &__overview { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'reading' 'reviews' 'shelves'; }
   }
 }

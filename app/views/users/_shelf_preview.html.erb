@@ -1,0 +1,24 @@
+<% books = @shelf_previews.fetch(slug) %>
+<section class="profile-page__shelf" aria-labelledby="profile-<%= slug %>-heading">
+  <header class="profile-page__section_header">
+    <h2 id="profile-<%= slug %>-heading" class="books__showcase_title"><%= title %> <span class="profile-page__count"><%= pluralize(@shelf_counts.fetch(slug, 0), 'book') %></span></h2>
+    <%= link_to 'View shelf', user_books_path(username: @user.username, slug: slug), aria: { label: "View #{title} shelf" } %>
+  </header>
+  <% if books.any? %>
+    <ul class="profile-page__book_list">
+      <% books.each do |book| %>
+        <li>
+          <%= link_to book_path(book), class: 'profile-page__book' do %>
+            <%= image_tag book.image_link.presence || 'no_cover.gif', alt: '', loading: 'lazy' %>
+            <div>
+              <h3 title="<%= book.title %>"><%= book.title %></h3>
+              <p class="profile-page__author"><%= book.author %></p>
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p class="profile-page__empty_text"><%= @owner_view ? 'You haven’t added any books to this shelf yet.' : 'No books on this shelf yet.' %></p>
+  <% end %>
+</section>

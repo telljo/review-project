@@ -10,16 +10,16 @@
   <div class="review">
     <div class="review__image">
        <% if @book.image_link %>
-        <%= image_tag @book.image_link, class: "books__cover_image" %>
+        <%= image_tag @book.image_link, class: "books__cover_image", alt: '' %>
       <% else %>
-        <%= image_tag "no_cover.gif", class: "books__cover_image" %>
+        <%= image_tag "no_cover.gif", class: "books__cover_image", alt: '' %>
       <% end %>
     </div>
     <div class="review__content">
       <div class="review_titles">
-        <h1>
+        <h2>
           <%= @book.title %>
-        </h1>
+        </h2>
         <h4>
           <%= @book.author %>
         </h4>

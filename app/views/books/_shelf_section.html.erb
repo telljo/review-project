@@ -1,5 +1,10 @@
 <% sortable_options = local_assigns[:sortable] %>
 <% owner_view = local_assigns.fetch(:owner_view, false) %>
+<% visitor_shelf = @user.present? && !owner_view %>
+<% if visitor_shelf %>
+  <% empty_title = 'No books on this shelf yet' %>
+  <% empty_subtitle = "#{@user.username} hasn’t added any books to this shelf." %>
+<% end %>
 <% shelf_slug = local_assigns[:shelf_slug] %>
 <% pagy = local_assigns[:pagy] %>
 <% total_count = pagy&.count || books.size %>
@@ -37,9 +42,11 @@
     <div class="<%= class_names('books__grid_layout', 'books__grid_layout--empty': books.blank?) %>"
       <% if sortable_options.present? %>
         id="<%= sortable_options[:id] %>"
-        data-controller="bookshelf <%= sortable_options.dig(:data, :controller) %>"
+        data-controller="bookshelf<%= " #{sortable_options.dig(:data, :controller)}" if owner_view %>"
+        <% if owner_view %>
         data-sortable-url="<%= sortable_options.dig(:data, :sortable_url) %>"
         data-sortable-source-id="<%= sortable_options.dig(:data, :sortable_source_id) %>"
+        <% end %>
       <% else %>
         data-controller="bookshelf"
       <% end %>>
@@ -51,14 +58,14 @@
             show_actions: owner_view && local_assigns[:shelf_slug].present? %>
       <% end %>
 
-      <% if sortable_options.present? || books.blank? %>
+      <% if (owner_view && sortable_options.present?) || books.blank? %>
         <div class="books__empty_placeholder" aria-hidden="<%= books.present? %>">
-          <% if sortable_options.present? %>
+          <% if owner_view && sortable_options.present? %>
             <%= render "books/empty_state",
                 title: "Drop a book here",
                 subtitle: "This shelf is empty right now. Drag a book into it or search for a new one to get started." %>
           <% else %>
-            <%= render "books/empty_state", title: empty_title, subtitle: empty_subtitle %>
+            <%= render "books/empty_state", title: empty_title, subtitle: empty_subtitle, show_search: !visitor_shelf %>
           <% end %>
         </div>
       <% end %>

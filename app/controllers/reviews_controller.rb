@@ -2,9 +2,9 @@
 
 # Controller for the Reviews
 class ReviewsController < ApplicationController
-  before_action :set_review, only: %i[show edit update destroy]
-
   before_action :authenticate_user!, except: %i[index show]
+  before_action :set_review, only: :show
+  before_action :set_owned_review, only: %i[edit update destroy]
 
   def index
     @user = User.find_by(username: params[:username])
@@ -33,21 +33,21 @@ class ReviewsController < ApplicationController
     @review.user = current_user
     if @review.save
       respond_to do |format|
-        format.html { redirect_to reviews_path, notice: 'Review was successfully created.' }
+        format.html { redirect_to reviews_path, notice: 'Review was successfully created.', status: :see_other }
       end
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
   def update
     if @review.update(review_params)
       respond_to do |format|
-        format.html { redirect_to reviews_path, notice: 'Review was successfully updated.' }
+        format.html { redirect_to reviews_path, notice: 'Review was successfully updated.', status: :see_other }
         format.turbo_stream { flash.now[:notice] = 'Review was successfully updated.' }
       end
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -55,7 +55,7 @@ class ReviewsController < ApplicationController
     @review.destroy
 
     respond_to do |format|
-      format.html { redirect_to reviews_path, notice: 'Review was successfully deleted.' }
+      format.html { redirect_to reviews_path, notice: 'Review was successfully deleted.', status: :see_other }
       format.turbo_stream { flash.now[:notice] = 'Review was successfully deleted.' }
     end
   end
@@ -66,7 +66,11 @@ class ReviewsController < ApplicationController
     @review = Review.find(params[:id])
   end
 
+  def set_owned_review
+    @review = current_user.reviews.find(params[:id])
+  end
+
   def review_params
-    params.require(:review).permit(:content, :rating, :book_id)
+    params.require(:review).permit(:content, :rating)
   end
 end

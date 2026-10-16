@@ -2,9 +2,9 @@
   <article class="review">
     <div class="review__image">
       <% if review.book.image_link %>
-        <%= image_tag review.book.image_link, class: "books__cover_image" %>
+        <%= image_tag review.book.image_link, class: "books__cover_image", alt: '' %>
       <% else %>
-        <%= image_tag "no_cover.gif", class: "books__cover_image" %>
+        <%= image_tag "no_cover.gif", class: "books__cover_image", alt: '' %>
       <% end %>
     </div>
 
@@ -13,7 +13,7 @@
         <div class="review__titles">
           <p class="review__eyebrow">
             <%= link_to review.user.username,
-                url_for(controller: '/reviews', action: 'index', username: review.user.username),
+                user_path(username: review.user.username),
                 class: "review__user_link",
                 data: { turbo_frame: "_top"} %>
           </p>
@@ -28,15 +28,7 @@
         <p class="review__created_at"><%= review.created_at.strftime("%B %d, %Y") %></p>
       </div>
 
-      <div class="review__rating" data-controller="review">
-        <% [1,2,3,4,5].each do |i| %>
-          <% if review.rating >= i %>
-            <%= icon('fa-regular fas selected', 'star') %>
-          <% else %>
-            <%= icon('fa-regular fas', 'star') %>
-          <% end %>
-        <% end %>
-      </div>
+      <%= render 'reviews/rating', rating: review.rating %>
 
       <div class="review__body trix-content">
         <%= review.content %>

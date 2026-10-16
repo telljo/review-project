@@ -14,7 +14,7 @@
       </details>
       <div class="book__secondary_actions">
         <%= link_to 'Write review', new_review_path(book_id: book.id),
-            data: { turbo_frame: dom_id(Review.new) }, class: 'btn btn--light' %>
+            data: { turbo_frame: '_top' }, class: 'btn btn--light' %>
         <%= button_to 'Remove from collection', book_path(book), method: :delete,
             params: { source: 'book_show' }, class: 'book__remove' %>
       </div>

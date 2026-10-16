@@ -77,21 +77,6 @@
     text-decoration: none;
   }
 
-  &__rating {
-    display: inline-flex;
-    gap: 0.18rem;
-    align-items: flex-start;
-
-    .fa-star {
-      color: #ccc;
-      width: 2em;
-      height: 2em;
-    }
-
-    .selected {
-      color: #e87400;
-    }
-  }
 
   &__content {
     display: flex;
@@ -190,4 +175,18 @@
       color: var(--color-text-muted);
     }
   }
+}
+
+.rating-display {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-header);
+
+  &__stars { display: inline-flex; gap: 0.15rem; }
+  .fa-star { width: 1rem; height: 1rem; }
+  .selected { color: var(--color-tertiary); }
 }

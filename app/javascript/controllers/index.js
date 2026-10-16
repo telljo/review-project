@@ -16,9 +16,6 @@ application.register("book_select", BookSelectController)
 import RemovalsController from "./removals_controller"
 application.register("removals", RemovalsController)
 
-import ReviewController from "./review_controller"
-application.register("review", ReviewController)
-
 import SearchController from "./search_controller"
 application.register("search", SearchController)
 

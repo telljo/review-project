@@ -1,0 +1,8 @@
+<div class="rating-display">
+  <span class="rating-display__stars" aria-hidden="true">
+    <% (1..Review::MAX_RATING).each do |star| %>
+      <%= icon('fa-solid', 'star', class: ('selected' if rating && rating >= star)) %>
+    <% end %>
+  </span>
+  <span><%= rating.nil? ? 'Not rated' : "#{rating} out of 5" %></span>
+</div>

@@ -1,42 +1,41 @@
-<%# app/views/reviews/_form.html.erb %>
-
-<%= simple_form_for review do |f| %>
+<% form_key = dom_id(review) %>
+<% content_id = "#{form_key}_content" %>
+<% label_id = "#{form_key}_content_label" %>
+<% error_id = "#{form_key}_errors" %>
+<%= simple_form_for review, html: { class: 'review-form', data: { turbo: review.persisted? } } do |f| %>
   <div class="form">
     <% if review.errors.any? %>
-      <div class="error-message">
+      <div id="<%= error_id %>" class="error-message" role="alert">
         <%= review.errors.full_messages.to_sentence.capitalize %>
       </div>
     <% end %>
 
-    <fieldset>
-      <div data-controller="review",
-          class="form__select_rating_stars">
-        <% [5,4,3,2,1].each do |i| %>
-          <% if review.rating? %>
-            <% if review.rating >= i%>
-              <%= icon('fa-regular fas selected', 'star', data: {
-              action: "click->review#starClicked", value: i, "review-target": "ratingStar" })%>
-            <% else %>
-              <%= icon('fa-regular fas', 'star', data: {
-              action: "click->review#starClicked", value: i, "review-target": "ratingStar" })%>
-            <% end%>
-          <% else %>
-            <%= icon('fa-regular fas', 'star', data: {
-              action: "click->review#starClicked", value: i, "review-target": "ratingStar" })%>
-            <% end %>
-          <% end %>
-        <%= f.hidden_field :rating, class: "rating-value" %>
+    <%= tag.fieldset class: 'review-rating', aria: { describedby: (error_id if review.errors[:rating].any?), invalid: review.errors[:rating].any? } do %>
+      <legend>Rating <span>(out of 5)</span></legend>
+      <div class="review-rating__scores">
+        <% (1..Review::MAX_RATING).each do |score| %>
+          <label>
+            <%= f.radio_button :rating, score, id: "#{form_key}_rating_#{score}", required: true, aria: { label: "#{score} out of 5" } %>
+            <span aria-hidden="true"><%= score %></span>
+          </label>
+        <% end %>
       </div>
-    </fieldset>
+      <label class="review-rating__zero">
+        <%= f.radio_button :rating, 0, id: "#{form_key}_rating_0", required: true %>
+        <span>0 out of 5</span>
+      </label>
+    <% end %>
 
-    <fieldset class="form__input">
+    <div class="review-form__content">
       <% if @book %>
-        <%= hidden_field_tag :book_id, @book.id %>
+        <%= hidden_field_tag :book_id, @book.id, id: "#{form_key}_book_id" %>
       <% else %>
-        <%= hidden_field_tag :book_id, review.book.id %>
+        <%= hidden_field_tag :book_id, review.book.id, id: "#{form_key}_book_id" %>
       <% end %>
-      <%= f.rich_text_area :content, autofocus: true %>
-    </fieldset>
+      <%= f.label :content, 'Your review', for: content_id, id: label_id %>
+      <%= f.rich_text_area :content, id: content_id,
+          aria: { labelledby: label_id, describedby: (error_id if review.errors[:content].any?), invalid: review.errors[:content].any? } %>
+    </div>
 
     <fieldset>
       <div class="form__buttons">

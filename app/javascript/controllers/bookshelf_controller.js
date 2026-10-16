@@ -47,12 +47,15 @@ export default class extends Controller {
 
     if (items.length > 0) {
       const rows = new Map()
+      const gridTop = this.element.getBoundingClientRect().top - this.outer.getBoundingClientRect().top
 
       items.forEach((item) => {
         const rowKey = Math.round(item.offsetTop)
         const cover = item.querySelector(".books__cover_wrap")
-        // Labels live below the plank; their height must not move the wood off the covers.
-        const itemBottom = item.offsetTop + (cover?.offsetHeight || item.offsetHeight)
+        const itemRect = item.getBoundingClientRect()
+        const coverBottom = cover ? cover.getBoundingClientRect().bottom : itemRect.bottom
+        // Include anything above the cover, exclude the labels below it, and cancel the hover lift.
+        const itemBottom = gridTop + item.offsetTop + coverBottom - itemRect.top
         const previousBottom = rows.get(rowKey) || 0
         rows.set(rowKey, Math.max(previousBottom, itemBottom))
       })

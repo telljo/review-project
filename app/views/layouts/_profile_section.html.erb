@@ -1,21 +1,6 @@
-<div class="container profile-section__container">
-  <header class="profile-section">
-    <section>
-      <a href="/<%= @user.username %>"></a>
-    </section>
-    <section>
-      <%= link_to @user.username, user_url(username: @user.username), class:"profile-section__username" %>
-    </section>
-
-    <div class="profile-section__summary">
-      <a href="/<%= @user.username %>/books">
-        <span class="summary__count"><%= @user.books.count %></span>
-        <span class="block text-sm mt-1">Books</span>
-      </a>
-      <a href="/<%= @user.username %>/reviews">
-        <span class="summary__count"><%= @user.reviews.count %></span>
-        <span class="block text-sm mt-1">Reviews</span>
-      </a>
-    </div>
-  </header>
-</div>
+<header class="books__hero profile-section">
+  <div class="books__hero_copy">
+    <h1 class="books__page_title profile-section__username"><%= @user.username %></h1>
+  </div>
+  <%= render 'layouts/book_review_count', book_count: @book_count, review_count: @review_count %>
+</header>

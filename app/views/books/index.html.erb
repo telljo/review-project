@@ -8,7 +8,14 @@
 
   <section class="books__hero">
     <div class="books__hero_copy">
-      <p class="books__eyebrow"><%= collection_owner %></p>
+      <p class="books__eyebrow">
+        <% if @user.present? %>
+          <%= link_to collection_owner, user_path(username: @user.username),
+              class: 'books__profile_link', aria: { label: "View #{@user.username}'s profile" } %>
+        <% else %>
+          <%= collection_owner %>
+        <% end %>
+      </p>
       <h1 class="books__page_title"><%= page_title %></h1>
     </div>
 

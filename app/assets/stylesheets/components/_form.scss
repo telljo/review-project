@@ -26,42 +26,6 @@
     }
   }
 
-  &__select_rating_stars {
-    display: flex;
-    flex-wrap: wrap;
-    width: min(100%, 10em);
-    flex-direction: row-reverse;
-
-    .fa-star {
-      color: #ccc;
-      width: 2em;
-      height: 2em;
-    }
-
-    .selected{
-      color:#e87400;
-    }
-
-    .fa-star:hover, .fa-star:hover ~ .fa-star {
-      color: #e87400;
-    }
-  }
-
-  &__show_rating_stars {
-    display: flex;
-    flex-wrap: wrap;
-    width: min(100%, 10em);
-
-    .fa-star {
-      color: #ccc;
-      width: 2em;
-      height: 2em;
-    }
-
-    .selected{
-      color:#e87400;
-    }
-  }
   &__group {
     flex: 1;
   }
@@ -141,4 +105,50 @@
         display: none;
     }
   }
+}
+
+.review-form {
+  .form { display: grid; gap: var(--space-l); }
+
+  &__content {
+    min-width: 0;
+
+    > label { display: block; margin-bottom: var(--space-s); font-weight: 700; }
+    trix-editor { min-height: 12rem; font-size: 1rem; line-height: 1.6; color: var(--color-text-header); }
+    trix-editor:focus { outline: 2px solid var(--color-glint); outline-offset: 3px; }
+    trix-toolbar { margin-bottom: var(--space-s); }
+    trix-toolbar .trix-button-group { background: var(--color-text-header); }
+    trix-toolbar button:focus-visible { outline: 2px solid var(--color-dark-glint); outline-offset: -3px; }
+  }
+}
+
+.review-rating {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  legend { margin-bottom: var(--space-s); font-weight: 700; }
+  legend span { font-weight: 400; }
+  &__scores { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+
+  label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xxxs);
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: var(--space-xxs);
+    border: 1px solid var(--color-border-color);
+    border-radius: var(--borderRadius-medium);
+    color: var(--color-text-header);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  label:has(:checked) { background: var(--color-btn-bg); border-color: var(--color-glint); }
+  label:focus-within { outline: 2px solid var(--color-glint); outline-offset: 3px; }
+  input { width: 1rem; height: 1rem; margin: 0; accent-color: var(--color-glint); }
+  &__zero { margin-top: var(--space-xs); }
 }

@@ -1,1 +1,51 @@
-<%= render "layouts/profile_section" %>
+<main class="container container--wide container--no_style books__page profile-page">
+  <%= render 'layouts/profile_section' %>
+
+  <% if @book_count.zero? && @review_count.zero? %>
+    <section class="profile-page__empty">
+      <% if @owner_view %>
+        <h2 class="books__showcase_title">Start your reading record</h2>
+        <p>Find a book and save it to Read, Reading, or Want to read. Your shelves and reviews will appear here.</p>
+        <%= link_to 'Search for books', root_path, class: 'btn btn--primary' %>
+      <% else %>
+        <h2 class="books__showcase_title">Nothing shared yet</h2>
+        <p>This reader hasn’t added any books or reviews yet.</p>
+      <% end %>
+    </section>
+  <% else %>
+    <div class="profile-page__overview">
+      <div class="profile-page__reading">
+        <%= render 'users/shelf_preview', slug: UserBook::READING, title: 'Currently reading' %>
+      </div>
+
+      <section class="profile-page__reviews" aria-labelledby="profile-reviews-heading">
+        <header class="profile-page__section_header">
+          <h2 id="profile-reviews-heading" class="books__showcase_title">Recent reviews</h2>
+          <%= link_to 'All reviews', user_reviews_path(username: @user.username) %>
+        </header>
+        <% if @recent_reviews.any? %>
+          <ol class="profile-page__review_list">
+            <% @recent_reviews.each do |review| %>
+              <li>
+                <article>
+                  <h3><%= link_to review.book.title, review_path(review) %></h3>
+                  <p class="profile-page__author"><%= review.book.author %></p>
+                  <%= render 'reviews/rating', rating: review.rating %>
+                  <p class="profile-page__review_excerpt"><%= truncate(review.content.to_plain_text.squish, length: 240, separator: ' ') %></p>
+                  <time datetime="<%= review.created_at.iso8601 %>"><%= l(review.created_at.to_date, format: :long) %></time>
+                </article>
+              </li>
+            <% end %>
+          </ol>
+        <% else %>
+          <p class="profile-page__empty_text"><%= @owner_view ? 'You haven’t written any reviews yet. Open a book on your shelf to write one.' : 'This reader hasn’t shared any reviews yet.' %></p>
+        <% end %>
+      </section>
+
+      <div class="profile-page__shelves">
+        <%= render 'users/shelf_preview', slug: UserBook::READ, title: 'Read' %>
+        <%= render 'users/shelf_preview', slug: UserBook::WANT_TO_READ, title: 'Want to read' %>
+      </div>
+    </div>
+  <% end %>
+</main>

@@ -92,8 +92,8 @@ RSpec.describe 'Books' do
 
       expect(response).to have_http_status(:ok)
       expect(parsed_body.css('.books__grid_layout--empty .empty-state')).to be_present
-      expect(css_texts('.empty-state__text')).to include('There are no books yet')
-      expect(css_texts('.empty-state__actions a')).to include('Search for books')
+      expect(css_texts('.empty-state__text')).to include('No books on this shelf yet')
+      expect(css_texts('.empty-state__actions a')).to be_empty
     end
   end
 

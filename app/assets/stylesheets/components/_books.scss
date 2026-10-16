@@ -31,6 +31,20 @@
     text-transform: uppercase;
   }
 
+  &__profile_link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    max-width: 100%;
+    color: var(--color-glint);
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+
+    &:hover { color: var(--color-text-header); }
+    &:focus-visible { outline: 2px solid var(--color-glint); outline-offset: 3px; }
+  }
+
   &__page_title {
     margin: 0;
     font-size: clamp(2.5rem, 5vw, 4.25rem);
@@ -520,8 +534,11 @@
     }
   }
 
-  &__menu {
+  &__menu.dropdown {
     position: absolute;
+  }
+
+  &__menu {
     top: 0.55rem;
     right: 0.15rem;
     z-index: 8;
@@ -854,7 +871,7 @@
       padding-left: 0;
     }
 
-    &__menu {
+    &__menu.dropdown {
       position: static;
     }
 
@@ -862,6 +879,7 @@
       position: absolute;
       top: 0.3rem;
       right: 0;
+      z-index: 8;
     }
 
     &__item:nth-child(odd) &__menu_dropdown {
