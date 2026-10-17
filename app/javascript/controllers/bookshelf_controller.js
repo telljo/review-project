@@ -44,10 +44,10 @@ export default class extends Controller {
 
     const items = Array.from(this.element.querySelectorAll(".books__item"))
     const rowBottoms = []
+    const gridTop = this.element.getBoundingClientRect().top - this.outer.getBoundingClientRect().top
 
     if (items.length > 0) {
       const rows = new Map()
-      const gridTop = this.element.getBoundingClientRect().top - this.outer.getBoundingClientRect().top
 
       items.forEach((item) => {
         const rowKey = Math.round(item.offsetTop)
@@ -64,8 +64,7 @@ export default class extends Controller {
     } else {
       const computed = getComputedStyle(this.element)
       const paddingBottom = parseFloat(computed.paddingBottom) || 0
-      const outerHeight = this.outer.clientHeight
-      rowBottoms.push(Math.max(0, outerHeight - paddingBottom))
+      rowBottoms.push(Math.max(0, gridTop + this.element.clientHeight - paddingBottom))
     }
 
     this.renderRows(rowBottoms)

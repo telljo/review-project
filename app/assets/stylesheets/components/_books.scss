@@ -387,6 +387,107 @@
     pointer-events: none;
   }
 
+  &__outer_grid_layout--wooden {
+    --bookshelf-edge-width: clamp(0.75rem, 1.5vw, 1.25rem);
+    --bookshelf-cap-height: clamp(1.25rem, 2.25vw, 2rem);
+    --bookshelf-top-height: clamp(3rem, 5vw, 4.5rem);
+    // Geometry of the supplied crown asset, in source pixels.
+    --bookshelf-crown-source-height: 724;
+    --bookshelf-crown-source-top: 246;
+    --bookshelf-crown-source-bottom: 430;
+    --bookshelf-crown-end: 120;
+    --bookshelf-crown-body-inset: 82;
+    --bookshelf-crown-body-join: 422;
+    --bookshelf-crown-visible-height: calc(var(--bookshelf-crown-source-bottom) - var(--bookshelf-crown-source-top));
+    --bookshelf-crown-inset: calc(var(--bookshelf-top-height) * var(--bookshelf-crown-body-inset) / var(--bookshelf-crown-visible-height));
+    --bookshelf-crown-join: calc(var(--bookshelf-top-height) * (var(--bookshelf-crown-body-join) - var(--bookshelf-crown-source-top)) / var(--bookshelf-crown-visible-height));
+    --bookshelf-base-source-height: 724;
+    --bookshelf-base-source-top: 240;
+    --bookshelf-base-source-bottom: 486;
+    --bookshelf-base-end: 120;
+    --bookshelf-base-visible-height: calc(var(--bookshelf-base-source-bottom) - var(--bookshelf-base-source-top));
+    --bookshelf-base-overhang: calc(var(--bookshelf-crown-inset) * 0.75);
+
+    padding: calc(var(--bookshelf-cap-height) + 1.25rem) calc(var(--bookshelf-crown-inset) + var(--bookshelf-edge-width));
+    padding-block-start: calc(var(--bookshelf-crown-join) + 1.25rem);
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      inset-block: calc(var(--bookshelf-crown-join) - 1px) calc(var(--bookshelf-cap-height) - 1px);
+      width: var(--bookshelf-edge-width);
+      z-index: 1;
+      background-image: var(--bookshelf-edge-image);
+      // The supplied edge is centered on a wider transparent canvas.
+      background-size: 520% auto;
+      background-position: 48% top;
+      background-repeat: repeat-y;
+      pointer-events: none;
+    }
+
+    &::before { inset-inline-start: var(--bookshelf-crown-inset); }
+    &::after { inset-inline-end: var(--bookshelf-crown-inset); transform: scaleX(-1); }
+
+    > .books__shelf_plank,
+    > .books__shelf_shadow { inset-inline: calc(var(--bookshelf-crown-inset) + var(--bookshelf-edge-width)); }
+  }
+
+  &__cabinet_trim {
+    position: absolute;
+    inset: var(--bookshelf-crown-join) var(--bookshelf-crown-inset) calc(var(--bookshelf-cap-height) - 1px);
+    z-index: 0;
+    pointer-events: none;
+    background-color: #3b2418;
+    background-image:
+      linear-gradient(rgb(0 0 0 / 20%), rgb(0 0 0 / 20%)),
+      var(--bookshelf-back-image);
+    background-size: auto, 32rem 32rem;
+    background-repeat: no-repeat, repeat;
+    box-shadow: inset 0 0.75rem 1.5rem rgb(20 9 3 / 40%);
+
+    &::after {
+      content: "";
+      position: absolute;
+      // Keep a smaller projection than the crown beyond both side panels.
+      inset-inline: calc(-1 * var(--bookshelf-base-overhang));
+      inset-block-end: calc(1px - var(--bookshelf-cap-height));
+      height: var(--bookshelf-cap-height);
+      box-sizing: border-box;
+      border-style: solid;
+      border-color: transparent;
+      border-width: 0 calc(var(--bookshelf-cap-height) * var(--bookshelf-base-end) / var(--bookshelf-base-visible-height));
+      // Crop blank canvas and preserve the shaped ends while the middle stretches.
+      border-image-source: var(--bookshelf-bottom-image);
+      border-image-slice: var(--bookshelf-base-source-top) var(--bookshelf-base-end) calc(var(--bookshelf-base-source-height) - var(--bookshelf-base-source-bottom)) var(--bookshelf-base-end) fill;
+      border-image-repeat: stretch;
+    }
+  }
+
+  &__cabinet_crown {
+    position: absolute;
+    inset: 0 0 auto;
+    height: var(--bookshelf-top-height);
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  &__cabinet_crown_art {
+    position: absolute;
+    inset-inline: 0;
+    top: calc(-1 * var(--bookshelf-top-height) * var(--bookshelf-crown-source-top) / var(--bookshelf-crown-visible-height));
+    height: calc(var(--bookshelf-top-height) * var(--bookshelf-crown-source-height) / var(--bookshelf-crown-visible-height));
+    box-sizing: border-box;
+    border-style: solid;
+    border-color: transparent;
+    border-width: 0 calc(var(--bookshelf-top-height) * var(--bookshelf-crown-end) / var(--bookshelf-crown-visible-height));
+    // Exclude transparent canvas, preserving the full outline and end proportions.
+    border-image-source: var(--bookshelf-top-image);
+    border-image-slice: 0 var(--bookshelf-crown-end) 0 var(--bookshelf-crown-end) fill;
+    border-image-repeat: stretch;
+  }
+
   &__shelf_plank {
     position: absolute;
     inset: 0;
@@ -720,6 +821,12 @@
   .empty-state__actions .btn {
     border-color: rgb(58 42 29 / 14%);
     background: rgb(58 42 29 / 88%);
+  }
+
+  &__outer_grid_layout--wooden .empty-state {
+    border: 0;
+    background: none;
+    box-shadow: none;
   }
 
   @include media(tabletAndUp) {

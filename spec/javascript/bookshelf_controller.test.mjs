@@ -2,8 +2,9 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import BookshelfController from '../../app/javascript/controllers/bookshelf_controller.js'
 
-function layout(items, { outerTop = 0, gridTop = 0 } = {}) {
+function layout(items, { outerTop = 0, gridTop = 0, gridHeight = 200 } = {}) {
   const element = {
+    clientHeight: gridHeight,
     querySelectorAll: () => items,
     getBoundingClientRect: () => ({ top: outerTop + gridTop })
   }
@@ -48,4 +49,15 @@ test('page position, grid inset, and hover lift do not detach a cover from its s
     book(4, 180, 300, { pageTop: 732, lift: 4 }),
     book(360, 180, 310, { pageTop: 732 })
   ], { outerTop: 700, gridTop: 32 }), [216, 572])
+})
+
+test('an empty shelf rests under its content inside the padded bookcase caps', () => {
+  const originalGetComputedStyle = globalThis.getComputedStyle
+  globalThis.getComputedStyle = () => ({ paddingBottom: '32px' })
+  try {
+    assert.deepEqual(layout([], { outerTop: 700, gridTop: 52, gridHeight: 260 }), [280])
+  } finally {
+    if (originalGetComputedStyle) globalThis.getComputedStyle = originalGetComputedStyle
+    else delete globalThis.getComputedStyle
+  }
 })

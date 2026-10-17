@@ -36,7 +36,13 @@
     </header>
   <% end %>
 
-  <div class="<%= class_names('books__outer_grid_layout', 'books__outer_grid_layout--empty': books.blank?) %>">
+  <div class="<%= class_names('books__outer_grid_layout', 'books__outer_grid_layout--empty': books.blank?, 'books__outer_grid_layout--wooden': @user.present?) %>">
+    <% if @user.present? %>
+      <div class="books__cabinet_trim" aria-hidden="true"></div>
+      <div class="books__cabinet_crown" aria-hidden="true">
+        <span class="books__cabinet_crown_art"></span>
+      </div>
+    <% end %>
     <div class="books__shelf_shadow" aria-hidden="true"></div>
 
     <div class="<%= class_names('books__grid_layout', 'books__grid_layout--empty': books.blank?) %>"

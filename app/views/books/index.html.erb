@@ -1,5 +1,10 @@
-<div class="container container--wide container--no_style books__page" style="--bookshelf-plank-image: url('<%= asset_path("bookshelf-shelf.webp") %>');">
-  <% collection_owner = @user&.username.presence || "Global" %>
+<div class="container container--wide container--no_style books__page"
+     style="--bookshelf-plank-image: url('<%= asset_path('bookshelf-shelf.webp') %>');
+            --bookshelf-back-image: url('<%= asset_path('dark-shelf-tile.webp') %>');
+            --bookshelf-edge-image: url('<%= asset_path('light-shelf-edge.webp') %>');
+            --bookshelf-top-image: url('<%= asset_path('light-shelf-top.webp') %>');
+            --bookshelf-bottom-image: url('<%= asset_path('light-shelf-bottom.webp') %>');">
+  <% collection_owner = @user&.username.presence || "" %>
   <% page_title = if @user.present?
                     @slug.present? ? selected_bookshelf_label(@slug) : "Bookshelf"
                   else
@@ -8,6 +13,7 @@
 
   <section class="books__hero">
     <div class="books__hero_copy">
+      <h1 class="books__page_title"><%= page_title %></h1>
       <p class="books__eyebrow">
         <% if @user.present? %>
           <%= link_to collection_owner, user_path(username: @user.username),
@@ -16,7 +22,6 @@
           <%= collection_owner %>
         <% end %>
       </p>
-      <h1 class="books__page_title"><%= page_title %></h1>
     </div>
 
     <% if @user.present? %>
